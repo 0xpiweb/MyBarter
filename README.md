@@ -9,7 +9,7 @@ MyBarter is an atomic, cross-chain exchange protocol that allows users to swap N
 - **The Kicker Rule:** $2 Flat Fee for NFT Bundles. 0.5% for pure token swaps.
 - **Live Presence:** Real-time "Green Dot" status for active traders.
 - **Social Continuity:** Automated X-Tagging and Email notifications.
-- [View Detailed User Flow & Logic](./docs/USER_FLOW.md)
+- [View Detailed User Flow & Logic](./DOCS/USER_FLOW.md)
 
 ### Build Games Roadmap (6 Weeks)
 - **Week 3 (MVP):** Fuji Testnet deployment, Wallet Indexing, and Presence logic.
