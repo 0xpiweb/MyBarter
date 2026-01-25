@@ -1,5 +1,4 @@
-SequenceDiagram
-
+sequenceDiagram
     participant A as User A (Owner)
     participant APP as MyBarter App
     participant B as User B (Trader)
