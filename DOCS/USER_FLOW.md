@@ -1,3 +1,5 @@
+
+```mermaid
 sequenceDiagram
     participant A as User A (Owner)
     participant APP as MyBarter App
@@ -17,3 +19,4 @@ sequenceDiagram
     RL-->>A: Receives B's Assets
     RL-->>B: Receives A's NFT
     Note over A,B: Trade Complete ✅
+```
