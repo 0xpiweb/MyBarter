@@ -1,4 +1,4 @@
-# MyBarter Technical Requirements Document (TRD) v1.4
+# MyBarter Technical Requirements Document (TRD) v1.5
 
 ## 1. System Overview
 MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow model (The "Robot Lawyer") to allow users to propose, negotiate, and execute trades involving NFTs and tokens across EVM-compatible chains, with settlement logic hosted on Avalanche.
