@@ -9,7 +9,7 @@ MyBarter is an atomic, cross-chain exchange protocol that allows users to swap N
 * [The Triple-Threat](#-the-mybarter-triple-threat)
 * [Innovation](#-innovation)
 * [Social Continuity](#live-presence--social-continuity)
-* [Roadmap](#-build-games-roadmap-6-weeks)
+* [Roadmap](#-build-games-roadmap)
 
 ## The MyBarter Triple-Threat
 
@@ -50,7 +50,7 @@ MyBarter implements a tiered fee structure to incentivize high-velocity "bundle"
 - **Social Handshake**: Automated X-Tagging and encrypted email notifications to bridge the gap between on-chain trades and off-chain communication.
 
 
-## Build Games Roadmap (6 Weeks)
+## Build Games Roadmap
 Week 3 (MVP): Fuji Testnet deployment, Wallet Indexing, and Presence logic.
 
 Week 6 (Launch): Mainnet deployment (Avalanche/Polygon), Social Linking, and Public Beta.
