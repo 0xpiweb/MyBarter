@@ -27,7 +27,7 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
  #### 2.3.1 Anti-Exploit Measures (Fee Integrity)
 
 - **Verification Requirement**: The flat $2.00 "Bundle" fee only applies to trades involving at least one NFT from a Whitelisted Collection.
-- **Dust Protection**: If an NFT is unverified or has a floor price below a "Dust Threshold" (0.1 AVAX), the trade is treated as a Pure Token Swap, and a 0.5% commission is applied to the total token value.
+- **Dust Protection**: If an NFT is unverified or has a floor price below a "Dust Threshold", the trade is treated as a Pure Token Swap, and a 0.5% commission is applied to the total token value.
 - **Oracle Validation**: Use Pyth/Chainlink to verify token values and ensure the 0.5% fee accurately reflects the market price of the "Cash Kicker."
 
 ### 2.4 Notification Engine
