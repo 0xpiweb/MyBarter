@@ -10,7 +10,7 @@ MyBarter is an atomic, cross-chain exchange protocol that allows users to swap N
 * [Innovation](#innovation)
 * [Social Continuity](#live-presence--social-continuity)
 * [Security & Auditing](#security--auditing)
-* [Roadmap](#build-games-roadmap-6-weeks)
+* [Roadmap](#build-games-roadmap)
 
 ## The MyBarter Triple-Threat
 
