@@ -49,11 +49,33 @@ MyBarter implements a tiered fee structure to incentivize high-velocity "bundle"
 
 - **Social Handshake**: Automated X-Tagging and encrypted email notifications to bridge the gap between on-chain trades and off-chain communication.
 
+## Security & Auditing
+
+The protocol includes a comprehensive test suite via Hardhat/Chai to verify all fee logic and anti-exploit measures before mainnet deployment.
 
 ## Build Games Roadmap
-Week 3 (MVP): Fuji Testnet deployment, Wallet Indexing, and Presence logic.
 
-Week 6 (Launch): Mainnet deployment (Avalanche/Polygon), Social Linking, and Public Beta.
+- **Week 1-2: Architecture & Escrow Logic** (Completed)
+
+  - Finalized TRD v1.5 and "Robot Lawyer" smart contract architecture.
+
+  - Implemented anti-exploit fee logic to prevent "Dust NFT" circumvention.
+
+- **Week 3-4: Fuji Testnet Deployment & Beta UI**
+
+  - Deploying core contracts to Avalanche Fuji Testnet.
+
+  - Integrating Supabase Presence for real-time "Green Dot" status.
+
+  - Connecting Pyth/Chainlink Price Oracles for live fee calculation.
+
+- **Week 5-6: Stress Testing & Social Integration**
+
+  - Public Beta on Fuji: Community testing for P2P "Bundle" trades.
+
+  - Launching the X-Tagging Notification Engine for trade alerts.
+
+  - Security Audit: Internal hardening of the vault logic before Mainnet transition (Post-Competition).
 
 ## Founder
 
