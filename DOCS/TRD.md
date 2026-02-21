@@ -68,6 +68,29 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 - **Tier 2 (Non-EVM Expansion)**: Solana integration (Rust/Anchor) specifically targeting high-velocity memecoin liquidity.
 - **Tier 3 (Ecosystem Scaling)**: Modular expansion to Base and Arbitrum as volume and community demand scale.
 
-## 4. Security Requirements
+## 4.0 Quality Assurance & Testing Plan
+
+### 4.1 Smart Contract Validation (The "Robot Lawyer" Audit)
+* **Unit Testing:** 100% coverage of the `MyBarterVault.sol` core logic using **Foundry**.
+    * **Test Case 1:** Verification of atomic swaps (Swap fails if any asset in the bundle is missing).
+    * **Test Case 2:** Fee calculation logic (Validating $2 flat fee vs. 0.5% commission via **Chainlink Price Feeds**).
+    * **Test Case 3:** Anti-Exploit Guard (Ensuring non-whitelisted "Dust NFTs" cannot bypass fee logic).
+* **Fuzz Testing:** Utilizing Foundry's `forge test` to execute 10,000+ random input scenarios to verify mathematical overflows and edge-case fee evasion.
+
+### 4.2 Fuji Testnet Integration Testing
+* **Cross-Chain Simulation:** Deploying identical "Robot Lawyer" instances on **Avalanche Fuji** and **Polygon Amoy** to verify logic consistency across EVM environments.
+* **Oracle Stress Test:** Simulating rapid price fluctuations in a test environment to ensure **Chainlink/Pyth** updates trigger correct fee tiers without latency.
+
+### 4.3 Real-time Presence & Inbox Testing (The "Green Dot")
+* **Supabase Presence Validation:**
+    * **Scenario A (Multi-tab sync):** Closing one browser tab should keep the user "Green" if other platform tabs remain active.
+    * **Scenario B (Hard disconnect):** Simulating network failure to ensure status flips to "Offline" within the 5-minute heartbeat window.
+* **Notification Latency:** Measuring end-to-end latency from "Offer Signed" to "Recipient Inbox Alert." Target: **<500ms** to maintain high-velocity trading.
+
+### 4.4 User Acceptance Testing (UAT)
+* **Public Beta (Fuji):** Opening the platform to my existing community for a structured "Bug Bounty" period during the final week of Build Games.
+* **Wallet Compatibility:** Rigorous testing with **Core, MetaMask, and Rabby** to ensure seamless signature requests across desktop and mobile providers.
+
+## 5. Security Requirements
 * **Non-Custodial:** Assets are only movable via programmatic contract logic; no admin keys can withdraw user assets.
 * **Timeout/Refund:** 72-hour window. Initiators can "Reclaim" assets and fees if the offer is not accepted.
