@@ -1,4 +1,4 @@
-# MyBarter Technical Requirements Document (TRD) v1.5
+# MyBarter Technical Requirements Document (TRD) v1.6
 
 ## 1. System Overview
 MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow model (The "Robot Lawyer") to allow users to propose, negotiate, and execute trades involving NFTs and tokens across EVM-compatible chains, with settlement logic hosted on Avalanche.
@@ -40,39 +40,27 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 
 ### 3.1 The Multi-Chain Stack
 
-- **Smart Contracts**: Solidity (AVAX/BNB/ETH/POLY) for the "Robot Lawyer" Vault; architected for cross-chain consistency.
-- **Oracles**: **Chainlink Price Feeds** (Primary settlement oracle for Build Games) supplemented by **Pyth Network** for high-frequency price updates.
-- **Frontend**: Next.js / Tailwind CSS (Optimized for Vercel deployment and responsive mobile bartering).
-- **Backend/Real-time**: **Supabase** (Powering "Green Dot" presence, user profiles, and off-chain trade signaling).
+- **Smart Contracts**: Solidity (AVAX/BNB/ETH/POLY) for the "Robot Lawyer" Vault; architected for cross-chain consistency and high-security escrow.
+- **Oracles**: **Chainlink Price Feeds** (primary settlement oracle for Build Games) supplemented by **Pyth Network** for high-frequency price updates on volatile assets.
+- **Frontend**: Next.js / Tailwind CSS (optimized for Vercel deployment and responsive mobile bartering).
+- **Backend/Real-time**: **Supabase** (powering "Green Dot" presence, user profiles, and the internal notification engine).
 - **Data Layer**: **Reservoir API** (Aggregated NFT data for ETH/POLY) and **Helius/SimpleHash** (Solana/BNB/AVAX asset indexing).
 
 ### 3.2 Cross-Chain Logic Engine
 
 - **Unified State Manager**: A single dashboard that aggregates and mirrors balances across the **Power Square** (AVAX, POLY, ETH, BNB).
-- **Chain-Specific Settlement**: Logic that handles gas estimation and atomic execution tailored to each specific network.
+- **Chain-Specific Settlement**: Logic that handles gas estimation and atomic execution tailored to each network's specific finality and cost structures.
+- **Interoperability Standards**: Designed to utilize Chainlink CCIP or similar messaging protocols for future cross-chain state synchronization.
 
 ### 3.3 Trade Velocity & Notification Engine
 
-#### 3.3.1 Live Presence Logic (The "Green Dot")
-
-- **Mechanism**: Built on **Supabase Presence**, utilizing WebSocket heartbeats to track active sessions.
-- **State Management**:
-  - **Green (Online)**: Triggered when the user has an active tab and is authenticated via their wallet.
-  - **Red (Offline)**: Triggered immediately upon WebSocket disconnection (tab closed) or after 5 minutes of idle time.
-- **Strategic Goal**: Eliminates "Ghosting" in P2P trades by signaling to the buyer that the seller is available for **Instant Atomic Settlement**.
-
-#### 3.3.2 In-App Notification Center (The "My Account" Inbox)
-
-- **Infrastructure**: Uses **Supabase Realtime (Postgres Changes)** to listen for new entries in the trade_offers database table.
-- **Notification Flow**:
-  1. **Trigger**: User A submits an offer via the Smart Contract/Backend.
-  2. **Broadcast**: Supabase detects the new row and broadcasts a payload specifically to User B’s user_id channel.
-  3. **UI Update**: A real-time notification badge appears on the "My Account" icon, and an in-app "Toast" alert provides an immediate link to review the offer.
-- **Persistence**: All notifications are stored in a notifications table (Status: Unread/Read) to ensure users never miss an offer while offline.
-
-#### 3.3.3 Multi-Channel Fallback
-
-- **Out-of-App Alerts**: For critical trade updates (e.g., an offer is accepted or a counter-offer is made), an optional automated notification is pushed via X (Twitter) DM or Email to pull the user back into the dApp for final signature.
+- **Green Dot (Live Presence)**:
+  - **Logic**: Integrates Supabase Presence to monitor WebSocket heartbeats. The status resets to "Offline" immediately upon tab closure or after 5 minutes of inactivity.
+  - **Objective**: Signals to counterparties that the asset owner is currently active on MyBarter, enabling high-velocity, near-instant negotiation and settlement.
+- **In-App Notification Center**:
+  - **Logic**: A dedicated "My Account" inbox built on Supabase Realtime. It listens for INSERT events in the trade_offers table.
+  - **Mechanism**: When a user receives an offer, a real-time broadcast triggers a dashboard badge update and an in-app "Toast" notification, allowing the user to review and sign without leaving the platform.
+- **Multi-Channel Fallback**: Optional automated triggers via X (Twitter) or email for critical trade milestones (Acceptance/Counter-offers) to re-engage users when they are not actively on-site.
 
 ### 3.4 Tiered Chain Integration (The Priority Matrix)
 
