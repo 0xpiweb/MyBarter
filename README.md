@@ -6,10 +6,11 @@ MyBarter is an atomic, cross-chain exchange protocol that allows users to swap N
 
 ## Table of Contents
 
-* [The Triple-Threat](#-the-mybarter-triple-threat)
-* [Innovation](#-innovation)
+* [The Triple-Threat](#the-mybarter-triple-threat)
+* [Innovation](#innovation)
 * [Social Continuity](#live-presence--social-continuity)
-* [Roadmap](#-build-games-roadmap)
+* [Security & Auditing](#security--auditing)
+* [Roadmap](#build-games-roadmap-6-weeks)
 
 ## The MyBarter Triple-Threat
 
