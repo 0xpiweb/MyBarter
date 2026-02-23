@@ -93,22 +93,28 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 
 ## 5.0 Revenue & Economic Model
 
-### 5.1 Fee Structure
-MyBarter utilizes a hybrid fee model to balance retail accessibility with platform sustainability:
-* **Flat Barter Fee:** **$2.50 USD** per trade for the NFT-to-NFT exchange. 
-* **Value-Based Commission:** A **0.75% commission** applied exclusively to the **"Cash Kicker"** (any fungible tokens included in the trade bundle to balance the deal).
+### 5.1 Fee Structure & Value Alignment
+MyBarter utilizes a hybrid fee model designed to align the protocol's sustainability with the three pillars of the Triple-Threat:
 
-### 5.2 The "Robot Lawyer" Enforcement
-The vault contract is programmed to be "Value-Aware" using **Chainlink Price Feeds**:
-1. **Detection:** The contract identifies if the trade bundle contains ERC-20/SPL tokens.
-2. **Calculation:** If tokens are present, the "Robot Lawyer" calculates 0.75% of their USD value at the moment of the trade.
-3. **Total Settlement:** The user must approve a single transaction encompassing the $2.50 base fee + the 0.75% kicker commission. If the total fee is not provided, the atomic swap reverts.
-   
-### 5.3 Revenue Projections (Beta Phase)
-* **Target Volume:** 3,000 trades/month across the Power Square.
-* **Estimated Revenue:** $7,500 (Base Fees) + Variable Commission (Projected $3,000 - $7,000).
-* **Burn Rate Coverage:** These fees are designed to cover RPC costs (Alchemy/QuickNode), Supabase Pro tiering, and continuous "Robot Lawyer" security audits.
+1. **Economic Safety Fee (The Memecoin Shield):**
+   * **Fee:** **0.75% Commission** on all fungible token swaps (ERC-20/SPL/Native).
+   * **Objective:** This is the primary revenue driver. It provides a "Dark Pool" environment for high-impact trades, allowing users to rotate large positions without DEX slippage or damaging project charts.
 
+2. **Transactional Safety & Capital Efficiency Fee (The NFT Utility):**
+   * **Fee:** **$2.50 Flat Fee** per trade for the NFT component.
+   * **Objective:** Ensures a scam-proof environment for "Museum-grade" assets. By keeping the NFT fee low and flat, we incentivize users to bundle illiquid assets with "Cash Kickers" to restore market velocity.
+
+### 5.2 "Robot Lawyer" Vault Enforcement
+The revenue collection is fully automated and non-custodial via the smart contract:
+* **Real-time Valuation:** The vault integrates **Chainlink Price Feeds** to determine the USD value of any token "Kicker" or pure token swap.
+* **Programmatic Collection:** The 0.75% commission is calculated on-chain. If the total required fee ($2.50 base + 0.75% commission) is not met, the "Robot Lawyer" rejects the atomic swap, ensuring no fee evasion.
+* **Non-Custodial:** MyBarter never holds user funds; fees are deducted at the exact moment of the atomic swap.
+
+### 5.3 Revenue Projections (Conservative Beta Phase)
+Based on an initial 3,000 trades/month target across the Power Square:
+* **Base NFT Revenue:** ~$7,500 (3,000 trades × $2.50).
+* **Token Commission Upside:** Projected **$2,250 - $10,000+** per month, scaling directly with the volume of high-value, zero-slippage token rotations.
+* **Economic Moat:** By offering a 0.75% fee with 0% slippage, MyBarter remains significantly cheaper for large traders than traditional DEXs, where combined slippage and pool fees often exceed 1.5%–3%.
 ## 6. Security Requirements
 * **Non-Custodial:** Assets are only movable via programmatic contract logic; no admin keys can withdraw user assets.
 * **Timeout/Refund:** 72-hour window. Initiators can "Reclaim" assets and fees if the offer is not accepted.
