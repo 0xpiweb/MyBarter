@@ -6,19 +6,17 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 ## 1.0 Project Scope & Objectives
 
 ### 1.1 The Triple-Threat Problem Set
+MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle, prioritized as follows:
 
-MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle:
-
-- **The Slippage Tax (Economic Safety)**: Large swaps in any token - whether high-cap altcoins (AVAX, ETH) or low-cap gems - suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders.
-- **The Trust Gap (Transactional Safety)**: P2P trading for any asset class (Tokens or NFTs) currently relies on unverified manual escrow, exposing users to systemic OTC fraud.
-- **The Liquidity Trap (Capital Efficiency)**: Capital becomes "dead" when locked in illiquid NFTs or large token positions that cannot be rotated without significant market disruption.
+1. **Economic Safety (Slippage-Free):** Large swaps in any token - from high-cap blue chips (AVAX, ETH, BNB, POL) to emerging gems - suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders via MEV bots.
+2. **Transactional Safety (Scam-Proof):** Peer-to-peer trading currently relies on unverified manual escrow (Discord/Telegram), exposing users to systemic OTC fraud and "who-goes-first" standoffs.
+3. **Capital Efficiency (Asset Rotation):** High-value NFTs and large token positions often become "dead capital." MyBarter unlocks this liquidity by enabling atomic, multi-asset bundling and rotation.
 
 ### 1.2 Technical Objectives
-To resolve the issues above, the MyBarter protocol must fulfill the following:
 * **Universal Token Settlement:** A "Zero-Impact Dark Pool" architecture using off-AMM P2P logic to eliminate slippage on all Power Square assets.
 * **Trustless Escrow:** Implementation of the "Robot Lawyer" (Solidity/EVM) to programmatically secure OTC transactions.
 * **Capital Velocity:** A flexible asset-bundling engine allowing for atomic swaps of heterogeneous assets (NFTs + Tokens).
-
+  
 ## 2. Core Functional Requirements
 
 ### 2.1 Profile & Onboarding (The Social Layer)
@@ -27,26 +25,46 @@ To resolve the issues above, the MyBarter protocol must fulfill the following:
 * **Presence Service:** A WebSocket-based "Heartbeat" (Supabase Presence) to track active sessions.
 * **UI Requirement:** Real-time Green Dot (Active) or Red Dot (Offline) displayed on user profiles.
 
-### 2.2 Inventory & Discovery
+### 2.2 Inventory & Discovery (The Assets)
 * **Multi-Chain Indexing:** Cross-chain scanning of user wallets on Avalanche, Polygon, BNB, and Ethereum.
 * **"Up for Trade" Toggle:** An off-chain database flag allowing users to mark specific NFTs as "Active for Barter."
 * **Filtered Gallery:** A marketplace view displaying only NFTs marked "Up for Trade," prioritizing active users.
 
-### 2.3 The "Robot Lawyer" Escrow (Smart Contracts)
-* **Offer Initiation:** User B pays a platform fee and locks offered assets (NFT/Tokens) into the MyBarter Vault.
-* **Atomic Swap Logic:** Assets are released ONLY if both signatures (User A and User B) are verified and fees are settled.
-* **Fee Structure:**
-    * **NFT-inclusive Trades:** Flat $2.50 fee.
-    * **Pure Token Swaps:** 0.75% commission via Pyth/Chainlink Price Oracles.
-* **Trade Constraints:** Restricted to Asset-for-Asset swaps; MyBarter does not support NFT-for-Stablecoin (Marketplace) transactions.
+### 2.3 The Negotiation Engine & Ephemeral Chat
+To drive **Capital Efficiency**, MyBarter allows users to bridge value gaps without leaving the platform.
 
- #### 2.3.1 Anti-Exploit Measures (Fee Integrity)
+* **Counter-Offer Logic:** A Taker may reject an initial offer and propose a counter-offer, specifying a required **Cash Kicker** (fungible tokens) to balance the trade.
+* **Ephemeral Deal-Chat:** * **Scope:** A dedicated, low-latency chat channel is opened automatically when an offer is "Locked" in the vault.
+    * **Exclusivity:** Access is restricted strictly to the two parties involved in the specific Trade ID.
+    * **Life-Cycle:** To ensure privacy and platform cleanliness, the chat history and channel are **permanently deleted** from Supabase the moment the trade is either "Settled" (Accepted) or "Expired/Cancelled" (Rejected).
+* **Presence Integration:** The "Green Dot" remains active during chat sessions, signaling to both parties that the negotiation is live.
 
-- **Verification Requirement**: The flat $2.50 "Bundle" fee only applies to trades involving at least one NFT from a Whitelisted Collection.
-- **Dust Protection**: If an NFT is unverified or has a floor price below a "Dust Threshold", the trade is treated as a Pure Token Swap, and a 0.75% commission is applied to the total token value.
-- **Oracle Validation**: Use Pyth/Chainlink to verify token values and ensure the 0.75% fee accurately reflects the market price of the "Cash Kicker."
+### 2.4 The "Robot Lawyer" Escrow (Smart Contracts)
 
-### 2.4 Notification Engine
+The "Robot Lawyer" is the core settlement engine of MyBarter. It serves as an asynchronous, non-custodial vault that manages the custody and atomic exchange of assets. To ensure **Transactional Safety**, assets are only released if the signatures of both parties are verified and the programmatic fee requirements are met in a single atomic transaction.
+
+### 2.4.1 Hybrid Fee Enforcement
+The vault programmatically applies fees based on the trade composition. This structure ensures that high-volume "Pure Token" rotations contribute to protocol revenue while incentivizing NFT bartering through a "Sweetener" buffer.
+
+| Trade Type | Composition | Fee Logic |
+| :--- | :--- | :--- |
+| **Pure Token Swap** | Tokens Only | **0.75% Commission** (Applies to total value) |
+| **Pure NFT Barter** | NFTs Only | **$2.50 Flat Fee** |
+| **Hybrid (Small Kicker)** | NFT + < $100 in Tokens | **$2.50 Flat Fee** (Token commission waived) |
+| **Hybrid (Large Kicker)** | NFT + > $100 in Tokens | **$2.50 Flat Fee + 0.75% Commission** on tokens |
+
+### 2.4.2 The "Sweetener" Buffer Logic
+To drive **Capital Efficiency** and lower the friction for NFT traders, the Robot Lawyer implements a conditional commission waiver:
+* **The NFT Anchor:** The $100 commission-free buffer is **only** activated when at least one NFT is present in the trade bundle.
+* **Threshold Verification:** The system utilizes **Chainlink Price Feeds** to calculate the USD value of the tokens at the moment of the swap. 
+* **Automatic Tier Escalation:** If the token value (the "Cash Kicker") is ≥ $100 USD, the trade is automatically reclassified as a "Large Kicker," and the 0.75% commission is applied to the entire token amount.
+
+### 2.4.3 Anti-Exploit Guard (Fee Integrity)
+The smart contract architecture is designed to prevent "Fee Evasion" strategies:
+* **No Side-Loading:** Because the swap is atomic, users cannot transfer tokens outside of the vault's logic while using the vault for the NFT portion. All value moved within the transaction is seen and taxed by the Robot Lawyer.
+* **Asset Valuation:** By using on-chain oracles (Chainlink/Pyth), the contract ignores user-inputted values, relying instead on real-time market data to determine if a trade has crossed the $100 commission threshold.
+
+### 2.5 Notification Engine
 
 * **In-App:** Real-time toast notifications for offer events.
 * **Social Trigger:** Automated X-bot tagging the counterparty when a trade is "Locked" in the vault.
@@ -57,7 +75,8 @@ To resolve the issues above, the MyBarter protocol must fulfill the following:
 ### 3.1 The Multi-Chain Stack
 
 - **Smart Contracts**: Solidity (AVAX/BNB/ETH/POLY) for the "Robot Lawyer" Vault; architected for cross-chain consistency and high-security escrow.
-- **Oracles**: **Chainlink Price Feeds** (primary settlement oracle for Build Games) supplemented by **Pyth Network** for high-frequency price updates on volatile assets.
+- **Dual-Oracle Strategy:** * **Chainlink Price Feeds (Primary):** Used for the final "Robot Lawyer" settlement valuation and fee calculation.
+    * **Pyth Network (Low-Latency):** Used for real-time UI price updates and as a sub-second "sanity check" for volatile tokens during the negotiation phase.
 - **Frontend**: Next.js / Tailwind CSS (optimized for Vercel deployment and responsive mobile bartering).
 - **Backend/Real-time**: **Supabase** (powering "Green Dot" presence, user profiles, and the internal notification engine).
 - **Data Layer**: **Reservoir API** (Aggregated NFT data for ETH/POLY) and **Helius/SimpleHash** (Solana/BNB/AVAX asset indexing).
@@ -88,49 +107,53 @@ To resolve the issues above, the MyBarter protocol must fulfill the following:
 
 ### 4.1 Smart Contract Validation (The "Robot Lawyer" Audit)
 * **Unit Testing:** 100% coverage of the `MyBarterVault.sol` core logic using **Foundry**.
-    * **Test Case 1:** Verification of atomic swaps (Swap fails if any asset in the bundle is missing).
-    * **Test Case 2:** Fee calculation logic (Validating $2.50 flat fee vs. 0.75% commission via **Chainlink Price Feeds**).
-    * **Test Case 3:** Anti-Exploit Guard (Ensuring non-whitelisted "Dust NFTs" cannot bypass fee logic).
-* **Fuzz Testing:** Utilizing Foundry's `forge test` to execute 10,000+ random input scenarios to verify mathematical overflows and edge-case fee evasion.
+    * **Test Case 1 (Atomic Integrity):** Verification of atomic swaps—ensure the transaction reverts if any single asset in a complex bundle is missing or unapproved.
+    * **Test Case 2 (Pure Token Rotation):** Confirm that swaps containing only tokens trigger the **0.75% commission** starting from the first $1.00 of value.
+    * **Test Case 3 (The Sweetener Rule):** Validate that a "Hybrid" trade (NFT + Tokens) correctly waives the commission if token value is <$100, but automatically applies the 0.75% fee to the entire token amount if the value is ≥$100.
+    * **Test Case 4 (Fee Integrity):** Ensure the $2.50 flat fee is consistently collected for any trade involving an NFT, regardless of token volume.
+* **Fuzz Testing:** Utilizing Foundry's `forge test` to execute 10,000+ random input scenarios (varying token amounts and NFT counts) to verify mathematical precision and prevent "fee-rounding" exploits.
 
 ### 4.2 Fuji Testnet Integration Testing
-* **Cross-Chain Simulation:** Deploying identical "Robot Lawyer" instances on **Avalanche Fuji** and **Polygon Amoy** to verify logic consistency across EVM environments.
-* **Oracle Stress Test:** Simulating rapid price fluctuations in a test environment to ensure **Chainlink/Pyth** updates trigger correct fee tiers without latency.
+* **Cross-Chain Simulation:** Deploying identical "Robot Lawyer" instances on **Avalanche Fuji** and **Polygon Amoy** to verify logic consistency and signature handling across EVM environments.
+* **Oracle Stress Test:** Simulating rapid price fluctuations using the **Chainlink/Pyth** testnet feeds to ensure the vault captures the correct USD value during high-volatility events, protecting the 0.75% revenue stream.
 
 ### 4.3 Real-time Presence & Inbox Testing (The "Green Dot")
 * **Supabase Presence Validation:**
     * **Scenario A (Multi-tab sync):** Closing one browser tab should keep the user "Green" if other platform tabs remain active.
     * **Scenario B (Hard disconnect):** Simulating network failure to ensure status flips to "Offline" within the 5-minute heartbeat window.
-* **Notification Latency:** Measuring end-to-end latency from "Offer Signed" to "Recipient Inbox Alert." Target: **<500ms** to maintain high-velocity trading.
+* **Notification Latency:** Measuring end-to-end latency from "Offer Signed" to "Recipient Inbox Alert." Target: **<500ms** to maintain the "high-velocity" trading experience.
 
 ### 4.4 User Acceptance Testing (UAT)
-* **Public Beta (Fuji):** Opening the platform to my existing community for a structured "Bug Bounty" period during the final week of Build Games.
+* **Public Beta (Fuji):** Opening the platform to the existing community for a structured "Bug Bounty" period during the final phase of Build Games.
 * **Wallet Compatibility:** Rigorous testing with **Core, MetaMask, and Rabby** to ensure seamless signature requests across desktop and mobile providers.
 
 ## 5.0 Revenue & Economic Model
 
-### 5.1 Fee Structure & Value Alignment
-MyBarter utilizes a hybrid fee model designed to align the protocol's sustainability with the three pillars of the Triple-Threat:
+### 5.1 Fee Strategy & Value Alignment
+MyBarter’s revenue model is engineered to capture value from professional "Professional Rotations" while removing friction for retail barterers.
 
-1. **Economic Safety Fee (The Memecoin Shield):**
-   * **Fee:** **0.75% Commission** on all fungible token swaps (ERC-20/SPL/Native).
-   * **Objective:** This is the primary revenue driver. It provides a "Dark Pool" environment for high-impact trades, allowing users to rotate large positions without DEX slippage or damaging project charts.
-
-2. **Transactional Safety & Capital Efficiency Fee (The NFT Utility):**
-   * **Fee:** **$2.50 Flat Fee** per trade for the NFT component.
-   * **Objective:** Ensures a scam-proof environment for "Museum-grade" assets. By keeping the NFT fee low and flat, we incentivize users to bundle illiquid assets with "Cash Kickers" to restore market velocity.
+* **Professional Tier (Economic Safety):** By applying a 0.75% commission to token-heavy trades, we capture revenue from high-value moves that would otherwise suffer from 1.5%+ slippage on DEXs. This creates a sustainable treasury while providing a superior service for "Whales."
+* **Retail Tier (Capital Efficiency):** The $100 "Sweetener" buffer (detailed in Section 2.3) ensures that community-level NFT bartering remains high-velocity. We prioritize ecosystem growth over nickel-and-diming small-cap users.
+* **Settlement Model:** MyBarter utilizes a **"Taker-Pays"** model. The initiator (Maker) can propose trades for free, while the Taker pays the fixed $2.50 fee and any applicable commission during final execution. This ensures the protocol is always compensated for the gas and compute of the "Robot Lawyer" settlement.
 
 ### 5.2 "Robot Lawyer" Vault Enforcement
-The revenue collection is fully automated and non-custodial via the smart contract:
-* **Real-time Valuation:** The vault integrates **Chainlink Price Feeds** to determine the USD value of any token "Kicker" or pure token swap.
-* **Programmatic Collection:** The 0.75% commission is calculated on-chain. If the total required fee ($2.50 base + 0.75% commission) is not met, the "Robot Lawyer" rejects the atomic swap, ensuring no fee evasion.
-* **Non-Custodial:** MyBarter never holds user funds; fees are deducted at the exact moment of the atomic swap.
+* **The "Sweetener" Rule:** The $100 commission-free buffer is **only** unlocked when an NFT is present. If the token value exceeds $100, the 0.75% commission is applied to the entire token amount.
+* **Real-time Valuation:** The vault integrates **Chainlink Price Feeds** to determine the USD value of tokens at the exact moment of execution.
+* **Non-Custodial Collection:** Fees are deducted programmatically during the atomic swap. 
 
-### 5.3 Revenue Projections (Conservative Beta Phase)
-Based on an initial 3,000 trades/month target across the Power Square:
-* **Base NFT Revenue:** ~$7,500 (3,000 trades × $2.50).
-* **Token Commission Upside:** Projected **$2,250 - $10,000+** per month, scaling directly with the volume of high-value, zero-slippage token rotations.
-* **Economic Moat:** By offering a 0.75% fee with 0% slippage, MyBarter remains significantly cheaper for large traders than traditional DEXs, where combined slippage and pool fees often exceed 1.5%–3%.
-## 6. Security Requirements
-* **Non-Custodial:** Assets are only movable via programmatic contract logic; no admin keys can withdraw user assets.
-* **Timeout/Refund:** 72-hour window. Initiators can "Reclaim" assets and fees if the offer is not accepted.
+### 5.3 Revenue Projections (1,500 Trade Conservative Beta)
+Based on an initial target of **1,500 monthly trades** across the Power Square:
+* **Base NFT Revenue:** ~$3,750 (1,500 trades × $2.50).
+* **Token Commission Upside:** Projected **$15,000 - $20,000+** per month. By facilitating slippage-free rotations for high-cap assets (AVAX, ETH, BNB), we capture a 0.75% fee on a significantly higher Average Transaction Value (ATV).
+* **Economic Moat:** MyBarter is roughly 50% cheaper for large rotations than traditional DEXs, where combined slippage, MEV, and pool fees in 2026 average 1.5%+.
+
+## 6.0 Security & Operational Safeties
+
+### 6.1 Volatility Circuit Breaker
+* **The 10% Rule:** The Robot Lawyer monitors the price delta between the "Offer Signing" and "Execution." 
+* **Automatic Revert:** If a token's price deviates by more than **10%** (via Chainlink Data Streams), the transaction is automatically reverted to protect the user's capital and protocol fee integrity.
+
+### 6.2 Transactional Safety Guardrails
+* **Asynchronous Escrow:** Assets are held in isolated vaults; no central "admin" key can withdraw user assets.
+* **Signature Expiration:** All trade offers include a 72-hour time-lock. If an offer is not accepted, the "Maker" can trigger a `reclaim()` function.
+* **Anti-Sideloading:** Swaps are atomic; assets cannot be moved "outside" the fee calculator logic during a `swap()` execution.
