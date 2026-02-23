@@ -44,15 +44,17 @@ To drive **Capital Efficiency**, MyBarter allows users to bridge value gaps with
 The "Robot Lawyer" is the core settlement engine of MyBarter. It serves as an asynchronous, non-custodial vault that manages the custody and atomic exchange of assets. To ensure **Transactional Safety**, assets are only released if the signatures of both parties are verified and the programmatic fee requirements are met in a single atomic transaction.
 
 ### 2.4.1 Hybrid Fee Enforcement
-The vault programmatically applies fees based on the trade composition. This structure ensures that high-volume "Pure Token" rotations contribute to protocol revenue while incentivizing NFT bartering through a "Sweetener" buffer.
 
-| Trade Type | Composition | Fee Logic |
+The vault programmatically applies fees based on the trade composition. This ensures high-value "Pure Token" rotations contribute to protocol revenue while incentivizing NFT bartering through a "Sweetener" buffer.
+
+| Trade Type | Maker Responsibility | Taker Responsibility |
 | :--- | :--- | :--- |
-| **Pure Token Swap** | Tokens Only | **0.75% Commission** (Applies to total value) |
-| **Pure NFT Barter** | NFTs Only | **$2.50 Flat Fee** |
-| **Hybrid (Small Kicker)** | NFT + < $100 in Tokens | **$2.50 Flat Fee** (Token commission waived) |
-| **Hybrid (Large Kicker)** | NFT + > $100 in Tokens | **$2.50 Flat Fee + 0.75% Commission** on tokens |
+| **Pure Token Swap** | **0.75% Commission** | **0.75% Commission** |
+| **Pure NFT Barter** | $0.00 | **$2.50 Flat Fee** |
+| **Hybrid (Small Kicker)** | $0.00 (Kicker <$100) | **$2.50 Flat Fee** |
+| **Hybrid (Large Kicker)** | **0.75% Commission** | **$2.50 Flat Fee** |
 
+> **Execution Note:** In Pure Token Swaps, both parties pay a 0.75% "Slippage-Avoidance" fee. This is calculated against the total USD value of the tokens provided by each party, as verified by Chainlink Price Oracles.
 ### 2.4.2 The "Sweetener" Buffer Logic
 To drive **Capital Efficiency** and lower the friction for NFT traders, the Robot Lawyer implements a conditional commission waiver:
 * **The NFT Anchor:** The $100 commission-free buffer is **only** activated when at least one NFT is present in the trade bundle.
@@ -136,16 +138,32 @@ MyBarter’s revenue model is engineered to capture value from professional "Pro
 * **Retail Tier (Capital Efficiency):** The $100 "Sweetener" buffer (detailed in Section 2.3) ensures that community-level NFT bartering remains high-velocity. We prioritize ecosystem growth over nickel-and-diming small-cap users.
 * **Settlement Model:** MyBarter utilizes a **"Taker-Pays"** model. The initiator (Maker) can propose trades for free, while the Taker pays the fixed $2.50 fee and any applicable commission during final execution. This ensures the protocol is always compensated for the gas and compute of the "Robot Lawyer" settlement.
 
+#### 5.1.1 The Ethereum Mainnet Case (Post-Fusaka/PeerDAS)
+
+While MyBarter originates in the Avalanche ecosystem, the Q2 2026 deployment to Ethereum Mainnet is a primary revenue catalyst based on the following structural shifts:
+
+* **Sub-Dollar Unit Economics:** Following the 2025/2026 upgrades, Ethereum L1 transaction fees have stabilized at an average of **$0.20 - $0.50**. This enables MyBarter to offer its **$2.50 flat fee** with a >400% margin on the settlement gas cost.
+* **Blue-Chip Liquidity Capture:** Ethereum remains the host for 60%+ of global NFT value (Pudgy Penguins, BAYC, Azuki). Capturing even 1% of the monthly "Blue Chip" rotation volume provides a significant upward multiplier to our $15,000 base revenue projections.
+* **Institutional Trust:** For high-value token rotations ($100k+), Ethereum’s security remains the industry gold standard. Our **0.75% commission** on these swaps becomes the most cost-effective way for whales to move large positions without the high slippage of Ethereum-based AMMs.
+
 ### 5.2 "Robot Lawyer" Vault Enforcement
 * **The "Sweetener" Rule:** The $100 commission-free buffer is **only** unlocked when an NFT is present. If the token value exceeds $100, the 0.75% commission is applied to the entire token amount.
 * **Real-time Valuation:** The vault integrates **Chainlink Price Feeds** to determine the USD value of tokens at the exact moment of execution.
 * **Non-Custodial Collection:** Fees are deducted programmatically during the atomic swap. 
 
-### 5.3 Revenue Projections (1,500 Trade Conservative Beta)
-Based on an initial target of **1,500 monthly trades** across the Power Square:
-* **Base NFT Revenue:** ~$3,750 (1,500 trades × $2.50).
-* **Token Commission Upside:** Projected **$15,000 - $20,000+** per month. By facilitating slippage-free rotations for high-cap assets (AVAX, ETH, BNB), we capture a 0.75% fee on a significantly higher Average Transaction Value (ATV).
-* **Economic Moat:** MyBarter is roughly 50% cheaper for large rotations than traditional DEXs, where combined slippage, MEV, and pool fees in 2026 average 1.5%+.
+### 5.3 Revenue Projections (Conservative 1,500 Trade Model)
+
+These projections assume a conservative "Retail-First" environment for Hybrid trades and an Average Transaction Value (ATV) of $1,000 for professional rotations.
+
+| Revenue Stream | Trade Volume | Calculation (Per Side) | Monthly Revenue |
+| :--- | :--- | :--- | :--- |
+| **Hybrid Settlement Fees** | 600 Trades | $2.50 (Taker Only) | **$1,500** |
+| **Token Rotation Commissions** | 900 Trades | $7.50 (Maker) + $7.50 (Taker) | **$13,500** |
+| **Total Monthly Revenue** | **1,500 Trades** | — | **$15,000** |
+
+#### **The Strategic Moat: Dual-Sided Settlement**
+* **Individual ROI:** By charging each party a 0.75% commission ($7.50 on a $1,000 swap), both the Maker and Taker achieve a net gain by avoiding the 1.5% - 3.0% slippage typical of low-liquidity AMM pairs.
+* **Incentivized Hybrid Model:** The $1,500 generated from Hybrid fees ensures that while the NFT community enjoys a low-friction entry point, the protocol remains anchored by the high-value "Dark Pool" activity of the token rotation market.
 
 ## 6.0 Security & Operational Safeties
 
@@ -157,3 +175,18 @@ Based on an initial target of **1,500 monthly trades** across the Power Square:
 * **Asynchronous Escrow:** Assets are held in isolated vaults; no central "admin" key can withdraw user assets.
 * **Signature Expiration:** All trade offers include a 72-hour time-lock. If an offer is not accepted, the "Maker" can trigger a `reclaim()` function.
 * **Anti-Sideloading:** Swaps are atomic; assets cannot be moved "outside" the fee calculator logic during a `swap()` execution.
+
+## 7.0 2026 Expansion Roadmap
+
+### **Phase 1: Build Games & Fuji Alpha (Q1 2026)**
+* **Focus:** Logic validation on Fuji Testnet for the "Robot Lawyer."
+* **Milestones:** Implementation of Ephemeral Deal-Chat and Green Dot Presence.
+
+### **Phase 2: The Power Square Launch (Q2 2026)**
+* **Network Launch:** Concurrent Mainnet deployment on **Avalanche, Ethereum, Polygon, and BNB Chain.**
+* **Revenue Anchor:** Onboarding Ethereum Blue Chips (Pudgy Penguins, BAYC, Milady) to capture the 62% market share of NFT contract volume.
+* **EVM Parity:** Ensuring the $2.50 flat fee and 0.75% commission logic is identical across all four chains.
+
+### **Phase 3: Cross-Chain & Non-EVM (Q3 - Q4 2026)**
+* **Solana Integration (Q3):** Porting the settlement engine to Rust to capture high-velocity memecoin liquidity.
+* **Institutional Pivot (Q4):** Launching support for **Tokenized Real-World Assets** (RWAs) and "Whale Tiers" for high-volume institutional rotations.
