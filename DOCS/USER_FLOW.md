@@ -9,7 +9,7 @@ sequenceDiagram
     Note over A, B: 🟢 Both Online (Green Dot Active)
     
     A->>APP: Tags NFT "Up for Trade"
-    B->>APP: Proposes Trade (NFT + $500 Kicker)
+    B->>APP: Proposes Trade (NFT + $150 Kicker)
     
     Note right of B: Token > $100: 0.75% Fee calculated
     B->>RL: Locks Assets + 0.75% Commission ($3.75)
@@ -17,10 +17,10 @@ sequenceDiagram
     APP-->>A: 🔔 Real-time Offer Notification
     
     Note over A, B: Ephemeral Chat Opened 💬
-    A->>APP: "Can you add $50 more for gas?" (Chat)
+    A->>APP: "Can you add $50 more?" (Chat)
     B->>APP: "Deal. Updating kicker now." (Chat)
     
-    B->>RL: Updates Kicker to $550 (+ addtl. commission)
+    B->>RL: Updates Kicker to $200 (+ addtl. commission)
     
     A->>APP: Reviews & Accepts Final Terms
     A->>RL: Approves NFT + pays $2.50 Settlement Fee
@@ -28,7 +28,7 @@ sequenceDiagram
     RL->>RL: Atomic Swap (Settlement)
     
     PAR: Simultaneous Distribution
-        RL-->>A: Receives B's Assets ($550 + NFT)
+        RL-->>A: Receives B's Assets ($200 + NFT)
         RL-->>B: Receives A's NFT
     END
 
