@@ -10,7 +10,7 @@ While MyBarter provides a critical shield for the high-volatility memecoin marke
 
 ## Table of Contents
 
-* [Project Scope & Objectives](#project-scope-&-objectives)
+* [Project Scope & Objectives](#project-scope--objectives)
 * [Innovation](#innovation)
 * [Social Continuity](#live-presence--social-continuity)
 * [Security & Auditing](#security--auditing)
