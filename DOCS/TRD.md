@@ -94,16 +94,16 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 ## 5.0 Revenue & Economic Model
 
 ### 5.1 Fee Structure
-To ensure sustainability while remaining the most cost-effective P2P option, MyBarter employs a dual-fee model:
-* **Standard Barter Fee:** A flat **$2.50 USD** per trade for all verified NFT-for-NFT swaps. This fee is paid in the native gas token of the settlement chain (e.g., AVAX, BNB).
-* **Token "Kicker" Commission:** A **0.75% commission** is applied to the fungible token portion of any trade (e.g., NFT + $500 USDC for a higher-tier NFT).
+MyBarter utilizes a hybrid fee model to balance retail accessibility with platform sustainability:
+* **Flat Barter Fee:** **$2.50 USD** per trade for the NFT-to-NFT exchange. 
+* **Value-Based Commission:** A **0.75% commission** applied exclusively to the **"Cash Kicker"** (any fungible tokens included in the trade bundle to balance the deal).
 
-### 5.2 The "Robot Lawyer" Anti-Exploit Guard
-To prevent users from bypassing the 0.75% commission by "wrapping" high-value tokens into unverified NFTs, the MyBarter vault utilizes **Chainlink Price Feeds**:
-1. **Verification:** The vault checks the contract address of all assets in a bundle.
-2. **Valuation:** If a fungible token (ERC-20/SPL) is detected, the vault pulls the real-time price via Chainlink.
-3. **Automated Enforcement:** The 0.75% fee is calculated and added to the transaction signature. If the fee is not met, the "Robot Lawyer" rejects the atomic swap.
-
+### 5.2 The "Robot Lawyer" Enforcement
+The vault contract is programmed to be "Value-Aware" using **Chainlink Price Feeds**:
+1. **Detection:** The contract identifies if the trade bundle contains ERC-20/SPL tokens.
+2. **Calculation:** If tokens are present, the "Robot Lawyer" calculates 0.75% of their USD value at the moment of the trade.
+3. **Total Settlement:** The user must approve a single transaction encompassing the $2.50 base fee + the 0.75% kicker commission. If the total fee is not provided, the atomic swap reverts.
+   
 ### 5.3 Revenue Projections (Beta Phase)
 * **Target Volume:** 3,000 trades/month across the Power Square.
 * **Estimated Revenue:** $7,500 (Base Fees) + Variable Commission (Projected $3,000 - $7,000).
