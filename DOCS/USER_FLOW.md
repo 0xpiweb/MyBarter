@@ -11,10 +11,10 @@ sequenceDiagram
     B->>APP: Browses Global Feed
     Note right of B: Sees Green Dot on User A
     B->>APP: Selects NFT & adds Cash Kicker
-    B->>RL: Locks Asset + $2 Fee
+    B->>RL: Locks Asset + $2.50 Fee
     APP-->>A: 🔔 Notification (In-App + X/Email)
     A->>APP: Reviews & Accepts Offer
-    A->>RL: Approves NFT & pays $2 Fee
+    A->>RL: Approves NFT & pays $2.50 Fee
     RL->>RL: Atomic Swap (Settlement)
     RL-->>A: Receives B's Assets
     RL-->>B: Receives A's NFT
