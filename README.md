@@ -1,7 +1,7 @@
 # MyBarter (v1.6)
 ### The Professional Settlement Layer for Universal Asset Rotation
 
-MyBarter is a multi-chain "Dark Pool" designed to facilitate secure, zero-impact peer-to-peer trades. By moving high-value asset rotations off the AMM and into our programmatic vault, we protect project charts from "Death Candles" and users from the rampant fraud of the OTC market.
+MyBarter is a multi-chain "Dark Pool" designed for secure, zero-impact peer-to-peer trades. By moving high-value asset rotations off the AMM and into our programmatic vault, we protect project charts from "Death Candles" and users from the rampant fraud of the OTC market.
 
 ---
 
@@ -20,35 +20,35 @@ Unlock "dead" capital by making illiquid assets liquid again. Rotate between NFT
 
 ## Smart Settlement Fee Structure
 
-The "Robot Lawyer" vault applies a hybrid fee model to balance retail utility with protocol sustainability:
+The "Robot Lawyer" vault applies a hybrid fee model to balance retail utility with protocol sustainability. 
 
-| Trade Type | Fee Logic | Responsibility |
+| Trade Type | Maker Responsibility | Taker Responsibility |
 | :--- | :--- | :--- |
-| **Pure Token Rotation** | **0.75% Commission** | Paid by Maker |
-| **Pure NFT Barter** | **$2.50 Flat Fee** | Paid by Taker |
-| **Small Kicker (<$100)** | **$2.50 Flat Fee Only** | Taker Pays (Maker Commission Waived) |
-| **Large Kicker (>$100)** | **$2.50 Flat + 0.75%** | Split (Maker Commission / Taker Flat) |
+| **Pure Token Rotation** | **0.75% Commission** | **0.75% Commission** |
+| **Pure NFT Barter** | $0.00 | **$2.50 Flat Fee** |
+| **Hybrid (Small Kicker <$100)** | $0.00 | **$2.50 Flat Fee** |
+| **Hybrid (Large Kicker >$100)** | **0.75% Commission** | **$2.50 Flat Fee** |
 
-> **The "Sweetener" Rule:** To drive market velocity, we waive the 0.75% commission on any "Cash Kicker" under $100 USD—as long as an NFT is present to anchor the trade.
+> **The "Slippage-Avoidance" Math:** In 2026, a 0.75% individual fee is significantly cheaper than the 2-5% price impact typical of $1,000+ rotations on low-liquidity AMMs.
 
 ---
 
 ## Professional Negotiation Engine
-* **Request Sweetener:** If a trade is imbalanced, Takers can issue a counter-offer requesting a specific cash kicker to bridge the value gap.
-* **Ephemeral Deal-Chat:** A private, high-speed chat channel opens once an offer is made. To ensure total privacy, the entire chat history is **permanently deleted** the moment the trade is settled or cancelled.
-* **Green Dot Presence:** Live trader status powered by Supabase—know exactly who is online to negotiate and close a deal in real-time.
+* **The "Sweetener" Buffer:** To drive market velocity, we waive commissions on any "Cash Kicker" under $100 USD, provided an NFT anchors the trade.
+* **Ephemeral Deal-Chat:** A private, high-speed chat channel opens once an offer is locked. To ensure total privacy, the entire chat history is **permanently deleted** the moment the trade is settled or cancelled.
+* **Green Dot Presence:** Live trader status powered by Supabase Presence—know exactly who is online to negotiate and close a deal in real-time.
 
 ---
 
 ## The Liquidity Power Square
-MyBarter provides universal settlement across the EVM ecosystem:
-* **Avalanche (Fuji)** | **Polygon** | **Ethereum** | **BNB Chain**
+MyBarter provides universal settlement across the EVM ecosystem. Following the 2026 structural upgrades (Fusaka/PeerDAS), we support Ethereum Mainnet with the same sub-dollar efficiency as our Layer 2 partners:
+* **Avalanche (Fuji)** | **Polygon** | **Ethereum (Mainnet Q2)** | **BNB Chain**
 
-*Phase 2 Roadmap: Expansion to Solana (Q2 2026) and Tokenized Real-World Assets (Q3 2026).*
+*Roadmap: Expansion to Solana (Q3 2026) and Tokenized Real-World Assets (Q4 2026).*
 
 ---
 
 ## Security & Integrity
-* **Volatility Circuit Breaker:** The vault automatically reverts any swap if the token price fluctuates by >10% during the negotiation window.
+* **Volatility Circuit Breaker:** The vault automatically reverts any swap if the token price fluctuates by >10% during the signing window.
 * **Oracle Enforcement:** Fees are calculated using real-time **Chainlink Price Feeds** to prevent fee evasion.
 * **Non-Custodial:** MyBarter never holds your assets. The "Robot Lawyer" only executes when both signatures and all fee requirements are programmatically satisfied.
