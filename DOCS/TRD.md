@@ -7,6 +7,11 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 
 ### 1.1 The Triple-Threat Problem Set
 
+MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle:
+
+- **The Slippage Tax (Economic Safety)**: Large swaps in any token - whether high-cap altcoins (AVAX, ETH) or low-cap gems - suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders.
+- **The Trust Gap (Transactional Safety)**: P2P trading for any asset class (Tokens or NFTs) currently relies on unverified manual escrow, exposing users to systemic OTC fraud.
+- **The Liquidity Trap (Capital Efficiency)**: Capital becomes "dead" when locked in illiquid NFTs or large token positions that cannot be rotated without significant market disruption.
 
 ### 1.2 Technical Objectives
 To resolve the issues above, the MyBarter protocol must fulfill the following:
