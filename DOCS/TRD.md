@@ -20,15 +20,15 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 * **Offer Initiation:** User B pays a platform fee and locks offered assets (NFT/Tokens) into the MyBarter Vault.
 * **Atomic Swap Logic:** Assets are released ONLY if both signatures (User A and User B) are verified and fees are settled.
 * **Fee Structure:**
-    * **NFT-inclusive Trades:** Flat $2.00 fee.
-    * **Pure Token Swaps:** 0.5% commission via Pyth/Chainlink Price Oracles.
+    * **NFT-inclusive Trades:** Flat $2.50 fee.
+    * **Pure Token Swaps:** 0.75% commission via Pyth/Chainlink Price Oracles.
 * **Trade Constraints:** Restricted to Asset-for-Asset swaps; MyBarter does not support NFT-for-Stablecoin (Marketplace) transactions.
 
  #### 2.3.1 Anti-Exploit Measures (Fee Integrity)
 
-- **Verification Requirement**: The flat $2.00 "Bundle" fee only applies to trades involving at least one NFT from a Whitelisted Collection.
-- **Dust Protection**: If an NFT is unverified or has a floor price below a "Dust Threshold", the trade is treated as a Pure Token Swap, and a 0.5% commission is applied to the total token value.
-- **Oracle Validation**: Use Pyth/Chainlink to verify token values and ensure the 0.5% fee accurately reflects the market price of the "Cash Kicker."
+- **Verification Requirement**: The flat $2.50 "Bundle" fee only applies to trades involving at least one NFT from a Whitelisted Collection.
+- **Dust Protection**: If an NFT is unverified or has a floor price below a "Dust Threshold", the trade is treated as a Pure Token Swap, and a 0.75% commission is applied to the total token value.
+- **Oracle Validation**: Use Pyth/Chainlink to verify token values and ensure the 0.75% fee accurately reflects the market price of the "Cash Kicker."
 
 ### 2.4 Notification Engine
 
@@ -73,7 +73,7 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 ### 4.1 Smart Contract Validation (The "Robot Lawyer" Audit)
 * **Unit Testing:** 100% coverage of the `MyBarterVault.sol` core logic using **Foundry**.
     * **Test Case 1:** Verification of atomic swaps (Swap fails if any asset in the bundle is missing).
-    * **Test Case 2:** Fee calculation logic (Validating $2 flat fee vs. 0.5% commission via **Chainlink Price Feeds**).
+    * **Test Case 2:** Fee calculation logic (Validating $2.50 flat fee vs. 0.75% commission via **Chainlink Price Feeds**).
     * **Test Case 3:** Anti-Exploit Guard (Ensuring non-whitelisted "Dust NFTs" cannot bypass fee logic).
 * **Fuzz Testing:** Utilizing Foundry's `forge test` to execute 10,000+ random input scenarios to verify mathematical overflows and edge-case fee evasion.
 
