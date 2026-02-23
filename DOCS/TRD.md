@@ -1,7 +1,18 @@
 # MyBarter Technical Requirements Document (TRD) v1.6
 
-## 1. System Overview
+## System Overview
 MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow model (The "Robot Lawyer") to allow users to propose, negotiate, and execute trades involving NFTs and tokens across EVM-compatible chains, with settlement logic hosted on Avalanche.
+
+## 1.0 Project Scope & Objectives
+
+### 1.1 The Triple-Threat Problem Set
+
+
+### 1.2 Technical Objectives
+To resolve the issues above, the MyBarter protocol must fulfill the following:
+* **Universal Token Settlement:** A "Zero-Impact Dark Pool" architecture using off-AMM P2P logic to eliminate slippage on all Power Square assets.
+* **Trustless Escrow:** Implementation of the "Robot Lawyer" (Solidity/EVM) to programmatically secure OTC transactions.
+* **Capital Velocity:** A flexible asset-bundling engine allowing for atomic swaps of heterogeneous assets (NFTs + Tokens).
 
 ## 2. Core Functional Requirements
 
