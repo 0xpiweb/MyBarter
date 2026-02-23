@@ -30,7 +30,7 @@ MyBarter is a multi-chain settlement layer designed to resolve friction across t
 
 ### Technical Objectives
 
-- **Universal Token Settlement**: Provide a "Zero-Impact Dark Pool" for any tradable asset on the Power Square, allowing for institutional-grade rotation without slippage.
+- **Universal Token Settlement**: Provide a "Zero-Impact Dark Pool" for any tradable asset on the Power Square (Ethereum, BNB chain, Avalanche and Polygon), allowing for institutional-grade rotation without slippage.
 
 - **Trustless Escrow**: Use the "Robot Lawyer" to eliminate the need for trust in all OTC transactions, regardless of the asset type.
 
