@@ -17,8 +17,8 @@ interface IPriceOracle {
 contract MyBarterVault is Ownable, ReentrancyGuard {
     
     // Fee Configuration
-    uint256 public constant FLAT_FEE_USD = 2 * 10**18; // $2.00 (18 decimals)
-    uint256 public constant COMMISSION_BPS = 50;     // 0.5% (Basis Points)
+    uint256 public constant FLAT_FEE_USD = 2.50 * 10**18; // $2.50 (18 decimals)
+    uint256 public constant COMMISSION_BPS = 75;     // 0.75% (Basis Points)
     
     // Anti-Exploit Whitelist
     mapping(address => bool) public isWhitelistedCollection;
@@ -46,7 +46,7 @@ contract MyBarterVault is Ownable, ReentrancyGuard {
     {
         bool hasVerifiedNFT = false;
 
-        // Step 1: Check for verified NFTs to allow the $2 bundle fee
+        // Step 1: Check for verified NFTs to allow the $2.50 bundle fee
         for (uint i = 0; i < _nftCollections.length; i++) {
             if (isWhitelistedCollection[_nftCollections[i]]) {
                 hasVerifiedNFT = true;
@@ -58,7 +58,7 @@ contract MyBarterVault is Ownable, ReentrancyGuard {
         if (hasVerifiedNFT) {
             return FLAT_FEE_USD; // Incentivized Bundle Rate
         } else {
-            // Pure Token Swap or Unverified NFT: Apply 0.5% Commission
+            // Pure Token Swap or Unverified NFT: Apply 0.75% Commission
             return (_tokenValueUSD * COMMISSION_BPS) / 10000;
         }
     }
