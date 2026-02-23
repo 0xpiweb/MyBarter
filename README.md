@@ -22,7 +22,7 @@ While MyBarter provides a critical shield for the high-volatility memecoin marke
 
 MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle:
 
-- **The Slippage Tax (Economic Safety)**: Large swaps in any token, whether high-cap altcoins (AVAX, ETH) or low-cap gems—suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders.
+- **The Slippage Tax (Economic Safety)**: Large swaps in any token - whether high-cap altcoins (AVAX, ETH) or low-cap gems - suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders.
 
 - **The Trust Gap (Transactional Safety)**: P2P trading for any asset class (Tokens or NFTs) currently relies on unverified manual escrow, exposing users to systemic OTC fraud.
 
