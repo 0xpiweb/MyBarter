@@ -36,11 +36,11 @@ Our proprietary **trustless escrow logic** settled on Avalanche. It ensures that
 
 MyBarter implements a tiered fee structure to incentivize high-velocity "bundle" trades across the ecosystem:
 
-- **The Bundle Advantage**: Any trade involving one or more NFTs is processed at a **flat $2.00 fee**.
+- **The Bundle Advantage**: Any trade involving one or more NFTs is processed at a **flat $2.50 fee**.
 
-  - Example: Trade 3 NFTs + a "Cash Kicker" (USDC/AVAX/ETH) for a single rare NFT. Total Fee: $2.00.
+  - Example: Trade 3 NFTs + a "Cash Kicker" (USDC/AVAX/ETH) for a single rare NFT. Total Fee: $2.50.
 
-- **Pure Token Swaps**: Trades involving only fungible tokens/memecoins incur a **0.5% commission**, calculated via real-time Pyth or Chainlink price oracles.
+- **Pure Token Swaps**: Trades involving only fungible tokens/memecoins incur a **0.75% commission**, calculated via real-time Pyth or Chainlink price oracles.
 
 - **The Boundary**: To protect our focus as a settlement layer, MyBarter facilitates **Asset-for-Asset swaps only**. We are a barter protocol, not a traditional NFT marketplace or DEX.
 
