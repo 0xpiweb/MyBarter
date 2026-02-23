@@ -24,7 +24,7 @@ describe("MyBarter "Robot Lawyer" Vault", function () {
     const fee = await vault.calculatePlatformFee([], tokenValueUSD);
     
     // 0.75% of $1000 = $7.50
-    expect(fee).to.equal(ethers.parseEther("5"));
+    expect(fee).to.equal(ethers.parseEther("7.50"));
   });
 
   it("Should prevent fee evasion from unverified 'Dust' NFTs", async function () {
