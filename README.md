@@ -2,7 +2,7 @@
 
 **The Universal Settlement Layer for the Multi-Chain Barter Economy.**
 
-MyBarter is an atomic, cross-chain exchange protocol that allows users to swap NFTs, Tokens, and Memecoins across all EVM-compatible blockchains with **zero slippage**.
+MyBarter is an atomic, cross-chain exchange protocol that allows users to swap any digital assets across all EVM-compatible blockchains with **zero slippage**.
 
 **Beyond the Supercycle: Universal Asset Rotation**
 
@@ -10,25 +10,31 @@ While MyBarter provides a critical shield for the high-volatility memecoin marke
 
 ## Table of Contents
 
-* [The Triple-Threat](#the-mybarter-triple-threat)
+* [Project Scope & Objectives](#project-scope-&-objectives)
 * [Innovation](#innovation)
 * [Social Continuity](#live-presence--social-continuity)
 * [Security & Auditing](#security--auditing)
 * [Roadmap](#build-games-roadmap)
 
-## The MyBarter Triple-Threat
+## Project Scope & Objectives
 
-**1. Economic Safety (Slippage-Free)**
+### The Triple-Threat Problem Set
 
-Execute high-impact trades off the AMM to prevent "Chart Death." By facilitating P2P settlement, MyBarter ensures zero price impact and zero slippage, protecting the market health of projects while allowing whales to exit or rotate without panicking the community.
+MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle:
 
-**2. Transactional Safety (Scam-Proof)**
+- **The Slippage Tax (Economic Safety)**: Large swaps in any token—whether high-cap altcoins (AVAX, ETH) or low-cap gems—suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders.
 
-Our "Robot Lawyer" vault ends the dangerous "Who-Goes-First" standoff found in Discord and Telegram OTC deals. All trades are atomic, non-custodial, and programmatic. If the exact conditions aren't met, the assets never move.
+- **The Trust Gap (Transactional Safety)**: P2P trading for any asset class (Tokens or NFTs) currently relies on unverified manual escrow, exposing users to systemic OTC fraud.
 
-**3. Capital Efficiency (Asset Rotation)**
+- **The Liquidity Trap (Capital Efficiency)**: Capital becomes "dead" when locked in illiquid NFTs or large token positions that cannot be rotated without significant market disruption.
 
-Unlock "dead" capital by making illiquid assets liquid again without needing a cash buyer. Rotate between NFT bundles or large token positions with a transparent fee structure that incentivizes bundling over selling.
+### Technical Objectives
+
+- **Universal Token Settlement**: Provide a "Zero-Impact Dark Pool" for any tradable asset on the Power Square, allowing for institutional-grade rotation without slippage.
+
+- **Trustless Escrow**: Use the "Robot Lawyer" to eliminate the need for trust in all OTC transactions, regardless of the asset type.
+
+- **Capital Velocity**: Enable the bundling of any tokenized asset (NFTs, Memecoins, Blue-chips) to ensure capital stays fluid and efficient.
 
 ## Innovation
 
