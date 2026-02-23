@@ -1,95 +1,47 @@
-# MyBarter
+# MyBarter (v1.6)
+### The Professional Settlement Layer for Universal Asset Rotation
 
-**The Universal Settlement Layer for the Multi-Chain Barter Economy.**
+MyBarter is a multi-chain "Dark Pool" designed to facilitate secure, zero-impact peer-to-peer trades. By moving high-value asset rotations off the AMM and into our programmatic vault, we protect project charts from "Death Candles" and users from the rampant fraud of the OTC market.
 
-MyBarter is an atomic, cross-chain exchange protocol that allows users to swap any digital assets across all EVM-compatible blockchains with **zero slippage**.
+---
 
-# The Vision
+## The MyBarter Triple-Threat
 
-**Beyond the Supercycle: Universal Asset Rotation**
+### 1. Economic Safety (Slippage-Free)
+Execute high-impact trades off the AMM to prevent "Chart Death." By facilitating P2P settlement, MyBarter ensures **zero price impact and zero slippage**, protecting the market health of projects while allowing whales and retail traders to rotate into any tradable coin without panicking the community.
 
-While MyBarter provides a critical shield for the high-volatility memecoin market, our architecture is built for the entire tokenized economy. Whether you are rotating out of blue-chip assets like AVAX, ETH, or BNB, or swapping into emerging Real-World Assets (RWA), MyBarter provides the same zero-slippage, scam-proof environment. We aren't just a tool for a trend; we are permanent infrastructure for the multi-chain future.
+### 2. Transactional Safety (Scam-Proof)
+Our **"Robot Lawyer"** vault ends the dangerous "Who-Goes-First" standoff found in Discord and Telegram OTC deals. All trades are atomic, non-custodial, and programmatic. If the exact conditions aren't met, the assets never move.
 
-## Table of Contents
+### 3. Capital Efficiency (Asset Rotation)
+Unlock "dead" capital by making illiquid assets liquid again without needing a cash buyer. Rotate between NFT bundles or large token positions (AVAX, ETH, BNB, etc.) with a transparent fee structure that incentivizes bundling over selling.
 
-* [Project Scope & Objectives](#project-scope--objectives)
-* [Innovation](#innovation)
-* [Social Continuity](#live-presence--social-continuity)
-* [Security & Auditing](#security--auditing)
-* [Roadmap](#build-games-roadmap)
+---
 
-## Project Scope & Objectives
+## Settlement Fee Structure
 
-### The Triple-Threat Problem Set
+MyBarter employs a dual-fee model to ensure institutional-grade security and professional chart protection:
 
-MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle:
+* **The Token Rotation Commission (0.75%):** Applied to any fungible token portion of a trade (Memecoins, Altcoins, or "Cash Kickers"). This commission covers the cost of zero-slippage settlement and the on-chain protection of the project's price floor.
+* **The NFT Flat Fee ($2.50):** Any trade involving one or more NFTs is processed at a flat $2.50 settlement fee to cover "Robot Lawyer" vaulting and atomic exchange.
 
-- **The Slippage Tax (Economic Safety)**: Large swaps in any token - whether high-cap altcoins (AVAX, ETH) or low-cap gems - suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders.
+> **Why it matters:** On a traditional DEX, a $10,000 swap can lose $200+ to slippage and MEV bots while crashing the price. On MyBarter, that same swap costs a flat $75.00 (0.75%) with **zero** impact on the chart.
 
-- **The Trust Gap (Transactional Safety)**: P2P trading for any asset class (Tokens or NFTs) currently relies on unverified manual escrow, exposing users to systemic OTC fraud.
+---
 
-- **The Liquidity Trap (Capital Efficiency)**: Capital becomes "dead" when locked in illiquid NFTs or large token positions that cannot be rotated without significant market disruption.
+## The Liquidity Power Square
+MyBarter is designed for the multi-chain future, providing universal settlement across:
+* **Avalanche (Fuji Testnet for Build Games)**
+* **Ethereum**
+* **BNB Chain**
+* **Polygon**
 
-### Technical Objectives
+*Phase 2 Roadmap: Expansion to Solana (Q2 2026) to capture the highest-velocity token markets.*
 
-- **Universal Token Settlement**: Provide a "Zero-Impact Dark Pool" for any tradable asset on the Power Square (Ethereum, BNB chain, Avalanche and Polygon), allowing for institutional-grade rotation without slippage.
+---
 
-- **Trustless Escrow**: Use the "Robot Lawyer" to eliminate the need for trust in all OTC transactions, regardless of the asset type.
+## Key Features
+* **Green Dot Presence:** Live trader status powered by Supabase—know exactly who is online to close a deal instantly.
+* **In-App Account Inbox:** Manage all trade offers and negotiations in a single, secure notification center.
+* **Anti-Exploit Guard:** Automated fee enforcement via **Chainlink Price Feeds** to prevent "under-the-table" fee evasion.
 
-- **Capital Velocity**: Enable the bundling of any tokenized asset (NFTs, Memecoins, Blue-chips) to ensure capital stays fluid and efficient.
-
-## Innovation
-
-**The Robot Lawyer**
-
-Our proprietary **trustless escrow logic** settled on Avalanche. It ensures that no asset is released until the counterparty's side of the trade is cryptographically verified.
-
-**The Kicker Rule**
-
-MyBarter implements a tiered fee structure to incentivize high-velocity "bundle" trades across the ecosystem:
-
-- **The Bundle Advantage**: Any trade involving one or more NFTs is processed at a **flat $2.50 fee**.
-
-  - Example: Trade 3 NFTs + a "Cash Kicker" (USDC/AVAX/ETH) for a single rare NFT. Total Fee: $2.50.
-
-- **Pure Token Swaps**: Trades involving only fungible tokens/memecoins incur a **0.75% commission**, calculated via real-time Pyth or Chainlink price oracles.
-
-- **The Boundary**: To protect our focus as a settlement layer, MyBarter facilitates **Asset-for-Asset swaps only**. We are a barter protocol, not a traditional NFT marketplace or DEX.
-
-## Live Presence & Social Continuity
-
-- **Green Dot Status**: Real-time presence indicators to distinguish active traders from dormant wallets, significantly reducing "ghosting" in OTC deals.
-
-- **Social Handshake**: Automated X-Tagging and encrypted email notifications to bridge the gap between on-chain trades and off-chain communication.
-
-## Security & Auditing
-
-The protocol includes a comprehensive test suite via Hardhat/Chai to verify all fee logic and anti-exploit measures before mainnet deployment.
-
-## Build Games Roadmap
-
-- **Week 1-2: Architecture & Escrow Logic** (Completed)
-
-  - Finalized TRD v1.5 and "Robot Lawyer" smart contract architecture.
-
-  - Implemented anti-exploit fee logic to prevent "Dust NFT" circumvention.
-
-- **Week 3-4: Fuji Testnet Deployment & Beta UI**
-
-  - Deploying core contracts to Avalanche Fuji Testnet.
-
-  - Integrating Supabase Presence for real-time "Green Dot" status.
-
-  - Connecting Pyth/Chainlink Price Oracles for live fee calculation.
-
-- **Week 5-6: Stress Testing & Social Integration**
-
-  - Public Beta on Fuji: Community testing for P2P "Bundle" trades.
-
-  - Launching the X-Tagging Notification Engine for trade alerts.
-
-  - Security Audit: Internal hardening of the vault logic before Mainnet transition (Post-Competition).
-
-## Founder
-
-Built by the founder of [Lil Coq NFT](https://x.com/LilCoqNft) and [$LIL](https://dexscreener.com/avalanche/0x8acc49857a1259d25eb3ca0aa15b398d0e149ef2) Token.
