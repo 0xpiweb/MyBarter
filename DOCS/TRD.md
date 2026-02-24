@@ -6,12 +6,12 @@ MyBarter is a cross-chain P2P settlement layer. It uses an asynchronous escrow m
 ## 1.0 Project Scope & Objectives
 
 ### 1.1 The Triple-Threat Problem Set
-MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle, prioritized as follows:
 
-1. **Economic Safety (Slippage-Free):** Large swaps in any token - from high-cap blue chips (AVAX, ETH, BNB, POL) to emerging gems - suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders via MEV bots.
-2. **Transactional Safety (Scam-Proof):** Peer-to-peer trading currently relies on unverified manual escrow (Discord/Telegram), exposing users to systemic OTC fraud and "who-goes-first" standoffs.
-3. **Capital Efficiency (Asset Rotation):** High-value NFTs and large token positions often become "dead capital." MyBarter unlocks this liquidity by enabling atomic, multi-asset bundling and rotation.
+MyBarter is a multi-chain settlement layer designed to resolve friction across the entire digital asset lifecycle. The project is led by **piweb**, founder of the **LIL ecosystem** (launched April 2024), a proven Avalanche-native project that rewards holders with bi-weekly $AVAX distributions. MyBarter was born from the direct observation of "Liquidity Traps" within the ecosystem, prioritized to solve:
 
+* **Economic Safety (Slippage-Free):** Large swaps in any token suffer from DEX price impact. This "Red Candle" effect damages project charts and penalizes traders via MEV bots.
+* **Transactional Safety (Scam-Proof):** Peer-to-peer trading currently relies on unverified manual escrow, exposing users to OTC fraud and "who-goes-first" standoffs.
+* **Capital Efficiency (Asset Rotation):** High-value NFTs and large positions often become "dead capital." MyBarter unlocks this liquidity via atomic, multi-asset bundling.
 ### 1.2 Technical Objectives
 * **Universal Token Settlement:** A "Zero-Impact Dark Pool" architecture using off-AMM P2P logic to eliminate slippage on all Power Square assets.
 * **Trustless Escrow:** Implementation of the "Robot Lawyer" (Solidity/EVM) to programmatically secure OTC transactions.
