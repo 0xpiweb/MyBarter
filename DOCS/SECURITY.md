@@ -6,7 +6,7 @@
 
   Integer Overflow/Underflow: Implementation uses Solidity 0.8.x native checks to prevent arithmetic vulnerabilities.
 
-  Pull-over-Push Payments: Platform fees ($2) and "Cash Kickers" follow the pull-payment pattern to mitigate Denial of Service (DoS) attacks.
+  Pull-over-Push Payments: Platform fees ($2.50) and "Cash Kickers" follow the pull-payment pattern to mitigate Denial of Service (DoS) attacks.
 
   Emergency Circuit Breaker: An owner-controlled "Pause" function is implemented to halt new trades in the event of a detected anomaly (while still allowing withdrawals of existing deposits).
 
