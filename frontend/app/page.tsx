@@ -283,47 +283,46 @@ export default function MyBarterApp() {
               </button>
             </div>
 
-            {/* Chain filter tabs */}
-            <div className="flex items-center gap-2 mb-4 flex-wrap">
-              <button
-                onClick={() => setActiveChain(null)}
-                className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
-                style={{
-                  background: !activeChain ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)',
-                  border: !activeChain ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.08)',
-                  color: !activeChain ? '#fff' : 'rgba(255,255,255,0.35)',
-                }}
-              >
-                All
-              </button>
-              {CHAIN_FILTERS.map((f) => {
-                const isActive = activeChain === f.label;
-                return (
-                  <button
-                    key={f.label}
-                    onClick={() => setActiveChain(isActive ? null : f.label)}
-                    className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
-                    style={{
-                      background: isActive ? `${f.color}18` : 'rgba(255,255,255,0.03)',
-                      border: isActive ? `1px solid ${f.color}66` : '1px solid rgba(255,255,255,0.08)',
-                      color: isActive ? f.color : 'rgba(255,255,255,0.35)',
-                      boxShadow: isActive ? `0 0 10px ${f.color}22` : 'none',
-                    }}
-                  >
-                    {f.label}
-                  </button>
-                );
-              })}
-            </div>
+            {/* Chain filter tabs + search on one row */}
+            <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => setActiveChain(null)}
+                  className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
+                  style={{
+                    background: !activeChain ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)',
+                    border: !activeChain ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.08)',
+                    color: !activeChain ? '#fff' : 'rgba(255,255,255,0.35)',
+                  }}
+                >
+                  All
+                </button>
+                {CHAIN_FILTERS.map((f) => {
+                  const isActive = activeChain === f.label;
+                  return (
+                    <button
+                      key={f.label}
+                      onClick={() => setActiveChain(isActive ? null : f.label)}
+                      className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
+                      style={{
+                        background: isActive ? `${f.color}18` : 'rgba(255,255,255,0.03)',
+                        border: isActive ? `1px solid ${f.color}66` : '1px solid rgba(255,255,255,0.08)',
+                        color: isActive ? f.color : 'rgba(255,255,255,0.35)',
+                        boxShadow: isActive ? `0 0 10px ${f.color}22` : 'none',
+                      }}
+                    >
+                      {f.label}
+                    </button>
+                  );
+                })}
+              </div>
 
-            {/* Search bar */}
-            <div className="relative mb-6">
               <input
                 type="text"
                 placeholder="Search collections..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl px-4 py-2.5 text-sm text-white/70 placeholder-white/20 outline-none transition-all"
+                className="max-w-xs w-full rounded-xl px-4 py-2 text-sm text-white/70 placeholder-white/20 outline-none transition-all"
                 style={{
                   background: 'rgba(255,255,255,0.04)',
                   border: '1px solid rgba(255,255,255,0.08)',
