@@ -117,7 +117,10 @@ export default function MyBarterApp() {
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-2.5">
           <MyBarterLogo className="h-8 w-8" />
-          <span className="text-lg font-bold tracking-tight text-white" style={{ fontFamily: INTER }}>
+          <span
+            className="text-lg font-bold tracking-tight"
+            style={{ fontFamily: INTER, ...gradientText }}
+          >
             MyBarter
           </span>
         </div>
@@ -131,7 +134,10 @@ export default function MyBarterApp() {
         /* ── Home (disconnected) ────────────────────────────────────────── */
         <>
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
-            <p className="text-[#7DD3FC] text-[10px] font-bold uppercase tracking-[0.45em] mb-8">
+            <p
+              className="text-[10px] font-bold uppercase tracking-[0.45em] mb-8"
+              style={gradientText}
+            >
               Browse · Offer · Swap
             </p>
 

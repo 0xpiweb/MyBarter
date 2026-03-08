@@ -1,7 +1,7 @@
 # MyBarter Frontend Style Guide
 
 Canonical design tokens. Any PR that diverges from these must include a design review.
-Last updated: 2026-03-08 (logic sprint ready).
+Last updated: 2026-03-08 (brand locked, logic sprint ready).
 
 ---
 
@@ -22,6 +22,33 @@ Last updated: 2026-03-08 (logic sprint ready).
 | Avalanche | `#E84142` |
 | Ethereum | `#627EEA` |
 | Polygon | `#8247E5` |
+
+---
+
+## Gradient Text
+
+Cyan-to-violet gradient applied to three brand elements — **never** plain white or `text-[#7DD3FC]`:
+
+1. **"MyBarter"** logo text (nav top-left)
+2. **"BROWSE · OFFER · SWAP"** tagline (hero eyebrow)
+3. **"Chainlink"** and **"Pyth"** names in footer
+
+```css
+background: linear-gradient(90deg, #22d3ee, #a78bfa);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+```
+
+As a React constant:
+```ts
+const gradientText: React.CSSProperties = {
+  background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+};
+```
 
 ---
 
