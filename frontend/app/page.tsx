@@ -87,10 +87,22 @@ const PILLARS = [
 ];
 
 /* ─── Token assets ────────────────────────────────────────────────────────── */
-const ASSETS = [
-  { chain: 'Avalanche', balance: '5.00',   symbol: 'AVAX', color: '#E84142' },
-  { chain: 'Ethereum',  balance: '0.25',   symbol: 'ETH',  color: '#627EEA' },
-  { chain: 'Polygon',   balance: '150.00', symbol: 'POL',  color: '#8247E5' },
+interface Asset {
+  chain: string; balance: string; symbol: string; color: string; usd: string;
+}
+const ASSETS: Asset[] = [
+  { chain: 'Avalanche', balance: '5.00',       symbol: 'AVAX',  color: '#E84142', usd: '$87.30'  },
+  { chain: 'Ethereum',  balance: '0.25',       symbol: 'ETH',   color: '#627EEA', usd: '$631.50' },
+  { chain: 'Polygon',   balance: '150.00',     symbol: 'POL',   color: '#8247E5', usd: '$73.50'  },
+  { chain: 'BNB',       balance: '0.80',       symbol: 'BNB',   color: '#F0B90B', usd: '$484.00' },
+  { chain: 'Avalanche', balance: '12,500',     symbol: 'COQ',   color: '#FF6B35', usd: '$18.75'  },
+  { chain: 'Avalanche', balance: '4,200',      symbol: 'BLAZE', color: '#FF4500', usd: '$12.60'  },
+  { chain: 'Avalanche', balance: '8,000',      symbol: 'KET',   color: '#9B59B6', usd: '$24.00'  },
+  { chain: 'Avalanche', balance: '2,100',      symbol: 'ARENA', color: '#27AE60', usd: '$9.45'   },
+  { chain: 'Avalanche', balance: '15,000',     symbol: 'GUN',   color: '#E74C3C', usd: '$45.00'  },
+  { chain: 'Avalanche', balance: '3,750',      symbol: 'PHAR',  color: '#F39C12', usd: '$22.50'  },
+  { chain: 'Ethereum',  balance: '500.00',     symbol: 'USDC',  color: '#2775CA', usd: '$500.00' },
+  { chain: 'Avalanche', balance: '1,200',      symbol: 'JOE',   color: '#FF6B6B', usd: '$14.40'  },
 ];
 
 /* ─── NFT collections ─────────────────────────────────────────────────────── */
@@ -166,7 +178,10 @@ export default function MyBarterApp() {
   const [searchQuery, setSearchQuery]               = useState('');
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
 
-  const hasSelection = selected.size > 0;
+  // Independent selection state per section
+  const assetSymbols = new Set(ASSETS.map(a => a.symbol));
+  const hasAssetSelection = Array.from(selected).some(k => assetSymbols.has(k));
+  const hasNFTSelection   = Array.from(selected).some(k => !assetSymbols.has(k));
 
   function toggleKey(key: string) {
     setSelected(prev => {
@@ -245,9 +260,18 @@ export default function MyBarterApp() {
             MyBarter
           </span>
         </Link>
-        <button onClick={() => setIsConnected(!isConnected)} className={BTN}>
-          {isConnected ? '0x...f331' : 'Connect Wallet'}
-        </button>
+        <div className="flex items-center gap-6">
+          <button
+            onClick={() => isConnected ? setSelectedCollection(null) : setIsConnected(true)}
+            className="text-sm font-black tracking-wider transition-colors hover:opacity-80"
+            style={{ fontFamily: INTER, color: 'rgba(255,255,255,0.45)' }}
+          >
+            Up for Trade
+          </button>
+          <button onClick={() => setIsConnected(!isConnected)} className={BTN}>
+            {isConnected ? '0x...f331' : 'Connect Wallet'}
+          </button>
+        </div>
       </nav>
 
       {!isConnected ? (
@@ -256,12 +280,12 @@ export default function MyBarterApp() {
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
             {/* Tagline — dominant hero element */}
             <h1
-              className="font-black uppercase mb-4"
-              style={{ fontFamily: INTER, fontSize: 'clamp(5rem, 15vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.88, fontWeight: 900, ...gradientText }}
+              className="font-black uppercase mb-5"
+              style={{ fontFamily: INTER, fontSize: '120px', letterSpacing: '-0.04em', lineHeight: 0.88, fontWeight: 900, ...gradientText }}
             >
               Browse · Offer · Swap
             </h1>
-            {/* Supporting sub-headline — clearly secondary */}
+            {/* Sub-headline — 18px, clearly secondary */}
             <p
               className="mb-10"
               style={{ fontFamily: INTER, fontSize: '18px', letterSpacing: '-0.01em', lineHeight: 1.4, fontWeight: 400, color: 'rgba(255,255,255,0.40)' }}
@@ -307,12 +331,17 @@ export default function MyBarterApp() {
 
           {/* ── My Assets — DeFi wallet list ── */}
           <div>
-            <div className="mb-5">
-              <h2 className="text-3xl font-black tracking-tighter text-white mb-1"
-                style={{ fontFamily: INTER, letterSpacing: '-0.03em', fontWeight: 900 }}>
-                Your Assets
-              </h2>
-              <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
+            <div className="flex justify-between items-end mb-5">
+              <div>
+                <h2 className="text-3xl font-black tracking-tighter text-white mb-1"
+                  style={{ fontFamily: INTER, letterSpacing: '-0.03em', fontWeight: 900 }}>
+                  Your Assets
+                </h2>
+                <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
+              </div>
+              <button className={hasAssetSelection ? BTN : BTN_INACTIVE} disabled={!hasAssetSelection}>
+                Initiate Trade
+              </button>
             </div>
 
             {/* Asset filter row + search */}
@@ -383,9 +412,12 @@ export default function MyBarterApp() {
                       <p className="text-[11px] text-white/30 leading-none">{a.chain}</p>
                     </div>
                     {/* Balance */}
-                    <p className="text-[13px] font-black text-white shrink-0" style={{ fontFamily: INTER }}>
-                      {a.balance}{' '}
-                      <span style={{ color: a.color }}>{a.symbol}</span>
+                    <p className="text-[12px] font-black text-white/60 shrink-0 text-right" style={{ fontFamily: INTER }}>
+                      {a.balance}
+                    </p>
+                    {/* USD value */}
+                    <p className="text-[13px] font-black text-white shrink-0 text-right w-20" style={{ fontFamily: INTER }}>
+                      {a.usd}
                     </p>
                     {/* Selection dot */}
                     {isSelected && <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: a.color }} />}
@@ -434,7 +466,7 @@ export default function MyBarterApp() {
                   </>
                 )}
               </div>
-              <button className={hasSelection ? BTN : BTN_INACTIVE} disabled={!hasSelection}>
+              <button className={hasNFTSelection ? BTN : BTN_INACTIVE} disabled={!hasNFTSelection}>
                 Initiate Trade
               </button>
             </div>
