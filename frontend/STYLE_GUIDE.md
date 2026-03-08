@@ -182,6 +182,25 @@ NFT cards override: `border: 1px solid {color}44; boxShadow: 0 0 24px {color}18`
 - Headline `h3`: `font-black tracking-tighter` + `style={{ fontFamily: INTER, letterSpacing: '-0.02em', fontWeight: 900 }}`
 - Footer strip: `text-[10px] font-black uppercase tracking-[0.2em]` in `p.color` — full label text. **Never** `GUARANTEED`.
 
+## Up for Trade / NFT Drill-Down (permanent)
+
+Each individual NFT card shows:
+1. Square image placeholder (glassmorphic gradient)
+2. Token ID + floor price (from collection, in chain color)
+3. **Traits grid**: `grid grid-cols-2 gap-1.5` — each cell shows trait key (9px uppercase), value (12px font-black), rarity % in chain color
+
+```tsx
+interface NFTItem {
+  id: string;
+  image: string | null;
+  traits?: { key: string; value: string; rarity?: string }[];
+}
+```
+
+Floor price shown in drill-down header AND on each NFT card — **not** on collection grid cards.
+
+---
+
 ## Back Navigation ("← All Collections")
 
 Cyan-to-violet gradient on both icon and text — integrated brand treatment, not a system link.
@@ -224,7 +243,25 @@ Usage: `<span className="flex items-center gap-1.5">` wrapping icon + label.
 
 ---
 
-## Collection Cards (v2 — permanent)
+## My Assets — Wallet List (v2 — permanent)
+
+Replace the 3-column card grid with a DeFi-style list. Each row:
+- **Token icon**: 36px circle, `background: {color}22`, `border: 1px solid {color}55`, initials as text
+- **Name column**: symbol (font-black) + chain name (text-white/30)
+- **Balance column**: right-aligned `{amount} {symbol}` with symbol in chain color
+- **Selection state**: `background: {color}0D`, `outline: 2px solid {color}44`
+- The list is wrapped in a single glassmorphic `GLASS` container with `border-bottom` separators
+
+Filter row (same pattern as collections): `flex items-center gap-4` · All + chain filters (data-driven) + search `w-48` pinned after last chain button. Uses separate `assetChainFilter` + `assetSearch` state.
+
+---
+
+## Collection Cards (v3 — permanent)
+
+### Strict card content (non-negotiable)
+Collection cards show **three elements only**: banner/placeholder, name + verified checkmark, item count badge.
+
+**Floor price is removed from collection cards.** It belongs in the Up for Trade (drill-down) header and individual NFT cards only.
 
 ### No tag text inside cards
 The `tag` field (e.g. "AVAX Ecosystem", "Platform Asset") is **removed**. Replace with a verified checkmark icon next to the collection name.
