@@ -233,7 +233,7 @@ export default function MyBarterApp() {
             </p>
             <h1
               className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-8"
-              style={{ fontFamily: INTER, letterSpacing: '-0.04em', lineHeight: 0.95 }}
+              style={{ fontFamily: INTER, letterSpacing: '-0.04em', lineHeight: 0.95, fontWeight: 900 }}
             >
               The Slippage-Free<br />
               Settlement Layer<br />
@@ -254,14 +254,15 @@ export default function MyBarterApp() {
               {PILLARS.map((p) => (
                 <div key={p.number} className="rounded-2xl p-7 flex flex-col gap-3"
                   style={{ ...GLASS, boxShadow: `0 0 40px ${p.glow}` }}>
-                  <span className="text-[11px] font-black tracking-[0.3em] text-white/15 self-start">{p.number}</span>
-                  <div className="flex flex-col gap-1.5">
+                  {/* Number + label on same horizontal row */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-black tracking-[0.3em] text-white/15">{p.number}</span>
                     <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/35">{p.label}</span>
-                    <h3 className="text-2xl font-black tracking-tighter text-white leading-snug"
-                      style={{ fontFamily: INTER, letterSpacing: '-0.02em' }}>
-                      {p.headline}
-                    </h3>
                   </div>
+                  <h3 className="text-2xl font-black tracking-tighter text-white leading-snug"
+                    style={{ fontFamily: INTER, letterSpacing: '-0.02em', fontWeight: 900 }}>
+                    {p.headline}
+                  </h3>
                   <p className="text-sm text-zinc-500 leading-relaxed">{p.body}</p>
                   <div className="mt-auto pt-4 border-t text-[10px] font-black uppercase tracking-[0.2em]"
                     style={{ borderColor: `${p.color}22`, color: p.color }}>
@@ -337,12 +338,12 @@ export default function MyBarterApp() {
                   <>
                     <button
                       onClick={() => setSelectedCollection(null)}
-                      className="text-xs font-black tracking-wider text-white/30 hover:text-white/60 transition-colors mb-2 flex items-center gap-1.5"
+                      className="text-xs font-black tracking-wider mb-2 flex items-center gap-1.5 transition-opacity hover:opacity-75"
                     >
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M7.5 2L3.5 6L7.5 10" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      All Collections
+                      <span style={gradientText}>All Collections</span>
                     </button>
                     <div className="flex items-center gap-2">
                       <h2 className="text-3xl font-black tracking-tighter text-white"

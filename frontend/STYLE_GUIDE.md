@@ -174,10 +174,27 @@ NFT cards override: `border: 1px solid {color}44; boxShadow: 0 0 24px {color}18`
 ## Triple Threat Cards
 
 - Grid: `grid-cols-1 md:grid-cols-3 gap-4`
-- Number: `text-[11px] font-black tracking-[0.3em] text-white/15` (decorative) — format is `'1.'` `'2.'` `'3.'` **NOT** `'01'` `'02'` `'03'`
-- Label (top): `text-[10px] font-black tracking-[0.2em] uppercase text-white/35`
-- Headline: `font-black` + `letterSpacing:'-0.02em'` + `fontFamily: INTER`
-- Footer strip: `text-[10px] font-black uppercase tracking-[0.2em]` in `p.color` — text is the **full label** (`ECONOMIC SAFETY` / `TRANSACTIONAL SAFETY` / `CAPITAL EFFICIENCY`). **Never** `{label.split(' ')[0]} GUARANTEED`.
+- **Number + label on same row** (non-negotiable): wrap in `<div className="flex items-center gap-2">`
+  - Number: `text-[11px] font-black tracking-[0.3em] text-white/15` — format `'1.'` `'2.'` `'3.'` **NOT** `'01'`
+  - Label: `text-[10px] font-black tracking-[0.2em] uppercase text-white/35`
+- Headline `h3`: `font-black tracking-tighter` + `style={{ fontFamily: INTER, letterSpacing: '-0.02em', fontWeight: 900 }}`
+- Footer strip: `text-[10px] font-black uppercase tracking-[0.2em]` in `p.color` — full label text. **Never** `GUARANTEED`.
+
+## Back Navigation ("← All Collections")
+
+Cyan-to-violet gradient on both icon and text — integrated brand treatment, not a system link.
+
+```tsx
+<button onClick={() => setSelectedCollection(null)}
+  className="text-xs font-black tracking-wider mb-2 flex items-center gap-1.5 transition-opacity hover:opacity-75">
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <path d="M7.5 2L3.5 6L7.5 10" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+  <span style={gradientText}>All Collections</span>
+</button>
+```
+
+The chevron uses `stroke="#22d3ee"` (gradient start colour). The text uses `gradientText` (`#22d3ee → #a78bfa`). **Never** `text-white/30` or `currentColor` on this element.
 
 ---
 
