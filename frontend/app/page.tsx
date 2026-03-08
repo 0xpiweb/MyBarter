@@ -3,39 +3,57 @@
 import { useState } from 'react';
 import MyBarterLogo from '@/components/MyBarterLogo';
 
+/* ─── Shared style tokens ─────────────────────────────────────────────────── */
+// Figma spec: Light Blue #7DD3FC with 15px outer glow
+const BTN =
+  'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-sm ' +
+  'px-7 py-2.5 rounded-xl transition-all ' +
+  'shadow-[0_0_15px_rgba(125,211,252,0.4)] hover:shadow-[0_0_22px_rgba(125,211,252,0.55)]';
+
+const BTN_LG =
+  'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-base ' +
+  'px-12 py-4 rounded-2xl transition-all ' +
+  'shadow-[0_0_15px_rgba(125,211,252,0.4)] hover:shadow-[0_0_28px_rgba(125,211,252,0.55)]';
+
 /* ─── Triple Threat card data ─────────────────────────────────────────────── */
 const PILLARS = [
   {
     number: '01',
     label: 'ECONOMIC SAFETY',
     headline: "Stop 'Death Candles'",
-    body: "Chainlink oracles lock the USD value at trade time. No slippage, no last-second manipulation — your position settles at the price you agreed.",
-    color: '#22d3ee',      // cyan
-    glow: 'rgba(34,211,238,0.15)',
+    body: 'Chainlink oracles lock the USD value at trade time. No slippage, no last-second manipulation — your position settles at the price you agreed.',
+    color: '#22d3ee',
+    glow: 'rgba(34,211,238,0.12)',
   },
   {
     number: '02',
     label: 'TRANSACTIONAL SAFETY',
     headline: 'No Standoffs',
-    body: "Both-party signatures required. The Robot Lawyer Escrow holds assets atomically — neither side can exit without the other, eliminating rug risk.",
-    color: '#a78bfa',      // violet
-    glow: 'rgba(167,139,250,0.15)',
+    body: 'Both-party signatures required. The Robot Lawyer Escrow holds assets atomically — neither side can exit without the other, eliminating rug risk.',
+    color: '#a78bfa',
+    glow: 'rgba(167,139,250,0.12)',
   },
   {
     number: '03',
     label: 'CAPITAL EFFICIENCY',
     headline: 'Unlock Dead Capital',
     body: 'Bundle NFTs + tokens into a single atomic trade. Multi-asset rotations settle in one transaction or revert entirely — no partial fills, no stranded assets.',
-    color: '#34d399',      // emerald
-    glow: 'rgba(52,211,153,0.15)',
+    color: '#34d399',
+    glow: 'rgba(52,211,153,0.12)',
   },
 ];
 
-/* ─── Asset card (connected state) ───────────────────────────────────────── */
+/* ─── Asset card data ─────────────────────────────────────────────────────── */
 const ASSETS = [
   { chain: 'Avalanche', balance: '5.00',   symbol: 'AVAX', color: '#E84142' },
   { chain: 'Ethereum',  balance: '0.25',   symbol: 'ETH',  color: '#627EEA' },
   { chain: 'Polygon',   balance: '150.00', symbol: 'POL',  color: '#8247E5' },
+];
+
+const TRIPLE_ROWS = [
+  { label: 'Economic Safety',     tag: 'Slippage-Free',  color: '#22d3ee' },
+  { label: 'Transactional Safety', tag: 'Scam-Proof',    color: '#a78bfa' },
+  { label: 'Capital Efficiency',  tag: 'Asset Rotation', color: '#34d399' },
 ];
 
 /* ─── Page ────────────────────────────────────────────────────────────────── */
@@ -43,50 +61,49 @@ export default function MyBarterApp() {
   const [isConnected, setIsConnected] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-[#ededed]" style={{ WebkitFontSmoothing: 'antialiased' }}>
-
+    <main
+      className="min-h-screen bg-[#0a0a0a] text-[#ededed]"
+      style={{ fontFamily: "'Inter', 'system-ui', sans-serif", WebkitFontSmoothing: 'antialiased' }}
+    >
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-2.5">
-          <MyBarterLogo className="h-8 w-8" />
+          {/* Logo: h-8 w-auto + object-contain — no stretching */}
+          <MyBarterLogo className="h-8" />
           <span className="text-lg font-bold tracking-tight text-white">MyBarter</span>
         </div>
 
-        <button
-          onClick={() => setIsConnected(!isConnected)}
-          className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition-all"
-          style={{ boxShadow: '0 0 20px rgba(37,99,235,0.4)' }}
-        >
+        <button onClick={() => setIsConnected(!isConnected)} className={BTN}>
           {isConnected ? '0x...f331' : 'Connect Wallet'}
         </button>
       </nav>
 
       {!isConnected ? (
-        /* ── Home state ──────────────────────────────────────────────────── */
+        /* ── Home state ─────────────────────────────────────────────────── */
         <>
           {/* Hero */}
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
-            <p className="text-blue-400 text-xs font-bold uppercase tracking-[0.4em] mb-8">
+            <p className="text-[#7DD3FC] text-[10px] font-bold uppercase tracking-[0.45em] mb-8">
               Browse · Offer · Swap
             </p>
 
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-[1.04] tracking-[-0.04em] mb-8 text-white">
+            {/* Institutional: font-black, tracking-tighter, system-ui */}
+            <h1
+              className="text-6xl md:text-7xl lg:text-8xl font-black leading-[1.03] mb-8 text-white"
+              style={{ letterSpacing: '-0.04em', fontFamily: "'Inter', 'system-ui', sans-serif" }}
+            >
               The Slippage-Free<br />
               Settlement Layer<br />
-              <span className="text-white/60">for Asset Rotation</span>
+              <span className="text-white/55">for Asset Rotation</span>
             </h1>
 
             <p className="text-zinc-400 text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
               Move high-value NFTs and tokens off-market through the{' '}
               <span className="text-white font-bold">Robot Lawyer Escrow</span>
-              {' '}— atomic, scam-proof, and zero price impact across chains.
+              {' '}— atomic, scam-proof, zero price impact across chains.
             </p>
 
-            <button
-              onClick={() => setIsConnected(true)}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-12 py-4 rounded-2xl text-lg transition-all"
-              style={{ boxShadow: '0 0 40px rgba(37,99,235,0.35)' }}
-            >
+            <button onClick={() => setIsConnected(true)} className={BTN_LG}>
               Connect Wallet
             </button>
           </section>
@@ -97,7 +114,7 @@ export default function MyBarterApp() {
               {PILLARS.map((p) => (
                 <div
                   key={p.number}
-                  className="rounded-2xl p-7 flex flex-col gap-4"
+                  className="rounded-2xl p-7 flex flex-col gap-3"
                   style={{
                     background: 'rgba(255,255,255,0.03)',
                     backdropFilter: 'blur(24px)',
@@ -106,27 +123,28 @@ export default function MyBarterApp() {
                     boxShadow: `0 0 40px ${p.glow}`,
                   }}
                 >
-                  {/* Number — small muted design element, top-left */}
-                  <span className="text-[11px] font-black tracking-[0.25em] text-white/15 self-start">
+                  {/* Number — muted design element, top-left */}
+                  <span className="text-[11px] font-black tracking-[0.3em] text-white/15 self-start">
                     {p.number}
                   </span>
 
-                  {/* Label + headline — separate from the number */}
-                  <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">
+                  {/* Label + headline */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/35">
                       {p.label}
                     </span>
-                    <h3 className="text-2xl font-black text-white leading-snug">
+                    <h3
+                      className="text-2xl font-black text-white leading-snug"
+                      style={{ letterSpacing: '-0.02em' }}
+                    >
                       {p.headline}
                     </h3>
                   </div>
 
-                  <p className="text-sm text-zinc-400 leading-relaxed">
-                    {p.body}
-                  </p>
+                  <p className="text-sm text-zinc-500 leading-relaxed">{p.body}</p>
 
                   <div
-                    className="mt-auto pt-4 border-t text-xs font-bold uppercase tracking-widest"
+                    className="mt-auto pt-4 border-t text-[10px] font-bold uppercase tracking-[0.2em]"
                     style={{ borderColor: `${p.color}22`, color: p.color }}
                   >
                     {p.label.split(' ')[0]} GUARANTEED
@@ -141,15 +159,15 @@ export default function MyBarterApp() {
         <div className="max-w-7xl mx-auto px-8 pt-12 pb-24">
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-1">Your Assets</h2>
+              <h2
+                className="text-3xl font-black text-white mb-1"
+                style={{ letterSpacing: '-0.03em' }}
+              >
+                Your Assets
+              </h2>
               <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
             </div>
-            <button
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3 rounded-xl text-sm transition-all"
-              style={{ boxShadow: '0 0 24px rgba(37,99,235,0.3)' }}
-            >
-              Propose a Trade
-            </button>
+            <button className={BTN}>Propose a Trade</button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -161,8 +179,9 @@ export default function MyBarterApp() {
                   background: 'rgba(255,255,255,0.03)',
                   backdropFilter: 'blur(24px)',
                   WebkitBackdropFilter: 'blur(24px)',
-                  border: `1px solid ${a.color}33`,
-                  boxShadow: `0 0 30px ${a.color}18`,
+                  // 1px chain-color border + matching glow
+                  border: `1px solid ${a.color}55`,
+                  boxShadow: `0 0 20px ${a.color}22`,
                 }}
               >
                 <div className="flex justify-between items-center">
@@ -170,17 +189,15 @@ export default function MyBarterApp() {
                   <span className="text-xs font-mono text-white/30">{a.symbol}</span>
                 </div>
 
-                <p className="text-3xl font-black text-white tracking-tight">
+                <p className="text-3xl font-black text-white" style={{ letterSpacing: '-0.03em' }}>
                   {a.balance}
-                  <span className="text-base font-semibold ml-2" style={{ color: a.color }}>{a.symbol}</span>
+                  <span className="text-base font-semibold ml-2" style={{ color: a.color }}>
+                    {a.symbol}
+                  </span>
                 </p>
 
                 <div className="flex flex-col gap-1.5 text-xs border-t border-white/5 pt-4">
-                  {[
-                    { label: 'Economic Safety',    tag: 'Slippage-Free',  color: '#22d3ee' },
-                    { label: 'Transactional Safety', tag: 'Scam-Proof',   color: '#a78bfa' },
-                    { label: 'Capital Efficiency', tag: 'Asset Rotation', color: '#34d399' },
-                  ].map((row) => (
+                  {TRIPLE_ROWS.map((row) => (
                     <div key={row.label} className="flex justify-between items-center">
                       <span className="text-white/30">{row.label}</span>
                       <span className="font-semibold" style={{ color: row.color }}>{row.tag}</span>
@@ -211,17 +228,40 @@ export default function MyBarterApp() {
           </div>
         </div>
 
-        {/* Bottom row — all equally muted */}
+        {/* Bottom row */}
         <div className="border-t border-white/5 pt-6 flex justify-between items-center">
+          {/* CHAINLINK and PYTH get cyan→violet gradient; surrounding text stays muted */}
           <p className="text-[10px] uppercase tracking-[0.35em] text-white/20 font-medium">
-            Secured by Chainlink &amp; Pyth
+            Secured by{' '}
+            <span
+              className="font-bold"
+              style={{
+                background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Chainlink
+            </span>
+            {' '}&amp;{' '}
+            <span
+              className="font-bold"
+              style={{
+                background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Pyth
+            </span>
           </p>
           <p className="text-[10px] uppercase tracking-[0.35em] text-white/20 font-medium">
             Non-Custodial
           </p>
         </div>
       </footer>
-
     </main>
   );
 }
