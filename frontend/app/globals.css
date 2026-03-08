@@ -11,6 +11,13 @@ html,
 body {
   background: var(--background);
   color: var(--foreground);
+  /* Belt-and-suspenders: font set here AND via next/font inter.className on <body> */
+  font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force Inter on every heading — prevents any UA stylesheet override */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif;
 }

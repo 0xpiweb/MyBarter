@@ -152,7 +152,7 @@ export default function MyBarterApp() {
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-2.5">
-          <MyBarterLogo className="h-8 w-8" />
+          <MyBarterLogo size={32} />
           <span
             className="text-lg font-bold tracking-tight"
             style={{ fontFamily: INTER, ...gradientText }}
@@ -178,8 +178,8 @@ export default function MyBarterApp() {
             </p>
 
             <h1
-              className="text-6xl md:text-7xl lg:text-8xl font-black leading-[1.03] mb-8 text-white"
-              style={{ fontFamily: INTER, letterSpacing: '-0.04em' }}
+              className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 text-white"
+              style={{ fontFamily: INTER, letterSpacing: '-0.04em', lineHeight: 0.95 }}
             >
               The Slippage-Free<br />
               Settlement Layer<br />

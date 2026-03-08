@@ -1,13 +1,20 @@
 # MyBarter Frontend Style Guide
 
-**LOCKED — 2026-03-08. Do not modify without a design review.**
+**FROZEN — 2026-03-08. No changes without design review.**
 
 ---
 
-## Font Loading (Critical)
+## Why fonts kept looking rounded — the full fix
 
-Inter **must** be loaded via `next/font/google` in `app/layout.tsx`.
-Without this, the browser falls back to macOS SF Pro (rounded) or Segoe UI.
+Three layers were required. Miss any one and the browser falls back to SF Pro / Segoe UI (both rounded):
+
+1. **`next/font/google`** in `layout.tsx` — fetches Inter at build time and injects `--font-inter` CSS variable.
+2. **`tailwind.config.ts` `theme.extend.fontFamily.sans`** — wires `--font-inter` into Tailwind's `font-sans`. Without this, `@tailwind base` resets body/headings to the default rounded stack.
+3. **`globals.css`** — sets `font-family: var(--font-inter), ...` on `html, body, h1-h6` as belt-and-suspenders against UA stylesheets.
+
+---
+
+## Font Loading (`layout.tsx`)
 
 ```ts
 import { Inter } from "next/font/google";
@@ -20,33 +27,65 @@ const inter = Inter({
 });
 ```
 
-Apply to `<html>` via `className={inter.variable}` and `<body>` via `className={inter.className}`.
+Apply to `<html className={inter.variable}>` and `<body className={inter.className}>`.
 
 ---
 
-## Font Stack (in-component)
+## Tailwind Font Config (`tailwind.config.ts`)
+
+```ts
+theme: {
+  extend: {
+    fontFamily: {
+      sans: ['var(--font-inter)', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    },
+  },
+},
+```
+
+---
+
+## Global CSS (`globals.css`)
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background: #0a0a0a;
+  color: #ededed;
+  font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif;
+}
+```
+
+---
+
+## In-component Font Constant
 
 ```ts
 const INTER = "'Inter', 'system-ui', ui-sans-serif, sans-serif";
+// Applied via style={{ fontFamily: INTER }} on <main>, h1, h2, h3
 ```
-
-Set as `style={{ fontFamily: INTER }}` on `<main>` **and** explicitly on every `h1 / h2 / h3`.
-Tailwind's `font-sans` alone is insufficient — always use the inline override.
 
 ---
 
 ## Typography Scale
 
-| Element | Classes | Letter-spacing |
+| Element | Tailwind classes | Inline style |
 |---|---|---|
-| Hero `h1` | `font-black text-6xl md:text-7xl lg:text-8xl` | `-0.04em` |
-| Dashboard `h2` | `font-black text-3xl` | `-0.03em` |
-| Card `h3` | `font-black text-2xl` | `-0.02em` |
-| Nav brand text | `font-bold text-lg tracking-tight` | — |
-| Eyebrow labels | `font-bold text-[10px] uppercase tracking-[0.45em]` | — |
+| Hero `h1` | `font-black text-6xl md:text-7xl lg:text-8xl text-white` | `letterSpacing:'-0.04em', lineHeight:0.95` |
+| Dashboard `h2` | `font-black text-3xl text-white` | `letterSpacing:'-0.03em'` |
+| Card `h3` | `font-black text-2xl text-white` | `letterSpacing:'-0.02em'` |
+| Nav brand text | `font-bold text-lg tracking-tight` | `fontFamily: INTER` |
+| Eyebrow labels | `font-bold text-[10px] uppercase tracking-[0.45em]` | `gradientText` |
 | Body subtext | `text-zinc-400 text-xl leading-relaxed` | — |
-
-**"Robot Lawyer Escrow"** is the sole phrase in hero subtext that gets `font-bold text-white`.
+| "Robot Lawyer Escrow" | `font-bold text-white` (inline only) | — |
 
 ---
 
@@ -54,25 +93,20 @@ Tailwind's `font-sans` alone is insufficient — always use the inline override.
 
 | Token | Hex | Usage |
 |---|---|---|
-| Background | `#0a0a0a` | `bg-[#0a0a0a]` on `<main>` |
-| Foreground | `#ededed` | `text-[#ededed]` on `<main>` |
-| Light Blue | `#7DD3FC` | **All** CTA buttons — no exceptions |
+| Background | `#0a0a0a` | `bg-[#0a0a0a]` |
+| Foreground | `#ededed` | `text-[#ededed]` |
+| Light Blue | `#7DD3FC` | All CTA buttons |
 | Cyan | `#22d3ee` | Economic Safety · gradient start |
 | Violet | `#a78bfa` | Transactional Safety · gradient end |
 | Emerald | `#34d399` | Capital Efficiency |
 | AVAX | `#E84142` | Avalanche chain identity |
 | ETH | `#627EEA` | Ethereum chain identity |
 | POL | `#8247E5` | Polygon chain identity |
+| BNB | `#F0B90B` | BNB chain identity |
 
 ---
 
 ## Gradient Text
-
-Applied to exactly three brand elements — never plain white or flat color:
-
-1. **"MyBarter"** logo text (nav)
-2. **"Browse · Offer · Swap"** eyebrow tagline
-3. **"Chainlink"** and **"Pyth"** names in footer
 
 ```ts
 const gradientText: React.CSSProperties = {
@@ -83,33 +117,44 @@ const gradientText: React.CSSProperties = {
 };
 ```
 
+Applied to: **"MyBarter"** nav text · **"Browse · Offer · Swap"** eyebrow · **"Chainlink"** · **"Pyth"** footer names.
+
 ---
 
 ## Buttons
 
-**Every button uses the same spec. No dark blue. No flat. No exceptions.**
-
 ```ts
-// Small — nav, inline actions
 const BTN =
   'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-sm ' +
   'px-7 py-2.5 rounded-xl transition-all ' +
-  'shadow-[0_0_15px_rgba(125,211,252,0.4)] ' +
-  'hover:shadow-[0_0_22px_rgba(125,211,252,0.55)]';
+  'shadow-[0_0_15px_rgba(125,211,252,0.4)] hover:shadow-[0_0_22px_rgba(125,211,252,0.55)]';
 
-// Large — hero CTA only
 const BTN_LG =
   'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-base ' +
   'px-12 py-4 rounded-2xl transition-all ' +
-  'shadow-[0_0_15px_rgba(125,211,252,0.4)] ' +
-  'hover:shadow-[0_0_28px_rgba(125,211,252,0.55)]';
+  'shadow-[0_0_15px_rgba(125,211,252,0.4)] hover:shadow-[0_0_28px_rgba(125,211,252,0.55)]';
 ```
 
-"Connect Wallet" and "Propose a Trade" both use `BTN` — identical glow.
+"Connect Wallet" = `BTN`. "Propose a Trade" = `BTN`. **Identical glow. No exceptions.**
 
 ---
 
-## Glassmorphic Cards (base)
+## Logo Component
+
+```tsx
+<MyBarterLogo size={32} />
+```
+
+Component contract (non-negotiable):
+- Props: `size: number` (default 32), `className?: string`
+- Outer div: explicit `width: size; height: size; minWidth: size; minHeight: size` in `style` — **not Tailwind classes**
+- SVG: explicit `width: size; height: size` in `style` — **not `w-full h-full`**
+- Both: `flexShrink: 0` — parent flex layout cannot stretch or squish
+- `viewBox="0 0 100 100"` is square — pixel dimensions guarantee 1:1
+
+---
+
+## Glassmorphic Cards
 
 ```ts
 const GLASS: React.CSSProperties = {
@@ -121,94 +166,50 @@ const GLASS: React.CSSProperties = {
 };
 ```
 
-**Token asset cards** — override border + shadow with chain color:
-```css
-border: 1px solid {chainColor}55;
-box-shadow: 0 0 20px {chainColor}22;
-```
-
-**NFT collection cards:**
-```css
-border: 1px solid {chainColor}44;
-box-shadow: 0 0 24px {chainColor}18;
-```
+Token cards override: `border: 1px solid {color}55; boxShadow: 0 0 20px {color}22`
+NFT cards override: `border: 1px solid {color}44; boxShadow: 0 0 24px {color}18`
 
 ---
 
 ## Triple Threat Cards
 
-- Grid: `grid-cols-1 md:grid-cols-3 gap-4` (not `gap-5`)
-- Number element: `text-[11px] font-black tracking-[0.3em] text-white/15` — decorative only
-- Category label: `text-[10px] font-bold tracking-[0.2em] uppercase text-white/35`
-- Headline: `font-black` + `letterSpacing: '-0.02em'` + `fontFamily: INTER`
-- Footer tag: `text-[10px] font-bold uppercase tracking-[0.2em]` in `p.color`
-
----
-
-## Logo
-
-```jsx
-<MyBarterLogo className="h-8 w-8" />
-```
-
-Component contract:
-- Outer `div`: `h-8 w-8 flex-shrink-0`, `display:flex; align-items:center; justify-content:center`
-- SVG: `width:100%; height:100%; objectFit:contain; display:block`
-- SVG `viewBox="0 0 100 100"` is square — **never** pass asymmetric dimensions
-
----
-
-## Dashboard Sections (connected state)
-
-**Your Assets** — 3 token cards: AVAX 5.00 · ETH 0.25 · POL 150.00
-Each card: chain-color `55` border + `22` glow + Triple Threat row labels.
-
-**Your Collections** — 3 NFT cards:
-- Lil-Burn (ETH `#627EEA`, 3 items, floor 0.12 ETH, AVAX Ecosystem)
-- MyBarter v1.2 (AVAX `#E84142`, 1 item, Platform Asset)
-- Unnamed Drop (Violet `#a78bfa`, 0 items, Coming Q3 2026)
+- Grid: `grid-cols-1 md:grid-cols-3 gap-4`
+- Number: `text-[11px] font-black tracking-[0.3em] text-white/15` (decorative)
+- Label: `text-[10px] font-bold tracking-[0.2em] uppercase text-white/35`
+- Headline: `font-black` + `letterSpacing:'-0.02em'` + `fontFamily: INTER`
 
 ---
 
 ## Chain Icons (Footer)
 
-Inline SVG components — `width="16" height="16"` (h-4), no external deps.
-Each icon uses its official brand color as a `fill` attribute (not `currentColor`).
+16×16px inline SVG components. Fill is hardcoded (not `currentColor`).
 
-| Component | Color | Notes |
+| Component | Color | Shape |
 |---|---|---|
-| `<IconAVAX />` | `#E84142` | Stylized A with inner notch |
-| `<IconETH />` | `#627EEA` | Diamond prism, 3 opacity layers |
+| `<IconAVAX />` | `#E84142` | Stylised A with notch |
+| `<IconETH />` | `#627EEA` | Diamond prism, 3-layer opacity |
 | `<IconPOL />` | `#8247E5` | Stacked hexagon paths |
 | `<IconBNB />` | `#F0B90B` | Rotated diamond grid |
 
-Usage: `<span className="flex items-center gap-1.5">` wraps icon + label text.
+Usage: `<span className="flex items-center gap-1.5">` wrapping icon + label.
 
 ---
 
 ## Footer
 
 - Chain row: `flex justify-center gap-8 text-[11px] font-bold tracking-[0.2em]`
-  Each chain: `flex items-center gap-1.5` with `<IconXXX />` + label text
-  AVALANCHE `#E84142` · ETHEREUM `#627EEA` · POLYGON `#8247E5` · BNB `#F0B90B`
-  `·` separators at `text-white/10`
-- Bottom row: both sides `text-[10px] font-medium tracking-[0.35em] text-white/20`
-- "Chainlink" + "Pyth": `gradientText` only — surrounding text stays muted
+- `·` separators: `text-white/10`
+- Bottom row both sides: `text-[10px] font-medium tracking-[0.35em] text-white/20`
+- "Chainlink" and "Pyth": `gradientText` only
 
 ---
 
-## Tailwind + PostCSS (must-haves)
+## Tailwind Content Paths
 
-`tailwind.config.ts` content:
 ```
 "./app/**/*.{js,ts,jsx,tsx}"
 "./components/**/*.{js,ts,jsx,tsx}"
 "./lib/**/*.{js,ts,jsx,tsx}"
 ```
 
-`postcss.config.js` **must exist**:
-```js
-module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } };
-```
-
-Missing `postcss.config.js` = zero CSS output. This caused every unstyled regression.
+`postcss.config.js` must exist: `{ plugins: { tailwindcss: {}, autoprefixer: {} } }`
