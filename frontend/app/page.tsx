@@ -257,14 +257,14 @@ export default function MyBarterApp() {
             {/* Tagline — dominant hero element */}
             <h1
               className="font-black uppercase text-white mb-4"
-              style={{ fontFamily: INTER, fontSize: 'clamp(3rem, 10vw, 7rem)', letterSpacing: '-0.03em', lineHeight: 0.9, fontWeight: 900, ...gradientText }}
+              style={{ fontFamily: INTER, fontSize: 'clamp(4.5rem, 13vw, 9rem)', letterSpacing: '-0.04em', lineHeight: 0.88, fontWeight: 900, ...gradientText }}
             >
               Browse · Offer · Swap
             </h1>
             {/* Supporting headline — secondary */}
             <p
-              className="font-black text-white/60 mb-10"
-              style={{ fontFamily: INTER, fontSize: 'clamp(1.1rem, 3vw, 1.6rem)', letterSpacing: '-0.03em', lineHeight: 1.15, fontWeight: 900 }}
+              className="font-black text-white/50 mb-10"
+              style={{ fontFamily: INTER, fontSize: 'clamp(0.85rem, 2vw, 1.1rem)', letterSpacing: '-0.02em', lineHeight: 1.3, fontWeight: 700 }}
             >
               The Slippage-Free Settlement Layer<br />for Asset Rotation
             </p>
@@ -367,7 +367,7 @@ export default function MyBarterApp() {
                   <div
                     key={a.symbol}
                     onClick={() => toggleKey(a.symbol)}
-                    className="flex items-center gap-4 px-5 py-4 cursor-pointer transition-all hover:bg-white/[0.015]"
+                    className="flex items-center gap-3 px-4 py-2.5 cursor-pointer transition-all hover:bg-white/[0.015]"
                     style={{
                       borderBottom: i < visibleAssets.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                       background: isSelected ? `${a.color}0D` : undefined,
@@ -377,23 +377,23 @@ export default function MyBarterApp() {
                   >
                     {/* Token icon bubble */}
                     <div
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-black shrink-0"
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black shrink-0"
                       style={{ background: `${a.color}22`, border: `1px solid ${a.color}55`, color: a.color }}
                     >
                       {a.symbol.slice(0, 2)}
                     </div>
-                    {/* Name + chain */}
+                    {/* Symbol + chain */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-black text-white tracking-tighter" style={{ fontFamily: INTER }}>{a.symbol}</p>
-                      <p className="text-xs text-white/30">{a.chain}</p>
+                      <p className="text-[13px] font-black text-white tracking-tighter leading-none mb-0.5" style={{ fontFamily: INTER }}>{a.symbol}</p>
+                      <p className="text-[11px] text-white/30 leading-none">{a.chain}</p>
                     </div>
                     {/* Balance */}
-                    <p className="text-sm font-black text-white shrink-0" style={{ fontFamily: INTER }}>
+                    <p className="text-[13px] font-black text-white shrink-0" style={{ fontFamily: INTER }}>
                       {a.balance}{' '}
                       <span style={{ color: a.color }}>{a.symbol}</span>
                     </p>
                     {/* Selection dot */}
-                    {isSelected && <div className="w-2 h-2 rounded-full shrink-0" style={{ background: a.color }} />}
+                    {isSelected && <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: a.color }} />}
                   </div>
                 );
               })}
@@ -603,19 +603,13 @@ export default function MyBarterApp() {
                         )}
                       </div>
 
-                      {/* Name + verified checkmark + item count */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5">
-                          <p className="text-sm font-black tracking-tighter text-white"
-                            style={{ fontFamily: INTER, letterSpacing: '-0.01em' }}>
-                            {c.name}
-                          </p>
-                          <IconVerified color={c.color} />
-                        </div>
-                        <span className="text-[10px] font-black px-2 py-1 rounded-full"
-                          style={{ background: `${c.color}18`, border: `1px solid ${c.color}33`, color: c.color }}>
-                          {c.nfts.length} item{c.nfts.length !== 1 ? 's' : ''}
-                        </span>
+                      {/* Name + verified checkmark */}
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-sm font-black tracking-tighter text-white"
+                          style={{ fontFamily: INTER, letterSpacing: '-0.01em' }}>
+                          {c.name}
+                        </p>
+                        <IconVerified color={c.color} />
                       </div>
                     </div>
                   ))}
