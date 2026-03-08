@@ -9,17 +9,17 @@
 
 html,
 body {
-  background: #000000;
+  background: #000000 !important;
   color: var(--foreground);
   font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Force Inter Black on every heading — prevents any UA stylesheet override */
+/* Lock Inter Black on all headings — !important prevents any UA or framework override */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif;
-  font-weight: 900;
+  font-family: var(--font-inter), 'Inter', 'system-ui', ui-sans-serif, sans-serif !important;
+  font-weight: 900 !important;
   line-height: 0.9;
   letter-spacing: -0.03em;
 }

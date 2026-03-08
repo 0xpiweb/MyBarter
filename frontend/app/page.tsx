@@ -256,15 +256,15 @@ export default function MyBarterApp() {
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
             {/* Tagline — dominant hero element */}
             <h1
-              className="font-black uppercase text-white mb-4"
-              style={{ fontFamily: INTER, fontSize: 'clamp(4.5rem, 13vw, 9rem)', letterSpacing: '-0.04em', lineHeight: 0.88, fontWeight: 900, ...gradientText }}
+              className="font-black uppercase mb-4"
+              style={{ fontFamily: INTER, fontSize: 'clamp(5rem, 15vw, 10rem)', letterSpacing: '-0.04em', lineHeight: 0.88, fontWeight: 900, ...gradientText }}
             >
               Browse · Offer · Swap
             </h1>
-            {/* Supporting headline — secondary */}
+            {/* Supporting sub-headline — clearly secondary */}
             <p
-              className="font-black text-white/50 mb-10"
-              style={{ fontFamily: INTER, fontSize: 'clamp(0.85rem, 2vw, 1.1rem)', letterSpacing: '-0.02em', lineHeight: 1.3, fontWeight: 700 }}
+              className="mb-10"
+              style={{ fontFamily: INTER, fontSize: '18px', letterSpacing: '-0.01em', lineHeight: 1.4, fontWeight: 400, color: 'rgba(255,255,255,0.40)' }}
             >
               The Slippage-Free Settlement Layer<br />for Asset Rotation
             </p>
@@ -307,17 +307,12 @@ export default function MyBarterApp() {
 
           {/* ── My Assets — DeFi wallet list ── */}
           <div>
-            <div className="flex justify-between items-end mb-6">
-              <div>
-                <h2 className="text-3xl font-black tracking-tighter text-white mb-1"
-                  style={{ fontFamily: INTER, letterSpacing: '-0.03em', fontWeight: 900 }}>
-                  Your Assets
-                </h2>
-                <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
-              </div>
-              <button className={hasSelection ? BTN : BTN_INACTIVE} disabled={!hasSelection}>
-                Propose a Trade
-              </button>
+            <div className="mb-5">
+              <h2 className="text-3xl font-black tracking-tighter text-white mb-1"
+                style={{ fontFamily: INTER, letterSpacing: '-0.03em', fontWeight: 900 }}>
+                Your Assets
+              </h2>
+              <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
             </div>
 
             {/* Asset filter row + search */}
@@ -359,8 +354,8 @@ export default function MyBarterApp() {
               />
             </div>
 
-            {/* Wallet list */}
-            <div className="rounded-2xl overflow-hidden" style={GLASS}>
+            {/* Wallet list — narrow, high-density */}
+            <div className="rounded-2xl overflow-hidden" style={{ ...GLASS, maxWidth: '500px' }}>
               {visibleAssets.map((a, i) => {
                 const isSelected = selected.has(a.symbol);
                 return (
@@ -426,10 +421,7 @@ export default function MyBarterApp() {
                       <IconVerified color={drillCollection.color} />
                     </div>
                     <p className="text-sm text-white/30 mt-1">
-                      {drillCollection.nfts.length} item{drillCollection.nfts.length !== 1 ? 's' : ''}{' '}
-                      {drillCollection.floor !== '—' && (
-                        <>· Floor <span className="text-white/60 font-black">{drillCollection.floor} {drillCollection.symbol}</span></>
-                      )}
+                      {drillCollection.nfts.length} item{drillCollection.nfts.length !== 1 ? 's' : ''}
                     </p>
                   </>
                 ) : (
@@ -443,13 +435,13 @@ export default function MyBarterApp() {
                 )}
               </div>
               <button className={hasSelection ? BTN : BTN_INACTIVE} disabled={!hasSelection}>
-                Propose a Trade
+                Initiate Trade
               </button>
             </div>
 
             {drillCollection ? (
               /* ── Up for Trade: NFT item grid with floor + traits ── */
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {drillCollection.nfts.map((nft) => {
                   const key = `${drillCollection.name}:${nft.id}`;
                   const isSelected = selected.has(key);
@@ -457,7 +449,7 @@ export default function MyBarterApp() {
                     <div
                       key={key}
                       onClick={() => toggleKey(key)}
-                      className="rounded-2xl p-4 flex flex-col gap-3 cursor-pointer transition-all"
+                      className="rounded-xl p-3 flex flex-col gap-2 cursor-pointer transition-all"
                       style={{
                         ...GLASS,
                         border: isSelected ? `2px solid ${drillCollection.color}` : `1px solid ${drillCollection.color}44`,
@@ -482,21 +474,11 @@ export default function MyBarterApp() {
                         )}
                       </div>
 
-                      {/* Token ID + floor */}
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-sm font-black tracking-tighter text-white" style={{ fontFamily: INTER }}>
-                            {drillCollection.name} {nft.id}
-                          </p>
-                          {drillCollection.floor !== '—' && (
-                            <p className="text-[11px] text-white/35 mt-0.5">
-                              Floor{' '}
-                              <span className="font-black" style={{ color: drillCollection.color }}>
-                                {drillCollection.floor} {drillCollection.symbol}
-                              </span>
-                            </p>
-                          )}
-                        </div>
+                      {/* Token ID */}
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm font-black tracking-tighter text-white" style={{ fontFamily: INTER }}>
+                          {drillCollection.name} {nft.id}
+                        </p>
                         {isSelected && (
                           <span className="text-[10px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded-full"
                             style={{ background: `${drillCollection.color}22`, color: drillCollection.color }}>
