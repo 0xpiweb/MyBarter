@@ -96,6 +96,42 @@ const COLLECTIONS = [
   },
 ];
 
+/* ─── Chain SVG icons (inline, h-4 / 16 px) ──────────────────────────────── */
+const IconAVAX = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Avalanche">
+    <path
+      d="M13.6 4.6a1.8 1.8 0 0 0-3.2 0L2.4 18.2A1.8 1.8 0 0 0 4 20.8h4.4l2.2-4.4a1.6 1.6 0 0 1 2.8 0l2.2 4.4H20a1.8 1.8 0 0 0 1.6-2.6L13.6 4.6Z"
+      fill="#E84142"
+    />
+  </svg>
+);
+
+const IconETH = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Ethereum">
+    <polygon points="12,2 20,13 12,16.5 4,13" fill="#627EEA" opacity="0.9" />
+    <polygon points="12,22 20,13 12,16.5" fill="#627EEA" opacity="0.6" />
+    <polygon points="12,22 4,13 12,16.5" fill="#627EEA" opacity="0.4" />
+  </svg>
+);
+
+const IconPOL = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Polygon">
+    <path
+      d="M17 6.5L12 3.8 7 6.5v5.4l5 2.8 5-2.8V6.5ZM7 14.1L12 17l5-2.9v-1.4l-5 2.8-5-2.8v1.4ZM7 16.5L12 19.5 17 16.5v-1l-5 2.8-5-2.8v1Z"
+      fill="#8247E5"
+    />
+  </svg>
+);
+
+const IconBNB = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="BNB">
+    <path
+      d="M12 2l2.8 2.8L17.6 2 20.4 4.8 17.6 7.6 20.4 10.4 17.6 13.2 14.8 10.4 12 13.2 9.2 10.4 6.4 13.2 3.6 10.4 6.4 7.6 3.6 4.8 6.4 2 9.2 4.8ZM12 15l2.8 2.8L12 20.6 9.2 17.8Z"
+      fill="#F0B90B"
+    />
+  </svg>
+);
+
 /* ─── Gradient text helper ────────────────────────────────────────────────── */
 const gradientText: React.CSSProperties = {
   background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
@@ -330,14 +366,22 @@ export default function MyBarterApp() {
           <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">
             Live Across Major Chains
           </p>
-          <div className="flex justify-center items-center gap-10 text-[11px] font-bold tracking-[0.25em]">
-            <span className="text-orange-400">AVALANCHE (HUB)</span>
+          <div className="flex justify-center items-center gap-8 text-[11px] font-bold tracking-[0.2em]">
+            <span className="flex items-center gap-1.5" style={{ color: '#E84142' }}>
+              <IconAVAX />AVALANCHE (HUB)
+            </span>
             <span className="text-white/10">·</span>
-            <span className="text-blue-400">ETHEREUM</span>
+            <span className="flex items-center gap-1.5" style={{ color: '#627EEA' }}>
+              <IconETH />ETHEREUM
+            </span>
             <span className="text-white/10">·</span>
-            <span className="text-purple-400">POLYGON</span>
+            <span className="flex items-center gap-1.5" style={{ color: '#8247E5' }}>
+              <IconPOL />POLYGON
+            </span>
             <span className="text-white/10">·</span>
-            <span className="text-yellow-400">BNB CHAIN</span>
+            <span className="flex items-center gap-1.5" style={{ color: '#F0B90B' }}>
+              <IconBNB />BNB CHAIN
+            </span>
           </div>
         </div>
 

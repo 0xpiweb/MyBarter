@@ -170,10 +170,28 @@ Each card: chain-color `55` border + `22` glow + Triple Threat row labels.
 
 ---
 
+## Chain Icons (Footer)
+
+Inline SVG components — `width="16" height="16"` (h-4), no external deps.
+Each icon uses its official brand color as a `fill` attribute (not `currentColor`).
+
+| Component | Color | Notes |
+|---|---|---|
+| `<IconAVAX />` | `#E84142` | Stylized A with inner notch |
+| `<IconETH />` | `#627EEA` | Diamond prism, 3 opacity layers |
+| `<IconPOL />` | `#8247E5` | Stacked hexagon paths |
+| `<IconBNB />` | `#F0B90B` | Rotated diamond grid |
+
+Usage: `<span className="flex items-center gap-1.5">` wraps icon + label text.
+
+---
+
 ## Footer
 
-- Chain row: `flex justify-center gap-10 text-[11px] font-bold tracking-[0.25em]`
-  with `·` separators at `text-white/10`
+- Chain row: `flex justify-center gap-8 text-[11px] font-bold tracking-[0.2em]`
+  Each chain: `flex items-center gap-1.5` with `<IconXXX />` + label text
+  AVALANCHE `#E84142` · ETHEREUM `#627EEA` · POLYGON `#8247E5` · BNB `#F0B90B`
+  `·` separators at `text-white/10`
 - Bottom row: both sides `text-[10px] font-medium tracking-[0.35em] text-white/20`
 - "Chainlink" + "Pyth": `gradientText` only — surrounding text stays muted
 
