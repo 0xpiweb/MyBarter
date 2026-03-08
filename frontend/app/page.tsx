@@ -228,7 +228,7 @@ export default function MyBarterApp() {
 
   return (
     <main
-      className="min-h-screen bg-[#0a0a0a] text-[#ededed]"
+      className="min-h-screen bg-black text-[#ededed]"
       style={{ fontFamily: INTER, WebkitFontSmoothing: 'antialiased' } as React.CSSProperties}
     >
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
@@ -254,20 +254,23 @@ export default function MyBarterApp() {
         /* ── Home (disconnected) ────────────────────────────────────────── */
         <>
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
-            <p className="text-2xl font-black uppercase tracking-[0.2em] mb-6" style={gradientText}>
-              Browse · Offer · Swap
-            </p>
+            {/* Tagline — dominant hero element */}
             <h1
-              className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-8"
-              style={{ fontFamily: INTER, letterSpacing: '-0.05em', lineHeight: 0.9, fontWeight: 900 }}
+              className="font-black uppercase text-white mb-4"
+              style={{ fontFamily: INTER, fontSize: 'clamp(3rem, 10vw, 7rem)', letterSpacing: '-0.03em', lineHeight: 0.9, fontWeight: 900, ...gradientText }}
             >
-              The Slippage-Free<br />
-              Settlement Layer<br />
-              <span className="text-white/55">for Asset Rotation</span>
+              Browse · Offer · Swap
             </h1>
-            <p className="text-zinc-400 text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+            {/* Supporting headline — secondary */}
+            <p
+              className="font-black text-white/60 mb-10"
+              style={{ fontFamily: INTER, fontSize: 'clamp(1.1rem, 3vw, 1.6rem)', letterSpacing: '-0.03em', lineHeight: 1.15, fontWeight: 900 }}
+            >
+              The Slippage-Free Settlement Layer<br />for Asset Rotation
+            </p>
+            <p className="text-zinc-500 text-base max-w-xl mx-auto mb-12 leading-relaxed">
               Move high-value NFTs and tokens off-market through the{' '}
-              <span className="text-white font-bold">Robot Lawyer Escrow</span>
+              <span className="text-white/80 font-bold">Robot Lawyer Escrow</span>
               {' '}— atomic, scam-proof, zero price impact across chains.
             </p>
             <button onClick={() => setIsConnected(true)} className={BTN_LG}>
