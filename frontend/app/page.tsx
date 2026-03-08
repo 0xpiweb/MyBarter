@@ -165,8 +165,20 @@ export default function MyBarterApp() {
     return chainMatch && searchMatch;
   });
 
-  // Chain filter button style — brand color by default, muted when another is active
-  function filterBtnStyle(f: { label: string; color: string }) {
+  // Chains that actually have at least one collection
+  const chainsWithData = new Set(COLLECTIONS.map(c => c.chain));
+
+  // Chain filter button style:
+  // — no data on that chain → always grey + disabled
+  // — has data, is active  → colored bg + glow
+  // — has data, another is active → muted grey
+  // — has data, nothing active → brand color (default)
+  function filterBtnStyle(f: { label: string; color: string }, hasData: boolean) {
+    if (!hasData) return {
+      background: 'rgba(255,255,255,0.02)',
+      border: '1px solid rgba(255,255,255,0.05)',
+      color: 'rgba(255,255,255,0.15)',
+    };
     const isActive = activeChain === f.label;
     const someActive = activeChain !== null;
     if (isActive) return {
@@ -420,42 +432,44 @@ export default function MyBarterApp() {
             ) : (
               /* ── Collection Grid ── */
               <>
-                {/* Filter tabs + search on one row */}
-                <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {/* All */}
-                    <button
-                      onClick={() => setActiveChain(null)}
-                      className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
-                      style={{
-                        background: !activeChain ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
-                        border: !activeChain ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.06)',
-                        color: !activeChain ? '#fff' : 'rgba(255,255,255,0.22)',
-                      }}
-                    >
-                      All
-                    </button>
+                {/* Filter tabs + search — single flex row, search pinned after Polygon */}
+                <div className="flex items-center gap-4 flex-wrap mb-6">
+                  {/* All */}
+                  <button
+                    onClick={() => setActiveChain(null)}
+                    className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
+                    style={{
+                      background: !activeChain ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
+                      border: !activeChain ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.06)',
+                      color: !activeChain ? '#fff' : 'rgba(255,255,255,0.22)',
+                    }}
+                  >
+                    All
+                  </button>
 
-                    {/* Chain filters — brand color by default */}
-                    {CHAIN_FILTERS.map((f) => (
+                  {/* Chain filters — colored only if chain has collections, disabled otherwise */}
+                  {CHAIN_FILTERS.map((f) => {
+                    const hasData = chainsWithData.has(f.label);
+                    return (
                       <button
                         key={f.label}
-                        onClick={() => setActiveChain(activeChain === f.label ? null : f.label)}
-                        className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
-                        style={filterBtnStyle(f)}
+                        onClick={() => hasData && setActiveChain(activeChain === f.label ? null : f.label)}
+                        disabled={!hasData}
+                        className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all disabled:cursor-not-allowed"
+                        style={filterBtnStyle(f, hasData)}
                       >
                         {f.label}
                       </button>
-                    ))}
-                  </div>
+                    );
+                  })}
 
-                  {/* Search — fixed width, end of row */}
+                  {/* Search — immediately after Polygon, fixed width */}
                   <input
                     type="text"
                     placeholder="Search collections..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="max-w-xs w-full rounded-xl px-4 py-2 text-sm text-white/70 placeholder-white/20 outline-none transition-all"
+                    className="w-48 rounded-xl px-4 py-2 text-sm text-white/70 placeholder-white/20 outline-none transition-all"
                     style={{
                       background: 'rgba(255,255,255,0.04)',
                       border: '1px solid rgba(255,255,255,0.08)',

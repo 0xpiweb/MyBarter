@@ -261,14 +261,21 @@ Collection Grid  →  [click card]  →  NFT Item Grid
 
 ---
 
-## Chain Filter Buttons (v2 — permanent)
+## Chain Filter Buttons (v3 — permanent)
 
-Default state (no active filter): all buttons display their **brand color** (not grey).
-
-Active state (one filter selected): active button = colored bg + glow; all others = muted grey.
+### Data-driven coloring (non-negotiable)
+A chain button is **only colored** if the user actually has at least one collection on that chain.
+If no collection exists on a chain → button is grey + `disabled` — never brand-colored.
 
 ```tsx
-function filterBtnStyle(f: { label: string; color: string }, activeChain: string | null) {
+const chainsWithData = new Set(COLLECTIONS.map(c => c.chain));
+
+function filterBtnStyle(f: { label: string; color: string }, hasData: boolean) {
+  if (!hasData) return {
+    background: 'rgba(255,255,255,0.02)',
+    border: '1px solid rgba(255,255,255,0.05)',
+    color: 'rgba(255,255,255,0.15)',
+  };
   const isActive = activeChain === f.label;
   const someActive = activeChain !== null;
   if (isActive) return {
@@ -279,20 +286,23 @@ function filterBtnStyle(f: { label: string; color: string }, activeChain: string
     background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
     color: 'rgba(255,255,255,0.22)',
   };
-  // Default — brand color visible, no glow
   return { background: `${f.color}0D`, border: `1px solid ${f.color}33`, color: f.color };
 }
 ```
 
-### Filter + Search row layout
-Filters and search bar share **one horizontal row**:
-- Left: `[All] [Avalanche] [Ethereum] [BNB] [Polygon]`
-- Right: search input `max-w-xs` fixed width, at the END of the row
+Button render must pass `hasData` and set `disabled={!hasData}`:
+```tsx
+<button disabled={!hasData} onClick={() => hasData && setActiveChain(...)} style={filterBtnStyle(f, hasData)}>
+```
+
+### Filter + Search row layout (non-negotiable)
+One **flat** `flex gap-4` row — no `justify-between`, no nested divs, search pinned immediately after the last chain button.
 
 ```tsx
-<div className="flex items-center justify-between gap-3 flex-wrap">
-  <div className="flex items-center gap-2 flex-wrap">{/* filter buttons */}</div>
-  <input className="max-w-xs w-full ..." />
+<div className="flex items-center gap-4 flex-wrap mb-6">
+  <button>All</button>
+  {/* chain buttons */}
+  <input className="w-48 ..." />  {/* search — right after Polygon, NOT floated */}
 </div>
 ```
 
