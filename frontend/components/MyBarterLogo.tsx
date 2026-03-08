@@ -1,13 +1,17 @@
 import React from 'react';
 
-const MyBarterLogo = ({ className = 'h-8' }) => {
-  return (
+// Container is always h-8 w-8 (32×32). The SVG fills it with object-contain.
+// Pass className to override size — always square, never distorted.
+const MyBarterLogo = ({ className = 'h-8 w-8' }) => (
+  <div
+    className={`${className} flex-shrink-0`}
+    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+  >
     <svg
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      style={{ width: 'auto', objectFit: 'contain', display: 'block', flexShrink: 0 }}
+      style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
     >
       <rect width="100" height="100" rx="28" fill="#0F172A" />
       <g stroke="#67E8F9" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
@@ -15,7 +19,7 @@ const MyBarterLogo = ({ className = 'h-8' }) => {
         <path d="M70 58H30L38 66M30 58V35C30 25 38 18 48 18H70" />
       </g>
     </svg>
-  );
-};
+  </div>
+);
 
 export default MyBarterLogo;

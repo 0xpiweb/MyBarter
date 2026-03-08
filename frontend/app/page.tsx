@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import MyBarterLogo from '@/components/MyBarterLogo';
 
-/* ─── Shared style tokens ─────────────────────────────────────────────────── */
-// Figma spec: Light Blue #7DD3FC with 15px outer glow
+/* ─── Style tokens ────────────────────────────────────────────────────────── */
+const INTER = "'Inter', 'system-ui', ui-sans-serif, sans-serif";
+
 const BTN =
   'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-sm ' +
   'px-7 py-2.5 rounded-xl transition-all ' +
@@ -15,7 +16,15 @@ const BTN_LG =
   'px-12 py-4 rounded-2xl transition-all ' +
   'shadow-[0_0_15px_rgba(125,211,252,0.4)] hover:shadow-[0_0_28px_rgba(125,211,252,0.55)]';
 
-/* ─── Triple Threat card data ─────────────────────────────────────────────── */
+const GLASS: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.03)',
+  backdropFilter: 'blur(24px)',
+  WebkitBackdropFilter: 'blur(24px)',
+  border: '1px solid rgba(255,255,255,0.10)',
+  borderRadius: '1rem',
+};
+
+/* ─── Triple Threat data ──────────────────────────────────────────────────── */
 const PILLARS = [
   {
     number: '01',
@@ -43,7 +52,7 @@ const PILLARS = [
   },
 ];
 
-/* ─── Asset card data ─────────────────────────────────────────────────────── */
+/* ─── Token asset data ────────────────────────────────────────────────────── */
 const ASSETS = [
   { chain: 'Avalanche', balance: '5.00',   symbol: 'AVAX', color: '#E84142' },
   { chain: 'Ethereum',  balance: '0.25',   symbol: 'ETH',  color: '#627EEA' },
@@ -51,10 +60,49 @@ const ASSETS = [
 ];
 
 const TRIPLE_ROWS = [
-  { label: 'Economic Safety',     tag: 'Slippage-Free',  color: '#22d3ee' },
-  { label: 'Transactional Safety', tag: 'Scam-Proof',    color: '#a78bfa' },
-  { label: 'Capital Efficiency',  tag: 'Asset Rotation', color: '#34d399' },
+  { label: 'Economic Safety',      tag: 'Slippage-Free',  color: '#22d3ee' },
+  { label: 'Transactional Safety', tag: 'Scam-Proof',     color: '#a78bfa' },
+  { label: 'Capital Efficiency',   tag: 'Asset Rotation', color: '#34d399' },
 ];
+
+/* ─── NFT collection data (placeholder / roadmap) ─────────────────────────── */
+const COLLECTIONS = [
+  {
+    name: 'Lil-Burn',
+    items: 3,
+    floor: '0.12',
+    symbol: 'ETH',
+    color: '#627EEA',
+    tag: 'AVAX Ecosystem',
+    placeholder: '🔥',
+  },
+  {
+    name: 'MyBarter v1.2',
+    items: 1,
+    floor: '—',
+    symbol: 'AVAX',
+    color: '#E84142',
+    tag: 'Platform Asset',
+    placeholder: '⚖️',
+  },
+  {
+    name: 'Unnamed Drop',
+    items: 0,
+    floor: '—',
+    symbol: '—',
+    color: '#a78bfa',
+    tag: 'Coming Q3 2026',
+    placeholder: '◇',
+  },
+];
+
+/* ─── Gradient text helper ────────────────────────────────────────────────── */
+const gradientText: React.CSSProperties = {
+  background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+};
 
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 export default function MyBarterApp() {
@@ -63,14 +111,15 @@ export default function MyBarterApp() {
   return (
     <main
       className="min-h-screen bg-[#0a0a0a] text-[#ededed]"
-      style={{ fontFamily: "'Inter', 'system-ui', sans-serif", WebkitFontSmoothing: 'antialiased' }}
+      style={{ fontFamily: INTER, WebkitFontSmoothing: 'antialiased' }}
     >
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <div className="flex items-center gap-2.5">
-          {/* Logo: h-8 w-auto + object-contain — no stretching */}
-          <MyBarterLogo className="h-8" />
-          <span className="text-lg font-bold tracking-tight text-white">MyBarter</span>
+          <MyBarterLogo className="h-8 w-8" />
+          <span className="text-lg font-bold tracking-tight text-white" style={{ fontFamily: INTER }}>
+            MyBarter
+          </span>
         </div>
 
         <button onClick={() => setIsConnected(!isConnected)} className={BTN}>
@@ -79,18 +128,16 @@ export default function MyBarterApp() {
       </nav>
 
       {!isConnected ? (
-        /* ── Home state ─────────────────────────────────────────────────── */
+        /* ── Home (disconnected) ────────────────────────────────────────── */
         <>
-          {/* Hero */}
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
             <p className="text-[#7DD3FC] text-[10px] font-bold uppercase tracking-[0.45em] mb-8">
               Browse · Offer · Swap
             </p>
 
-            {/* Institutional: font-black, tracking-tighter, system-ui */}
             <h1
               className="text-6xl md:text-7xl lg:text-8xl font-black leading-[1.03] mb-8 text-white"
-              style={{ letterSpacing: '-0.04em', fontFamily: "'Inter', 'system-ui', sans-serif" }}
+              style={{ fontFamily: INTER, letterSpacing: '-0.04em' }}
             >
               The Slippage-Free<br />
               Settlement Layer<br />
@@ -108,41 +155,30 @@ export default function MyBarterApp() {
             </button>
           </section>
 
-          {/* Triple Threat cards */}
+          {/* Triple Threat cards — gap tightened to gap-4 on lg */}
           <section className="max-w-6xl mx-auto px-6 pt-16 pb-24">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {PILLARS.map((p) => (
                 <div
                   key={p.number}
                   className="rounded-2xl p-7 flex flex-col gap-3"
-                  style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    backdropFilter: 'blur(24px)',
-                    WebkitBackdropFilter: 'blur(24px)',
-                    border: '1px solid rgba(255,255,255,0.10)',
-                    boxShadow: `0 0 40px ${p.glow}`,
-                  }}
+                  style={{ ...GLASS, boxShadow: `0 0 40px ${p.glow}` }}
                 >
-                  {/* Number — muted design element, top-left */}
                   <span className="text-[11px] font-black tracking-[0.3em] text-white/15 self-start">
                     {p.number}
                   </span>
-
-                  {/* Label + headline */}
                   <div className="flex flex-col gap-1.5">
                     <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/35">
                       {p.label}
                     </span>
                     <h3
                       className="text-2xl font-black text-white leading-snug"
-                      style={{ letterSpacing: '-0.02em' }}
+                      style={{ fontFamily: INTER, letterSpacing: '-0.02em' }}
                     >
                       {p.headline}
                     </h3>
                   </div>
-
                   <p className="text-sm text-zinc-500 leading-relaxed">{p.body}</p>
-
                   <div
                     className="mt-auto pt-4 border-t text-[10px] font-bold uppercase tracking-[0.2em]"
                     style={{ borderColor: `${p.color}22`, color: p.color }}
@@ -156,63 +192,134 @@ export default function MyBarterApp() {
         </>
       ) : (
         /* ── Dashboard (connected) ──────────────────────────────────────── */
-        <div className="max-w-7xl mx-auto px-8 pt-12 pb-24">
-          <div className="flex justify-between items-end mb-10">
-            <div>
-              <h2
-                className="text-3xl font-black text-white mb-1"
-                style={{ letterSpacing: '-0.03em' }}
-              >
-                Your Assets
-              </h2>
-              <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
-            </div>
-            <button className={BTN}>Propose a Trade</button>
-          </div>
+        <div className="max-w-7xl mx-auto px-8 pt-12 pb-24 space-y-14">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {ASSETS.map((a) => (
-              <div
-                key={a.symbol}
-                className="rounded-2xl p-6 flex flex-col gap-4"
-                style={{
-                  background: 'rgba(255,255,255,0.03)',
-                  backdropFilter: 'blur(24px)',
-                  WebkitBackdropFilter: 'blur(24px)',
-                  // 1px chain-color border + matching glow
-                  border: `1px solid ${a.color}55`,
-                  boxShadow: `0 0 20px ${a.color}22`,
-                }}
-              >
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-semibold text-white/80">{a.chain}</span>
-                  <span className="text-xs font-mono text-white/30">{a.symbol}</span>
-                </div>
-
-                <p className="text-3xl font-black text-white" style={{ letterSpacing: '-0.03em' }}>
-                  {a.balance}
-                  <span className="text-base font-semibold ml-2" style={{ color: a.color }}>
-                    {a.symbol}
-                  </span>
-                </p>
-
-                <div className="flex flex-col gap-1.5 text-xs border-t border-white/5 pt-4">
-                  {TRIPLE_ROWS.map((row) => (
-                    <div key={row.label} className="flex justify-between items-center">
-                      <span className="text-white/30">{row.label}</span>
-                      <span className="font-semibold" style={{ color: row.color }}>{row.tag}</span>
-                    </div>
-                  ))}
-                </div>
+          {/* Token assets */}
+          <div>
+            <div className="flex justify-between items-end mb-6">
+              <div>
+                <h2
+                  className="text-3xl font-black text-white mb-1"
+                  style={{ fontFamily: INTER, letterSpacing: '-0.03em' }}
+                >
+                  Your Assets
+                </h2>
+                <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
               </div>
-            ))}
+              {/* Same BTN class as Connect Wallet — identical light blue glow */}
+              <button className={BTN}>Propose a Trade</button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {ASSETS.map((a) => (
+                <div
+                  key={a.symbol}
+                  className="rounded-2xl p-6 flex flex-col gap-4"
+                  style={{
+                    ...GLASS,
+                    border: `1px solid ${a.color}55`,
+                    boxShadow: `0 0 20px ${a.color}22`,
+                  }}
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-semibold text-white/80">{a.chain}</span>
+                    <span className="text-xs font-mono text-white/30">{a.symbol}</span>
+                  </div>
+                  <p
+                    className="text-3xl font-black text-white"
+                    style={{ fontFamily: INTER, letterSpacing: '-0.03em' }}
+                  >
+                    {a.balance}
+                    <span className="text-base font-semibold ml-2" style={{ color: a.color }}>
+                      {a.symbol}
+                    </span>
+                  </p>
+                  <div className="flex flex-col gap-1.5 text-xs border-t border-white/5 pt-4">
+                    {TRIPLE_ROWS.map((row) => (
+                      <div key={row.label} className="flex justify-between items-center">
+                        <span className="text-white/30">{row.label}</span>
+                        <span className="font-semibold" style={{ color: row.color }}>{row.tag}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* NFT Collections */}
+          <div>
+            <div className="flex justify-between items-end mb-6">
+              <div>
+                <h2
+                  className="text-3xl font-black text-white mb-1"
+                  style={{ fontFamily: INTER, letterSpacing: '-0.03em' }}
+                >
+                  Your Collections
+                </h2>
+                <p className="text-sm text-white/30">NFT assets eligible for barter — Lil-Burn · MyBarter v1.2</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {COLLECTIONS.map((c) => (
+                <div
+                  key={c.name}
+                  className="rounded-2xl p-6 flex flex-col gap-4"
+                  style={{
+                    ...GLASS,
+                    border: `1px solid ${c.color}44`,
+                    boxShadow: `0 0 24px ${c.color}18`,
+                  }}
+                >
+                  {/* Placeholder thumbnail */}
+                  <div
+                    className="w-full h-32 rounded-xl flex items-center justify-center text-4xl"
+                    style={{
+                      background: `linear-gradient(135deg, ${c.color}18, ${c.color}08)`,
+                      border: `1px solid ${c.color}22`,
+                    }}
+                  >
+                    {c.placeholder}
+                  </div>
+
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm font-black text-white" style={{ letterSpacing: '-0.01em' }}>
+                        {c.name}
+                      </p>
+                      <p className="text-[10px] uppercase tracking-[0.15em] text-white/30 mt-0.5">
+                        {c.tag}
+                      </p>
+                    </div>
+                    <span
+                      className="text-[10px] font-bold px-2 py-1 rounded-full"
+                      style={{
+                        background: `${c.color}18`,
+                        border: `1px solid ${c.color}33`,
+                        color: c.color,
+                      }}
+                    >
+                      {c.items} item{c.items !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between text-xs border-t border-white/5 pt-3">
+                    <span className="text-white/30">Floor</span>
+                    <span className="font-semibold text-white/70">
+                      {c.floor} {c.floor !== '—' ? c.symbol : ''}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       )}
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
       <footer className="border-t border-white/5 py-10 px-8 max-w-7xl mx-auto">
-        {/* Live chains — centered */}
         <div className="flex flex-col items-center gap-4 mb-8">
           <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">
             Live Across Major Chains
@@ -228,34 +335,12 @@ export default function MyBarterApp() {
           </div>
         </div>
 
-        {/* Bottom row */}
         <div className="border-t border-white/5 pt-6 flex justify-between items-center">
-          {/* CHAINLINK and PYTH get cyan→violet gradient; surrounding text stays muted */}
           <p className="text-[10px] uppercase tracking-[0.35em] text-white/20 font-medium">
             Secured by{' '}
-            <span
-              className="font-bold"
-              style={{
-                background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              Chainlink
-            </span>
+            <span className="font-bold" style={gradientText}>Chainlink</span>
             {' '}&amp;{' '}
-            <span
-              className="font-bold"
-              style={{
-                background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              Pyth
-            </span>
+            <span className="font-bold" style={gradientText}>Pyth</span>
           </p>
           <p className="text-[10px] uppercase tracking-[0.35em] text-white/20 font-medium">
             Non-Custodial
