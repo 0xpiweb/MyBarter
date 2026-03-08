@@ -367,7 +367,7 @@ export default function MyBarterApp() {
                   <div
                     key={a.symbol}
                     onClick={() => toggleKey(a.symbol)}
-                    className="flex items-center gap-3 px-4 py-2.5 cursor-pointer transition-all hover:bg-white/[0.015]"
+                    className="flex items-center gap-3 px-4 py-2 cursor-pointer transition-all hover:bg-white/[0.015]"
                     style={{
                       borderBottom: i < visibleAssets.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
                       background: isSelected ? `${a.color}0D` : undefined,
@@ -377,7 +377,7 @@ export default function MyBarterApp() {
                   >
                     {/* Token icon bubble */}
                     <div
-                      className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black shrink-0"
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-black shrink-0"
                       style={{ background: `${a.color}22`, border: `1px solid ${a.color}55`, color: a.color }}
                     >
                       {a.symbol.slice(0, 2)}
