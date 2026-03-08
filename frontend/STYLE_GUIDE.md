@@ -1,7 +1,52 @@
 # MyBarter Frontend Style Guide
 
-Canonical design tokens. Any PR that diverges from these must include a design review.
-Last updated: 2026-03-08 (brand locked, logic sprint ready).
+**LOCKED — 2026-03-08. Do not modify without a design review.**
+
+---
+
+## Font Loading (Critical)
+
+Inter **must** be loaded via `next/font/google` in `app/layout.tsx`.
+Without this, the browser falls back to macOS SF Pro (rounded) or Segoe UI.
+
+```ts
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-inter",
+  display: "swap",
+});
+```
+
+Apply to `<html>` via `className={inter.variable}` and `<body>` via `className={inter.className}`.
+
+---
+
+## Font Stack (in-component)
+
+```ts
+const INTER = "'Inter', 'system-ui', ui-sans-serif, sans-serif";
+```
+
+Set as `style={{ fontFamily: INTER }}` on `<main>` **and** explicitly on every `h1 / h2 / h3`.
+Tailwind's `font-sans` alone is insufficient — always use the inline override.
+
+---
+
+## Typography Scale
+
+| Element | Classes | Letter-spacing |
+|---|---|---|
+| Hero `h1` | `font-black text-6xl md:text-7xl lg:text-8xl` | `-0.04em` |
+| Dashboard `h2` | `font-black text-3xl` | `-0.03em` |
+| Card `h3` | `font-black text-2xl` | `-0.02em` |
+| Nav brand text | `font-bold text-lg tracking-tight` | — |
+| Eyebrow labels | `font-bold text-[10px] uppercase tracking-[0.45em]` | — |
+| Body subtext | `text-zinc-400 text-xl leading-relaxed` | — |
+
+**"Robot Lawyer Escrow"** is the sole phrase in hero subtext that gets `font-bold text-white`.
 
 ---
 
@@ -9,38 +54,26 @@ Last updated: 2026-03-08 (brand locked, logic sprint ready).
 
 | Token | Hex | Usage |
 |---|---|---|
-| `--bg` | `#0a0a0a` | Page background |
-| `--fg` | `#ededed` | Body text |
-| Light Blue | `#7DD3FC` | **All** CTA buttons (Figma spec) |
-| Cyan | `#22d3ee` | Economic Safety, oracle glow, gradient start |
-| Violet | `#a78bfa` | Transactional Safety, gradient end |
+| Background | `#0a0a0a` | `bg-[#0a0a0a]` on `<main>` |
+| Foreground | `#ededed` | `text-[#ededed]` on `<main>` |
+| Light Blue | `#7DD3FC` | **All** CTA buttons — no exceptions |
+| Cyan | `#22d3ee` | Economic Safety · gradient start |
+| Violet | `#a78bfa` | Transactional Safety · gradient end |
 | Emerald | `#34d399` | Capital Efficiency |
-
-### Chain Brand Colors
-| Chain | Hex |
-|---|---|
-| Avalanche | `#E84142` |
-| Ethereum | `#627EEA` |
-| Polygon | `#8247E5` |
+| AVAX | `#E84142` | Avalanche chain identity |
+| ETH | `#627EEA` | Ethereum chain identity |
+| POL | `#8247E5` | Polygon chain identity |
 
 ---
 
 ## Gradient Text
 
-Cyan-to-violet gradient applied to three brand elements — **never** plain white or `text-[#7DD3FC]`:
+Applied to exactly three brand elements — never plain white or flat color:
 
-1. **"MyBarter"** logo text (nav top-left)
-2. **"BROWSE · OFFER · SWAP"** tagline (hero eyebrow)
+1. **"MyBarter"** logo text (nav)
+2. **"Browse · Offer · Swap"** eyebrow tagline
 3. **"Chainlink"** and **"Pyth"** names in footer
 
-```css
-background: linear-gradient(90deg, #22d3ee, #a78bfa);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-```
-
-As a React constant:
 ```ts
 const gradientText: React.CSSProperties = {
   background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
@@ -54,80 +87,61 @@ const gradientText: React.CSSProperties = {
 
 ## Buttons
 
-**Every button uses the same Light Blue Figma spec. No exceptions.**
+**Every button uses the same spec. No dark blue. No flat. No exceptions.**
 
+```ts
+// Small — nav, inline actions
+const BTN =
+  'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-sm ' +
+  'px-7 py-2.5 rounded-xl transition-all ' +
+  'shadow-[0_0_15px_rgba(125,211,252,0.4)] ' +
+  'hover:shadow-[0_0_22px_rgba(125,211,252,0.55)]';
+
+// Large — hero CTA only
+const BTN_LG =
+  'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold text-base ' +
+  'px-12 py-4 rounded-2xl transition-all ' +
+  'shadow-[0_0_15px_rgba(125,211,252,0.4)] ' +
+  'hover:shadow-[0_0_28px_rgba(125,211,252,0.55)]';
 ```
-bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-bold rounded-xl transition-all
-shadow-[0_0_15px_rgba(125,211,252,0.4)]
-hover:shadow-[0_0_22px_rgba(125,211,252,0.55)]
-```
 
-- **Small** (nav, inline): `px-7 py-2.5 text-sm rounded-xl`
-- **Large** (hero CTA): `px-12 py-4 text-base rounded-2xl`
-
----
-
-## Typography
-
-- **Font stack**: `'Inter', 'system-ui', ui-sans-serif, sans-serif`
-  Set on `<main>` via `style={{ fontFamily }}` and repeat on all `h1/h2/h3`.
-- **Hero headline** (`h1`): `font-black`, `letter-spacing: -0.04em` — heavy and sharp
-- **Dashboard headings** (`h2`): `font-black`, `letter-spacing: -0.03em`
-- **Card headlines** (`h3`): `font-black`, `letter-spacing: -0.02em`
-- **Robot Lawyer Escrow**: sole phrase in hero subtext with `font-bold text-white`
-- **Eyebrow labels**: `text-[10px] font-bold uppercase tracking-[0.4em+]`
-- Set `-webkit-font-smoothing: antialiased` on `<main>`
+"Connect Wallet" and "Propose a Trade" both use `BTN` — identical glow.
 
 ---
 
 ## Glassmorphic Cards (base)
 
-```css
-background: rgba(255, 255, 255, 0.03);
-backdrop-filter: blur(24px);
--webkit-backdrop-filter: blur(24px);
-border: 1px solid rgba(255, 255, 255, 0.10);   /* border-white/10 */
-border-radius: 1rem;                             /* rounded-2xl */
+```ts
+const GLASS: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.03)',
+  backdropFilter: 'blur(24px)',
+  WebkitBackdropFilter: 'blur(24px)',
+  border: '1px solid rgba(255,255,255,0.10)',
+  borderRadius: '1rem',
+};
 ```
 
-Export as a shared `GLASS` constant in each file to avoid drift.
-
-### Token Asset Cards
-Override the border and shadow with chain color:
+**Token asset cards** — override border + shadow with chain color:
 ```css
 border: 1px solid {chainColor}55;
 box-shadow: 0 0 20px {chainColor}22;
 ```
 
-### NFT Collection Cards
+**NFT collection cards:**
 ```css
 border: 1px solid {chainColor}44;
 box-shadow: 0 0 24px {chainColor}18;
 ```
-Thumbnail area: `linear-gradient(135deg, {chainColor}18, {chainColor}08)` with
-`border: 1px solid {chainColor}22`.
 
 ---
 
 ## Triple Threat Cards
 
-- Grid gap: `gap-4` (not `gap-5` or `gap-6`) on large screens
-- Number (`01/02/03`): `text-[11px] font-black tracking-[0.3em] text-white/15` — design element only, top of card
-- Label: `text-[10px] font-bold tracking-[0.2em] uppercase text-white/35`
-- Headline: `font-black letter-spacing:-0.02em` via `INTER` font stack
+- Grid: `grid-cols-1 md:grid-cols-3 gap-4` (not `gap-5`)
+- Number element: `text-[11px] font-black tracking-[0.3em] text-white/15` — decorative only
+- Category label: `text-[10px] font-bold tracking-[0.2em] uppercase text-white/35`
+- Headline: `font-black` + `letterSpacing: '-0.02em'` + `fontFamily: INTER`
 - Footer tag: `text-[10px] font-bold uppercase tracking-[0.2em]` in `p.color`
-
----
-
-## NFT Collection Cards (Your Collections)
-
-Three placeholder cards in the connected dashboard below token assets:
-- Lil-Burn (ETH `#627EEA`, AVAX Ecosystem tag)
-- MyBarter v1.2 (AVAX `#E84142`, Platform Asset tag)
-- Unnamed Drop (Violet `#a78bfa`, Coming Q3 2026 tag)
-
-Each card: thumbnail placeholder area, collection name (`font-black`), tag label,
-item count badge (chain-color pill), floor price row.
 
 ---
 
@@ -137,37 +151,46 @@ item count badge (chain-color pill), floor price row.
 <MyBarterLogo className="h-8 w-8" />
 ```
 
-- Container is `h-8 w-8 flex-shrink-0` (32×32 px square)
-- SVG inside: `width: 100%; height: 100%; objectFit: contain; display: block`
-- **Never** pass asymmetric `w-*`/`h-*` to the component
-- SVG viewBox is `0 0 100 100` (square) — no distortion when container is square
+Component contract:
+- Outer `div`: `h-8 w-8 flex-shrink-0`, `display:flex; align-items:center; justify-content:center`
+- SVG: `width:100%; height:100%; objectFit:contain; display:block`
+- SVG `viewBox="0 0 100 100"` is square — **never** pass asymmetric dimensions
+
+---
+
+## Dashboard Sections (connected state)
+
+**Your Assets** — 3 token cards: AVAX 5.00 · ETH 0.25 · POL 150.00
+Each card: chain-color `55` border + `22` glow + Triple Threat row labels.
+
+**Your Collections** — 3 NFT cards:
+- Lil-Burn (ETH `#627EEA`, 3 items, floor 0.12 ETH, AVAX Ecosystem)
+- MyBarter v1.2 (AVAX `#E84142`, 1 item, Platform Asset)
+- Unnamed Drop (Violet `#a78bfa`, 0 items, Coming Q3 2026)
 
 ---
 
 ## Footer
 
-- **Chain list**: `flex justify-center gap-10`, `text-[11px] font-bold tracking-[0.25em]`
-  with `·` dots at `text-white/10` between each name
-- **Bottom row**: both sides use identical `text-[10px] font-medium tracking-[0.35em] text-white/20`
-- **"Chainlink"** and **"Pyth"** names only: `linear-gradient(90deg, #22d3ee, #a78bfa)` text gradient
-  via `-webkit-background-clip: text; -webkit-text-fill-color: transparent`
-- Surrounding words ("Secured by", "&") stay `text-white/20` — no bold, no white
+- Chain row: `flex justify-center gap-10 text-[11px] font-bold tracking-[0.25em]`
+  with `·` separators at `text-white/10`
+- Bottom row: both sides `text-[10px] font-medium tracking-[0.35em] text-white/20`
+- "Chainlink" + "Pyth": `gradientText` only — surrounding text stays muted
 
 ---
 
-## Tailwind Config Requirements
+## Tailwind + PostCSS (must-haves)
 
-`tailwind.config.ts` content array **must** include:
+`tailwind.config.ts` content:
 ```
 "./app/**/*.{js,ts,jsx,tsx}"
 "./components/**/*.{js,ts,jsx,tsx}"
 "./lib/**/*.{js,ts,jsx,tsx}"
 ```
 
-`postcss.config.js` **must exist** with:
+`postcss.config.js` **must exist**:
 ```js
 module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } };
 ```
 
-Without `postcss.config.js`, Tailwind emits zero CSS — this was the root cause
-of all unstyled regressions in sprint 1.
+Missing `postcss.config.js` = zero CSS output. This caused every unstyled regression.
