@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import MyBarterLogo from '@/components/MyBarterLogo';
+import Image from 'next/image';
 
 /* ─── Style tokens ────────────────────────────────────────────────────────── */
 const INTER = "'Inter', 'system-ui', ui-sans-serif, sans-serif";
@@ -196,7 +196,13 @@ export default function MyBarterApp() {
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
         <Link href="/" className="flex items-center gap-2.5 no-underline">
-          <MyBarterLogo size={32} />
+          <Image
+            src="/mybarter-logo.png"
+            alt="MyBarter"
+            width={32}
+            height={32}
+            style={{ objectFit: 'contain', flexShrink: 0 }}
+          />
           <span className="text-lg font-black tracking-tighter" style={{ fontFamily: INTER, ...gradientText }}>
             MyBarter
           </span>
