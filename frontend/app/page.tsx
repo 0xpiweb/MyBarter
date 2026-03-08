@@ -70,17 +70,17 @@ const IconBNB = () => (
 /* ─── Triple Threat ───────────────────────────────────────────────────────── */
 const PILLARS = [
   {
-    number: '01', label: 'ECONOMIC SAFETY', headline: "Stop 'Death Candles'",
+    number: '1.', label: 'ECONOMIC SAFETY', headline: "Stop 'Death Candles'",
     body: 'Chainlink oracles lock the USD value at trade time. No slippage, no last-second manipulation — your position settles at the price you agreed.',
     color: '#22d3ee', glow: 'rgba(34,211,238,0.12)',
   },
   {
-    number: '02', label: 'TRANSACTIONAL SAFETY', headline: 'No Standoffs',
+    number: '2.', label: 'TRANSACTIONAL SAFETY', headline: 'No Standoffs',
     body: 'Both-party signatures required. The Robot Lawyer Escrow holds assets atomically — neither side can exit without the other, eliminating rug risk.',
     color: '#a78bfa', glow: 'rgba(167,139,250,0.12)',
   },
   {
-    number: '03', label: 'CAPITAL EFFICIENCY', headline: 'Unlock Dead Capital',
+    number: '3.', label: 'CAPITAL EFFICIENCY', headline: 'Unlock Dead Capital',
     body: 'Bundle NFTs + tokens into a single atomic trade. Multi-asset rotations settle in one transaction or revert entirely — no partial fills, no stranded assets.',
     color: '#34d399', glow: 'rgba(52,211,153,0.12)',
   },
@@ -253,7 +253,7 @@ export default function MyBarterApp() {
                   <p className="text-sm text-zinc-500 leading-relaxed">{p.body}</p>
                   <div className="mt-auto pt-4 border-t text-[10px] font-black uppercase tracking-[0.2em]"
                     style={{ borderColor: `${p.color}22`, color: p.color }}>
-                    {p.label.split(' ')[0]} GUARANTEED
+                    {p.label}
                   </div>
                 </div>
               ))}

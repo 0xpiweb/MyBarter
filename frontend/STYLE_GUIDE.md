@@ -174,9 +174,10 @@ NFT cards override: `border: 1px solid {color}44; boxShadow: 0 0 24px {color}18`
 ## Triple Threat Cards
 
 - Grid: `grid-cols-1 md:grid-cols-3 gap-4`
-- Number: `text-[11px] font-black tracking-[0.3em] text-white/15` (decorative)
-- Label: `text-[10px] font-bold tracking-[0.2em] uppercase text-white/35`
+- Number: `text-[11px] font-black tracking-[0.3em] text-white/15` (decorative) — format is `'1.'` `'2.'` `'3.'` **NOT** `'01'` `'02'` `'03'`
+- Label (top): `text-[10px] font-black tracking-[0.2em] uppercase text-white/35`
 - Headline: `font-black` + `letterSpacing:'-0.02em'` + `fontFamily: INTER`
+- Footer strip: `text-[10px] font-black uppercase tracking-[0.2em]` in `p.color` — text is the **full label** (`ECONOMIC SAFETY` / `TRANSACTIONAL SAFETY` / `CAPITAL EFFICIENCY`). **Never** `{label.split(' ')[0]} GUARANTEED`.
 
 ---
 
