@@ -77,13 +77,15 @@ const INTER = "'Inter', 'system-ui', ui-sans-serif, sans-serif";
 
 ## Typography Scale
 
+**Rule: ALL headers must use `font-black` (font-weight: 900) with `fontFamily: INTER` inline. No rounded fonts are permitted in the MyBarter ecosystem. If it looks rounded, it is wrong.**
+
 | Element | Tailwind classes | Inline style |
 |---|---|---|
-| Hero `h1` | `font-black text-6xl md:text-7xl lg:text-8xl text-white` | `letterSpacing:'-0.04em', lineHeight:0.95` |
-| Dashboard `h2` | `font-black text-3xl text-white` | `letterSpacing:'-0.03em'` |
-| Card `h3` | `font-black text-2xl text-white` | `letterSpacing:'-0.02em'` |
-| Nav brand text | `font-bold text-lg tracking-tight` | `fontFamily: INTER` |
-| Eyebrow labels | `font-bold text-[10px] uppercase tracking-[0.45em]` | `gradientText` |
+| Hero eyebrow | `font-black text-2xl uppercase tracking-[0.2em]` | `gradientText` |
+| Hero `h1` | `font-black text-5xl md:text-6xl lg:text-7xl text-white` | `fontFamily:INTER, letterSpacing:'-0.05em', lineHeight:0.9, fontWeight:900` |
+| Dashboard `h2` | `font-black text-3xl text-white` | `fontFamily:INTER, letterSpacing:'-0.03em', fontWeight:900` |
+| Card `h3` | `font-black text-2xl text-white` | `fontFamily:INTER, letterSpacing:'-0.02em', fontWeight:900` |
+| Nav brand text | `font-black text-lg tracking-tighter` | `fontFamily: INTER` + `gradientText` |
 | Body subtext | `text-zinc-400 text-xl leading-relaxed` | — |
 | "Robot Lawyer Escrow" | `font-bold text-white` (inline only) | — |
 

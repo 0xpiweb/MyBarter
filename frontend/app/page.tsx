@@ -228,12 +228,12 @@ export default function MyBarterApp() {
         /* ── Home (disconnected) ────────────────────────────────────────── */
         <>
           <section className="max-w-5xl mx-auto text-center px-6 pt-20 pb-10">
-            <p className="text-[10px] font-black uppercase tracking-[0.45em] mb-8" style={gradientText}>
+            <p className="text-2xl font-black uppercase tracking-[0.2em] mb-6" style={gradientText}>
               Browse · Offer · Swap
             </p>
             <h1
-              className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-8"
-              style={{ fontFamily: INTER, letterSpacing: '-0.04em', lineHeight: 0.95, fontWeight: 900 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-8"
+              style={{ fontFamily: INTER, letterSpacing: '-0.05em', lineHeight: 0.9, fontWeight: 900 }}
             >
               The Slippage-Free<br />
               Settlement Layer<br />
@@ -255,7 +255,7 @@ export default function MyBarterApp() {
                 <div key={p.number} className="rounded-2xl p-7 flex flex-col gap-3"
                   style={{ ...GLASS, boxShadow: `0 0 40px ${p.glow}` }}>
                   {/* Number + label on same horizontal row */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-row items-center gap-3">
                     <span className="text-[11px] font-black tracking-[0.3em] text-white/15">{p.number}</span>
                     <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/35">{p.label}</span>
                   </div>
