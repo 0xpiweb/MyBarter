@@ -47,8 +47,8 @@ export default function MyBarterApp() {
 
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-        <div className="flex items-center gap-3">
-          <MyBarterLogo className="w-9 h-9" />
+        <div className="flex items-center gap-2.5">
+          <MyBarterLogo className="h-8 w-8" />
           <span className="text-lg font-bold tracking-tight text-white">MyBarter</span>
         </div>
 
@@ -78,7 +78,7 @@ export default function MyBarterApp() {
 
             <p className="text-zinc-400 text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
               Move high-value NFTs and tokens off-market through the{' '}
-              <span className="text-white font-semibold">Robot Lawyer Escrow</span>
+              <span className="text-white font-bold">Robot Lawyer Escrow</span>
               {' '}— atomic, scam-proof, and zero price impact across chains.
             </p>
 
@@ -102,7 +102,7 @@ export default function MyBarterApp() {
                     background: 'rgba(255,255,255,0.03)',
                     backdropFilter: 'blur(24px)',
                     WebkitBackdropFilter: 'blur(24px)',
-                    border: '1px solid rgba(255,255,255,0.08)',
+                    border: '1px solid rgba(255,255,255,0.10)',
                     boxShadow: `0 0 40px ${p.glow}`,
                   }}
                 >
@@ -192,15 +192,28 @@ export default function MyBarterApp() {
       )}
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-white/5 py-10 px-8 max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/20">
-          Secured by Chainlink &amp; Pyth
-        </p>
-        <div className="flex gap-8 text-xs font-bold tracking-widest">
-          <span className="text-orange-400">AVALANCHE</span>
-          <span className="text-blue-400">ETHEREUM</span>
-          <span className="text-purple-400">POLYGON</span>
-          <span className="text-yellow-400">BNB CHAIN</span>
+      <footer className="border-t border-white/5 py-10 px-8 max-w-7xl mx-auto">
+        {/* Live chains — centered */}
+        <div className="flex flex-col items-center gap-4 mb-8">
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/20">
+            Live Across Major Chains
+          </p>
+          <div className="flex flex-wrap justify-center gap-8 text-xs font-bold tracking-widest">
+            <span className="text-orange-400">AVALANCHE (HUB)</span>
+            <span className="text-blue-400">ETHEREUM</span>
+            <span className="text-purple-400">POLYGON</span>
+            <span className="text-yellow-400">BNB CHAIN</span>
+          </div>
+        </div>
+
+        {/* Bottom row */}
+        <div className="border-t border-white/5 pt-6 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-white/25">
+            Secured by{' '}
+            <span className="text-white font-bold">Chainlink</span>
+            {' '}&amp;{' '}
+            <span className="text-white font-bold">Pyth</span>
+          </p>
         </div>
       </footer>
 
