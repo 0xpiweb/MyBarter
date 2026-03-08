@@ -70,7 +70,7 @@ export default function MyBarterApp() {
               Browse · Offer · Swap
             </p>
 
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-[1.04] tracking-tight mb-8 text-white">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-[1.04] tracking-[-0.04em] mb-8 text-white">
               The Slippage-Free<br />
               Settlement Layer<br />
               <span className="text-white/60">for Asset Rotation</span>
@@ -106,18 +106,20 @@ export default function MyBarterApp() {
                     boxShadow: `0 0 40px ${p.glow}`,
                   }}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-black tracking-[0.2em]" style={{ color: p.color }}>
-                      {p.number}
-                    </span>
-                    <span className="text-xs font-bold tracking-[0.15em] text-white/40 uppercase">
+                  {/* Number — small muted design element, top-left */}
+                  <span className="text-[11px] font-black tracking-[0.25em] text-white/15 self-start">
+                    {p.number}
+                  </span>
+
+                  {/* Label + headline — separate from the number */}
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40">
                       {p.label}
                     </span>
+                    <h3 className="text-2xl font-black text-white leading-snug">
+                      {p.headline}
+                    </h3>
                   </div>
-
-                  <h3 className="text-2xl font-black text-white leading-snug">
-                    {p.headline}
-                  </h3>
 
                   <p className="text-sm text-zinc-400 leading-relaxed">
                     {p.body}
@@ -195,24 +197,27 @@ export default function MyBarterApp() {
       <footer className="border-t border-white/5 py-10 px-8 max-w-7xl mx-auto">
         {/* Live chains — centered */}
         <div className="flex flex-col items-center gap-4 mb-8">
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/20">
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">
             Live Across Major Chains
           </p>
-          <div className="flex flex-wrap justify-center gap-8 text-xs font-bold tracking-widest">
+          <div className="flex justify-center items-center gap-10 text-[11px] font-bold tracking-[0.25em]">
             <span className="text-orange-400">AVALANCHE (HUB)</span>
+            <span className="text-white/10">·</span>
             <span className="text-blue-400">ETHEREUM</span>
+            <span className="text-white/10">·</span>
             <span className="text-purple-400">POLYGON</span>
+            <span className="text-white/10">·</span>
             <span className="text-yellow-400">BNB CHAIN</span>
           </div>
         </div>
 
-        {/* Bottom row */}
-        <div className="border-t border-white/5 pt-6 text-center">
-          <p className="text-xs uppercase tracking-[0.35em] text-white/25">
-            Secured by{' '}
-            <span className="text-white font-bold">Chainlink</span>
-            {' '}&amp;{' '}
-            <span className="text-white font-bold">Pyth</span>
+        {/* Bottom row — all equally muted */}
+        <div className="border-t border-white/5 pt-6 flex justify-between items-center">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-white/20 font-medium">
+            Secured by Chainlink &amp; Pyth
+          </p>
+          <p className="text-[10px] uppercase tracking-[0.35em] text-white/20 font-medium">
+            Non-Custodial
           </p>
         </div>
       </footer>
