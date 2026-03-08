@@ -7,7 +7,6 @@ import MyBarterLogo from '@/components/MyBarterLogo';
 /* ─── Style tokens ────────────────────────────────────────────────────────── */
 const INTER = "'Inter', 'system-ui', ui-sans-serif, sans-serif";
 
-// Active: Light Blue glow
 const BTN =
   'bg-[#7DD3FC] hover:bg-[#93DCFD] text-black font-black text-sm ' +
   'px-7 py-2.5 rounded-xl transition-all ' +
@@ -18,7 +17,6 @@ const BTN_LG =
   'px-12 py-4 rounded-2xl transition-all ' +
   'shadow-[0_0_15px_rgba(125,211,252,0.4)] hover:shadow-[0_0_28px_rgba(125,211,252,0.55)]';
 
-// Inactive: muted grey — no glow until selection
 const BTN_INACTIVE =
   'bg-white/5 border border-white/10 text-white/25 font-black text-sm ' +
   'px-7 py-2.5 rounded-xl transition-all cursor-not-allowed';
@@ -31,13 +29,43 @@ const GLASS: React.CSSProperties = {
   borderRadius: '1rem',
 };
 
-/* ─── Gradient text ───────────────────────────────────────────────────────── */
 const gradientText: React.CSSProperties = {
   background: 'linear-gradient(90deg, #22d3ee, #a78bfa)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
 };
+
+/* ─── Icons ───────────────────────────────────────────────────────────────── */
+const IconVerified = ({ color }: { color: string }) => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }} aria-label="Verified">
+    <circle cx="7" cy="7" r="6" fill={`${color}20`} stroke={color} strokeWidth="1.2" />
+    <path d="M4.5 7L6.2 8.7L9.5 5.3" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IconAVAX = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Avalanche">
+    <path d="M13.6 4.6a1.8 1.8 0 0 0-3.2 0L2.4 18.2A1.8 1.8 0 0 0 4 20.8h4.4l2.2-4.4a1.6 1.6 0 0 1 2.8 0l2.2 4.4H20a1.8 1.8 0 0 0 1.6-2.6L13.6 4.6Z" fill="#E84142" />
+  </svg>
+);
+const IconETH = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Ethereum">
+    <polygon points="12,2 20,13 12,16.5 4,13" fill="#627EEA" opacity="0.9" />
+    <polygon points="12,22 20,13 12,16.5" fill="#627EEA" opacity="0.6" />
+    <polygon points="12,22 4,13 12,16.5" fill="#627EEA" opacity="0.4" />
+  </svg>
+);
+const IconPOL = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Polygon">
+    <path d="M17 6.5L12 3.8 7 6.5v5.4l5 2.8 5-2.8V6.5ZM7 14.1L12 17l5-2.9v-1.4l-5 2.8-5-2.8v1.4ZM7 16.5L12 19.5 17 16.5v-1l-5 2.8-5-2.8v1Z" fill="#8247E5" />
+  </svg>
+);
+const IconBNB = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="BNB">
+    <path d="M12 2l2.8 2.8L17.6 2 20.4 4.8 17.6 7.6 20.4 10.4 17.6 13.2 14.8 10.4 12 13.2 9.2 10.4 6.4 13.2 3.6 10.4 6.4 7.6 3.6 4.8 6.4 2 9.2 4.8ZM12 15l2.8 2.8L12 20.6 9.2 17.8Z" fill="#F0B90B" />
+  </svg>
+);
 
 /* ─── Triple Threat ───────────────────────────────────────────────────────── */
 const PILLARS = [
@@ -71,11 +99,33 @@ const TRIPLE_ROWS = [
   { label: 'Capital Efficiency',   tag: 'Asset Rotation', color: '#34d399' },
 ];
 
-/* ─── NFT collections ─────────────────────────────────────────────────────── */
-const COLLECTIONS = [
-  { name: 'Lil-Burn',      chain: 'Avalanche', items: 3,  floor: '0.12', symbol: 'ETH',  color: '#E84142', tag: 'AVAX Ecosystem',  placeholder: '🔥' },
-  { name: 'MyBarter v1.2', chain: 'Avalanche', items: 1,  floor: '—',    symbol: 'AVAX', color: '#E84142', tag: 'Platform Asset',   placeholder: '⚖️' },
-  { name: 'Unnamed Drop',  chain: 'Polygon',   items: 0,  floor: '—',    symbol: '—',    color: '#8247E5', tag: 'Coming Q3 2026',  placeholder: '◇' },
+/* ─── NFT collections (with per-item drill-down data) ─────────────────────── */
+interface NFTItem { id: string; image: string | null; }
+interface Collection {
+  name: string; chain: string; floor: string; symbol: string;
+  color: string; banner: string | null; nfts: NFTItem[];
+}
+
+const COLLECTIONS: Collection[] = [
+  {
+    name: 'Lil-Burn', chain: 'Avalanche', floor: '0.12', symbol: 'AVAX',
+    color: '#E84142', banner: null,
+    nfts: [
+      { id: '#977', image: null },
+      { id: '#858', image: null },
+      { id: '#223', image: null },
+    ],
+  },
+  {
+    name: 'MyBarter v1.2', chain: 'Avalanche', floor: '—', symbol: 'AVAX',
+    color: '#E84142', banner: null,
+    nfts: [{ id: '#001', image: null }],
+  },
+  {
+    name: 'Unnamed Drop', chain: 'Polygon', floor: '—', symbol: '—',
+    color: '#8247E5', banner: null,
+    nfts: [],
+  },
 ];
 
 /* ─── Chain filter tabs ───────────────────────────────────────────────────── */
@@ -86,40 +136,18 @@ const CHAIN_FILTERS = [
   { label: 'Polygon',   color: '#8247E5' },
 ];
 
-/* ─── Footer chain icons (16 px inline SVGs) ─────────────────────────────── */
-const IconAVAX = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Avalanche">
-    <path d="M13.6 4.6a1.8 1.8 0 0 0-3.2 0L2.4 18.2A1.8 1.8 0 0 0 4 20.8h4.4l2.2-4.4a1.6 1.6 0 0 1 2.8 0l2.2 4.4H20a1.8 1.8 0 0 0 1.6-2.6L13.6 4.6Z" fill="#E84142" />
-  </svg>
-);
-const IconETH = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Ethereum">
-    <polygon points="12,2 20,13 12,16.5 4,13" fill="#627EEA" opacity="0.9" />
-    <polygon points="12,22 20,13 12,16.5" fill="#627EEA" opacity="0.6" />
-    <polygon points="12,22 4,13 12,16.5" fill="#627EEA" opacity="0.4" />
-  </svg>
-);
-const IconPOL = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Polygon">
-    <path d="M17 6.5L12 3.8 7 6.5v5.4l5 2.8 5-2.8V6.5ZM7 14.1L12 17l5-2.9v-1.4l-5 2.8-5-2.8v1.4ZM7 16.5L12 19.5 17 16.5v-1l-5 2.8-5-2.8v1Z" fill="#8247E5" />
-  </svg>
-);
-const IconBNB = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="BNB">
-    <path d="M12 2l2.8 2.8L17.6 2 20.4 4.8 17.6 7.6 20.4 10.4 17.6 13.2 14.8 10.4 12 13.2 9.2 10.4 6.4 13.2 3.6 10.4 6.4 7.6 3.6 4.8 6.4 2 9.2 4.8ZM12 15l2.8 2.8L12 20.6 9.2 17.8Z" fill="#F0B90B" />
-  </svg>
-);
-
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 export default function MyBarterApp() {
-  const [isConnected, setIsConnected]     = useState(false);
-  const [selected, setSelected]           = useState<Set<string>>(new Set());
-  const [activeChain, setActiveChain]     = useState<string | null>(null);
-  const [searchQuery, setSearchQuery]     = useState('');
+  const [isConnected, setIsConnected]             = useState(false);
+  const [selected, setSelected]                   = useState<Set<string>>(new Set());
+  const [activeChain, setActiveChain]             = useState<string | null>(null);
+  const [searchQuery, setSearchQuery]             = useState('');
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
 
+  // Only individual NFT or token selections activate Propose Trade
   const hasSelection = selected.size > 0;
 
-  function toggleAsset(key: string) {
+  function toggleKey(key: string) {
     setSelected(prev => {
       const next = new Set(prev);
       next.has(key) ? next.delete(key) : next.add(key);
@@ -127,27 +155,52 @@ export default function MyBarterApp() {
     });
   }
 
+  const drillCollection = selectedCollection
+    ? COLLECTIONS.find(c => c.name === selectedCollection) ?? null
+    : null;
+
   const visibleCollections = COLLECTIONS.filter(c => {
     const chainMatch = !activeChain || c.chain === activeChain;
     const searchMatch = c.name.toLowerCase().includes(searchQuery.toLowerCase());
     return chainMatch && searchMatch;
   });
 
+  // Chain filter button style — brand color by default, muted when another is active
+  function filterBtnStyle(f: { label: string; color: string }) {
+    const isActive = activeChain === f.label;
+    const someActive = activeChain !== null;
+    if (isActive) return {
+      background: `${f.color}18`,
+      border: `1px solid ${f.color}66`,
+      color: f.color,
+      boxShadow: `0 0 12px ${f.color}33`,
+    };
+    if (someActive) return {
+      background: 'rgba(255,255,255,0.02)',
+      border: '1px solid rgba(255,255,255,0.06)',
+      color: 'rgba(255,255,255,0.22)',
+    };
+    // Default: brand color visible, no glow
+    return {
+      background: `${f.color}0D`,
+      border: `1px solid ${f.color}33`,
+      color: f.color,
+    };
+  }
+
   return (
     <main
       className="min-h-screen bg-[#0a0a0a] text-[#ededed]"
-      style={{ fontFamily: INTER, WebkitFontSmoothing: 'antialiased' }}
+      style={{ fontFamily: INTER, WebkitFontSmoothing: 'antialiased' } as React.CSSProperties}
     >
       {/* ── Nav ─────────────────────────────────────────────────────────── */}
       <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-        {/* Logo + text wrapped in Link → always returns to / */}
         <Link href="/" className="flex items-center gap-2.5 no-underline">
           <MyBarterLogo size={32} />
           <span className="text-lg font-black tracking-tighter" style={{ fontFamily: INTER, ...gradientText }}>
             MyBarter
           </span>
         </Link>
-
         <button onClick={() => setIsConnected(!isConnected)} className={BTN}>
           {isConnected ? '0x...f331' : 'Connect Wallet'}
         </button>
@@ -160,7 +213,6 @@ export default function MyBarterApp() {
             <p className="text-[10px] font-black uppercase tracking-[0.45em] mb-8" style={gradientText}>
               Browse · Offer · Swap
             </p>
-
             <h1
               className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-white mb-8"
               style={{ fontFamily: INTER, letterSpacing: '-0.04em', lineHeight: 0.95 }}
@@ -169,25 +221,21 @@ export default function MyBarterApp() {
               Settlement Layer<br />
               <span className="text-white/55">for Asset Rotation</span>
             </h1>
-
             <p className="text-zinc-400 text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
               Move high-value NFTs and tokens off-market through the{' '}
               <span className="text-white font-bold">Robot Lawyer Escrow</span>
               {' '}— atomic, scam-proof, zero price impact across chains.
             </p>
-
             <button onClick={() => setIsConnected(true)} className={BTN_LG}>
               Connect Wallet
             </button>
           </section>
 
-          {/* Triple Threat cards */}
           <section className="max-w-6xl mx-auto px-6 pt-16 pb-24">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {PILLARS.map((p) => (
                 <div key={p.number} className="rounded-2xl p-7 flex flex-col gap-3"
-                  style={{ ...GLASS, boxShadow: `0 0 40px ${p.glow}` }}
-                >
+                  style={{ ...GLASS, boxShadow: `0 0 40px ${p.glow}` }}>
                   <span className="text-[11px] font-black tracking-[0.3em] text-white/15 self-start">{p.number}</span>
                   <div className="flex flex-col gap-1.5">
                     <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/35">{p.label}</span>
@@ -220,10 +268,7 @@ export default function MyBarterApp() {
                 </h2>
                 <p className="text-sm text-white/30">Testnet balances — Fuji · Sepolia · Amoy</p>
               </div>
-              <button
-                className={hasSelection ? BTN : BTN_INACTIVE}
-                disabled={!hasSelection}
-              >
+              <button className={hasSelection ? BTN : BTN_INACTIVE} disabled={!hasSelection}>
                 Propose a Trade
               </button>
             </div>
@@ -234,7 +279,7 @@ export default function MyBarterApp() {
                 return (
                   <div
                     key={a.symbol}
-                    onClick={() => toggleAsset(a.symbol)}
+                    onClick={() => toggleKey(a.symbol)}
                     className="rounded-2xl p-6 flex flex-col gap-4 cursor-pointer transition-all"
                     style={{
                       ...GLASS,
@@ -265,129 +310,221 @@ export default function MyBarterApp() {
             </div>
           </div>
 
-          {/* ── NFT Collections ── */}
+          {/* ── NFT Collections / Drill-Down ── */}
           <div>
+            {/* Section header */}
             <div className="flex justify-between items-end mb-6">
               <div>
-                <h2 className="text-3xl font-black tracking-tighter text-white mb-1"
-                  style={{ fontFamily: INTER, letterSpacing: '-0.03em' }}>
-                  Your Collections
-                </h2>
-                <p className="text-sm text-white/30">NFT assets eligible for barter — Lil-Burn · MyBarter v1.2</p>
+                {drillCollection ? (
+                  <>
+                    <button
+                      onClick={() => setSelectedCollection(null)}
+                      className="text-xs font-black tracking-wider text-white/30 hover:text-white/60 transition-colors mb-2 flex items-center gap-1.5"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      All Collections
+                    </button>
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-3xl font-black tracking-tighter text-white"
+                        style={{ fontFamily: INTER, letterSpacing: '-0.03em' }}>
+                        {drillCollection.name}
+                      </h2>
+                      <IconVerified color={drillCollection.color} />
+                    </div>
+                    <p className="text-sm text-white/30 mt-1">
+                      {drillCollection.nfts.length} item{drillCollection.nfts.length !== 1 ? 's' : ''} · Floor {drillCollection.floor}{drillCollection.floor !== '—' ? ` ${drillCollection.symbol}` : ''}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="text-3xl font-black tracking-tighter text-white mb-1"
+                      style={{ fontFamily: INTER, letterSpacing: '-0.03em' }}>
+                      Your Collections
+                    </h2>
+                    <p className="text-sm text-white/30">NFT assets eligible for barter — Lil-Burn · MyBarter v1.2</p>
+                  </>
+                )}
               </div>
-              <button
-                className={hasSelection ? BTN : BTN_INACTIVE}
-                disabled={!hasSelection}
-              >
+              <button className={hasSelection ? BTN : BTN_INACTIVE} disabled={!hasSelection}>
                 Propose a Trade
               </button>
             </div>
 
-            {/* Chain filter tabs + search on one row */}
-            <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
-              <div className="flex items-center gap-2 flex-wrap">
-                <button
-                  onClick={() => setActiveChain(null)}
-                  className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
-                  style={{
-                    background: !activeChain ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)',
-                    border: !activeChain ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.08)',
-                    color: !activeChain ? '#fff' : 'rgba(255,255,255,0.35)',
-                  }}
-                >
-                  All
-                </button>
-                {CHAIN_FILTERS.map((f) => {
-                  const isActive = activeChain === f.label;
+            {drillCollection ? (
+              /* ── NFT Item Grid ── */
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {drillCollection.nfts.map((nft) => {
+                  const key = `${drillCollection.name}:${nft.id}`;
+                  const isSelected = selected.has(key);
                   return (
-                    <button
-                      key={f.label}
-                      onClick={() => setActiveChain(isActive ? null : f.label)}
-                      className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
-                      style={{
-                        background: isActive ? `${f.color}18` : 'rgba(255,255,255,0.03)',
-                        border: isActive ? `1px solid ${f.color}66` : '1px solid rgba(255,255,255,0.08)',
-                        color: isActive ? f.color : 'rgba(255,255,255,0.35)',
-                        boxShadow: isActive ? `0 0 10px ${f.color}22` : 'none',
-                      }}
-                    >
-                      {f.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <input
-                type="text"
-                placeholder="Search collections..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="max-w-xs w-full rounded-xl px-4 py-2 text-sm text-white/70 placeholder-white/20 outline-none transition-all"
-                style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  fontFamily: INTER,
-                }}
-                onFocus={(e) => (e.target.style.borderColor = 'rgba(125,211,252,0.4)')}
-                onBlur={(e) => (e.target.style.borderColor = 'rgba(255,255,255,0.08)')}
-              />
-            </div>
-
-            {/* NFT cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {visibleCollections.map((c) => {
-                const isSelected = selected.has(c.name);
-                return (
-                  <div
-                    key={c.name}
-                    onClick={() => toggleAsset(c.name)}
-                    className="rounded-2xl p-6 flex flex-col gap-4 cursor-pointer transition-all"
-                    style={{
-                      ...GLASS,
-                      border: isSelected ? `2px solid ${c.color}` : `1px solid ${c.color}44`,
-                      boxShadow: isSelected ? `0 0 24px ${c.color}55` : `0 0 24px ${c.color}18`,
-                    }}
-                  >
                     <div
-                      className="w-full h-32 rounded-xl flex items-center justify-center text-4xl"
+                      key={key}
+                      onClick={() => toggleKey(key)}
+                      className="rounded-2xl p-4 flex flex-col gap-3 cursor-pointer transition-all"
                       style={{
-                        background: `linear-gradient(135deg, ${c.color}18, ${c.color}08)`,
-                        border: `1px solid ${c.color}22`,
+                        ...GLASS,
+                        border: isSelected ? `2px solid ${drillCollection.color}` : `1px solid ${drillCollection.color}44`,
+                        boxShadow: isSelected ? `0 0 20px ${drillCollection.color}55` : `0 0 20px ${drillCollection.color}18`,
                       }}
                     >
-                      {c.placeholder}
-                    </div>
+                      {/* NFT image / glassmorphic placeholder */}
+                      <div
+                        className="w-full aspect-square rounded-xl flex items-center justify-center overflow-hidden"
+                        style={{
+                          background: `linear-gradient(135deg, ${drillCollection.color}20 0%, rgba(255,255,255,0.02) 100%)`,
+                          border: `1px solid ${drillCollection.color}22`,
+                        }}
+                      >
+                        {nft.image ? (
+                          <img src={nft.image} alt={`${drillCollection.name} ${nft.id}`} className="w-full h-full object-cover" />
+                        ) : (
+                          <span
+                            className="text-[11px] font-black tracking-[0.25em] uppercase select-none"
+                            style={{ color: `${drillCollection.color}50` }}
+                          >
+                            {drillCollection.name.split('-')[0]}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="flex justify-between items-start">
                       <div>
                         <p className="text-sm font-black tracking-tighter text-white"
-                          style={{ fontFamily: INTER, letterSpacing: '-0.01em' }}>
-                          {c.name}
+                          style={{ fontFamily: INTER }}>
+                          {drillCollection.name} {nft.id}
                         </p>
-                        <p className="text-[10px] uppercase tracking-[0.15em] text-white/30 mt-0.5">{c.tag}</p>
+                        {isSelected && (
+                          <p className="text-[10px] font-black tracking-[0.2em] uppercase mt-0.5"
+                            style={{ color: drillCollection.color }}>
+                            Selected
+                          </p>
+                        )}
                       </div>
-                      <span className="text-[10px] font-black px-2 py-1 rounded-full"
-                        style={{ background: `${c.color}18`, border: `1px solid ${c.color}33`, color: c.color }}>
-                        {c.items} item{c.items !== 1 ? 's' : ''}
-                      </span>
                     </div>
+                  );
+                })}
 
-                    <div className="flex justify-between text-xs border-t border-white/5 pt-3">
-                      <span className="text-white/30">Floor</span>
-                      <span className="font-black text-white/70">
-                        {c.floor}{c.floor !== '—' ? ` ${c.symbol}` : ''}
-                      </span>
-                    </div>
+                {drillCollection.nfts.length === 0 && (
+                  <p className="col-span-4 text-center text-white/20 text-sm py-16">
+                    No NFTs in this collection yet.
+                  </p>
+                )}
+              </div>
+            ) : (
+              /* ── Collection Grid ── */
+              <>
+                {/* Filter tabs + search on one row */}
+                <div className="flex items-center justify-between gap-3 mb-6 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {/* All */}
+                    <button
+                      onClick={() => setActiveChain(null)}
+                      className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
+                      style={{
+                        background: !activeChain ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
+                        border: !activeChain ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.06)',
+                        color: !activeChain ? '#fff' : 'rgba(255,255,255,0.22)',
+                      }}
+                    >
+                      All
+                    </button>
+
+                    {/* Chain filters — brand color by default */}
+                    {CHAIN_FILTERS.map((f) => (
+                      <button
+                        key={f.label}
+                        onClick={() => setActiveChain(activeChain === f.label ? null : f.label)}
+                        className="px-4 py-1.5 rounded-lg text-xs font-black tracking-wider transition-all"
+                        style={filterBtnStyle(f)}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
                   </div>
-                );
-              })}
 
-              {visibleCollections.length === 0 && (
-                <p className="col-span-3 text-center text-white/20 text-sm py-10">
-                  No collections match your filter.
-                </p>
-              )}
-            </div>
+                  {/* Search — fixed width, end of row */}
+                  <input
+                    type="text"
+                    placeholder="Search collections..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="max-w-xs w-full rounded-xl px-4 py-2 text-sm text-white/70 placeholder-white/20 outline-none transition-all"
+                    style={{
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      fontFamily: INTER,
+                    }}
+                    onFocus={(e) => (e.target.style.borderColor = 'rgba(125,211,252,0.4)')}
+                    onBlur={(e)  => (e.target.style.borderColor = 'rgba(255,255,255,0.08)')}
+                  />
+                </div>
+
+                {/* Collection cards — click to drill down, NOT to select */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {visibleCollections.map((c) => (
+                    <div
+                      key={c.name}
+                      onClick={() => setSelectedCollection(c.name)}
+                      className="rounded-2xl p-6 flex flex-col gap-4 cursor-pointer transition-all hover:scale-[1.01]"
+                      style={{
+                        ...GLASS,
+                        border: `1px solid ${c.color}44`,
+                        boxShadow: `0 0 24px ${c.color}18`,
+                      }}
+                    >
+                      {/* Collection banner / glassmorphic placeholder */}
+                      <div
+                        className="w-full h-32 rounded-xl overflow-hidden flex items-center justify-center relative"
+                        style={{
+                          background: `linear-gradient(135deg, ${c.color}1A 0%, rgba(255,255,255,0.02) 100%)`,
+                          border: `1px solid ${c.color}22`,
+                        }}
+                      >
+                        {c.banner ? (
+                          <img src={c.banner} alt={c.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span
+                            className="text-[11px] font-black tracking-[0.3em] uppercase select-none"
+                            style={{ color: `${c.color}45` }}
+                          >
+                            {c.name}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Name + verified checkmark */}
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-sm font-black tracking-tighter text-white"
+                            style={{ fontFamily: INTER, letterSpacing: '-0.01em' }}>
+                            {c.name}
+                          </p>
+                          <IconVerified color={c.color} />
+                        </div>
+                        <span className="text-[10px] font-black px-2 py-1 rounded-full"
+                          style={{ background: `${c.color}18`, border: `1px solid ${c.color}33`, color: c.color }}>
+                          {c.nfts.length} item{c.nfts.length !== 1 ? 's' : ''}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between text-xs border-t border-white/5 pt-3">
+                        <span className="text-white/30">Floor</span>
+                        <span className="font-black text-white/70">
+                          {c.floor}{c.floor !== '—' ? ` ${c.symbol}` : ''}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+
+                  {visibleCollections.length === 0 && (
+                    <p className="col-span-3 text-center text-white/20 text-sm py-10">
+                      No collections match your filter.
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
           </div>
 
         </div>

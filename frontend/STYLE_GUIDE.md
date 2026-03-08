@@ -1,6 +1,6 @@
 # MyBarter Frontend Style Guide
 
-**FROZEN — 2026-03-08. No changes without design review.**
+**FROZEN — 2026-03-08. Updated 2026-03-08 (v2). No changes without design review.**
 
 ---
 
@@ -201,6 +201,99 @@ Usage: `<span className="flex items-center gap-1.5">` wrapping icon + label.
 - `·` separators: `text-white/10`
 - Bottom row both sides: `text-[10px] font-medium tracking-[0.35em] text-white/20`
 - "Chainlink" and "Pyth": `gradientText` only
+
+---
+
+## Collection Cards (v2 — permanent)
+
+### No tag text inside cards
+The `tag` field (e.g. "AVAX Ecosystem", "Platform Asset") is **removed**. Replace with a verified checkmark icon next to the collection name.
+
+```tsx
+const IconVerified = ({ color }: { color: string }) => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+    <circle cx="7" cy="7" r="6" fill={`${color}20`} stroke={color} strokeWidth="1.2" />
+    <path d="M4.5 7L6.2 8.7L9.5 5.3" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// Usage — name + icon on same line, no tag below:
+<div className="flex items-center gap-1.5">
+  <p className="text-sm font-black tracking-tighter text-white">{c.name}</p>
+  <IconVerified color={c.color} />
+</div>
+```
+
+### Banner area
+- Height: `h-32`, `rounded-xl`, `overflow-hidden`
+- If `c.banner` (URL): render `<img>` with `object-cover`
+- If null: glassmorphic gradient placeholder — **no emoji**
+
+```tsx
+<div style={{
+  background: `linear-gradient(135deg, ${c.color}1A 0%, rgba(255,255,255,0.02) 100%)`,
+  border: `1px solid ${c.color}22`,
+}}>
+  {c.banner
+    ? <img src={c.banner} className="w-full h-full object-cover" />
+    : <span style={{ color: `${c.color}45` }}>{c.name}</span>}
+</div>
+```
+
+### Drill-Down Logic (non-negotiable)
+Clicking a **collection card** navigates into that collection's NFT grid. It does **NOT** add to the `selected` set and does **NOT** activate the Propose Trade button.
+
+```
+Collection Grid  →  [click card]  →  NFT Item Grid
+```
+
+- State: `selectedCollection: string | null` — stores the collection name
+- Back button: `onClick={() => setSelectedCollection(null)}`
+- NFT keys: `"CollectionName:#ID"` stored in the shared `selected: Set<string>`
+
+### Activation logic
+| User action | `selected` updated | Propose Trade active |
+|---|---|---|
+| Click collection card | No | No |
+| Click individual NFT in drill-down | Yes | Yes |
+| Click token card | Yes | Yes |
+
+---
+
+## Chain Filter Buttons (v2 — permanent)
+
+Default state (no active filter): all buttons display their **brand color** (not grey).
+
+Active state (one filter selected): active button = colored bg + glow; all others = muted grey.
+
+```tsx
+function filterBtnStyle(f: { label: string; color: string }, activeChain: string | null) {
+  const isActive = activeChain === f.label;
+  const someActive = activeChain !== null;
+  if (isActive) return {
+    background: `${f.color}18`, border: `1px solid ${f.color}66`,
+    color: f.color, boxShadow: `0 0 12px ${f.color}33`,
+  };
+  if (someActive) return {
+    background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
+    color: 'rgba(255,255,255,0.22)',
+  };
+  // Default — brand color visible, no glow
+  return { background: `${f.color}0D`, border: `1px solid ${f.color}33`, color: f.color };
+}
+```
+
+### Filter + Search row layout
+Filters and search bar share **one horizontal row**:
+- Left: `[All] [Avalanche] [Ethereum] [BNB] [Polygon]`
+- Right: search input `max-w-xs` fixed width, at the END of the row
+
+```tsx
+<div className="flex items-center justify-between gap-3 flex-wrap">
+  <div className="flex items-center gap-2 flex-wrap">{/* filter buttons */}</div>
+  <input className="max-w-xs w-full ..." />
+</div>
+```
 
 ---
 
