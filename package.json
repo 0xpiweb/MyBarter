@@ -1,29 +1,22 @@
 {
-  "name": "mybarter-frontend",
-  "version": "1.6.0",
+  "name": "mybarter-monorepo",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "workspaces": [
+    "contracts/hub",
+    "contracts/spokes",
+    "frontend"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "lucide-react": "latest",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "dev": "npm run dev -w frontend",
+    "build": "npm run build -w frontend",
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.2",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "autoprefixer": "latest",
     "hardhat": "^3.1.11",
-    "postcss": "latest",
-    "tailwindcss": "latest",
     "typescript": "latest"
-  },
-  "type": "module"
+  }
 }
