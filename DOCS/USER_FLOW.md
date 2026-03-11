@@ -1,37 +1,34 @@
 
 ```mermaid
 sequenceDiagram
-    participant B as User B (Maker)
+    participant M as User B (Maker)
     participant APP as MyBarter App (Supabase)
     participant RL as Robot Lawyer (Vault)
-    participant A as User A (Taker)
+    participant T as User A (Taker)
 
-    Note over A, B: 🟢 Both Online (Green Dot Active)
+    Note over T, M: 🟢 Presence Active
     
-    A->>APP: Tags NFT "Up for Trade"
-    B->>APP: Proposes Trade (NFT + $150 Kicker)
+    T->>APP: Tags NFT "Up for Trade"
+    M->>APP: Proposes Hybrid (NFT + $85 Kicker)
     
-    Note right of B: Token > $100: 0.75% Fee calculated
-    B->>RL: Locks Assets + 0.75% Commission ($3.75)
+    Note right of M: Kicker <= $100: Commission Waived
+    M->>RL: Locks Assets (No 0.75% Fee)
     
-    APP-->>A: 🔔 Real-time Offer Notification
+    APP-->>T: 🔔 Real-time Offer Notification
     
-    Note over A, B: Ephemeral Chat Opened 💬
-    A->>APP: "Can you add $50 more?" (Chat)
-    B->>APP: "Deal. Updating kicker now." (Chat)
+    Note over T, M: Ephemeral Chat Opened 💬
+    T->>APP: "Accept. Set for 24h expiry."
     
-    B->>RL: Updates Kicker to $200 (+ addtl. commission)
-    
-    A->>APP: Reviews & Accepts Final Terms
-    A->>RL: Approves NFT + pays $2.50 Settlement Fee
+    T->>RL: Sets Expiry (24h) & Approves NFT
+    T->>RL: Pays $2.50 Settlement Fee
     
     RL->>RL: Atomic Swap (Settlement)
     
     PAR: Simultaneous Distribution
-        RL-->>A: Receives B's Assets ($200 + NFT)
-        RL-->>B: Receives A's NFT
+        RL-->>T: Receives M's Assets ($85 + NFT)
+        RL-->>M: Receives T's NFT
     END
 
-    Note over A, B: Trade Complete ✅
+    Note over T, M: Trade Complete ✅
     Note over APP: 🗑️ Ephemeral Chat Deleted
 ```
